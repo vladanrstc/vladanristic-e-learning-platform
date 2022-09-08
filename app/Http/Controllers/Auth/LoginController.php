@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -31,23 +32,18 @@ class LoginController extends Controller
         $role = $user->role;
 
         try {
-            $response = $http->post(\config('api_credentials.PASSPORT_APP_IP'). '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => '2',
-                    'client_secret' => \config('api_credentials.PASSPORT_CLIENT_SECRET'),
-                    'username' => $request->email,
-                    'password' => $request->password,
-                    'scope' => $role
-                ],
-            ]);
-            $pom = json_decode((string) $response->getBody(), true);
+
+            // Creating a token with scopes...
+            $token = $user->createToken('My Token', [$role])->plainTextToken;
+
             return response()->json([
-                'ac_t' => $pom['access_token'],
-                'rf_t' => $pom['refresh_token'],
+                'ac_t' => $token,
+                'rf_t' => $token,
                 'name' => $user->name,
                 'last_name' => $user->last_name,
-                'language' => $user->language], 200);
+                'language' => $user->language,
+                'scopes'   => $role
+            ]);
 
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
 
