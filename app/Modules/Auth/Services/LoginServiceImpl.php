@@ -6,7 +6,7 @@ use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
 use Illuminate\Support\Facades\Auth;
 
-class LoginService implements ILoginService
+class LoginServiceImpl implements ILoginService
 {
 
     /**
@@ -25,7 +25,7 @@ class LoginService implements ILoginService
      * @param $loginParams
      * @return bool|array
      */
-    public function login($loginParams): bool|array {
+    public function login(array $loginParams): bool|array {
 
         if(Auth::attempt($loginParams)) {
             // Creating a token with scopes

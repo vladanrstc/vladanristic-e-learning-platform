@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Services\ILoginService;
-use App\Modules\Auth\Services\LoginService;
+use App\Modules\Auth\Services\LoginServiceImpl;
 use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +20,7 @@ class LoginController extends Controller
      */
     private $loginService;
 
-    public function __construct(LoginService $loginService) {
+    public function __construct(LoginServiceImpl $loginService) {
         $this->loginService = $loginService;
     }
 

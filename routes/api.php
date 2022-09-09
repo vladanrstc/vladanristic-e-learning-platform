@@ -3,7 +3,6 @@
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseStartController;
 use App\Http\Controllers\LessonCompletedController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controllers\LoginController;
+use App\Modules\Auth\Controllers\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
