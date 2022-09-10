@@ -9,6 +9,7 @@ use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\IRegisterService;
 use App\Modules\Auth\Services\RegisterServiceImpl;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
@@ -22,13 +23,17 @@ class RegisterController extends Controller
         $this->registerService = $registerService;
     }
 
+    /**
+     * @param RegisterRequest $registerRequest
+     * @return JsonResponse
+     */
     public function register(RegisterRequest $registerRequest) {
         try {
-            return response()->json($this->registerService->registerUser($registerRequest->all())->email);
+            return response()->json(["data" => $this->registerService->registerUser($registerRequest->all())]);
         } catch (UserAlreadyExistsException $userAlreadyExistsException) {
-            return response()->json($userAlreadyExistsException->getMessage(), 422);
+            return response()->json(["message" => $userAlreadyExistsException->getMessage()], 422);
         } catch (Exception $exception) {
-            return response()->json($exception->getMessage(), 500);
+            return response()->json(["message" => $exception->getMessage()], 500);
         }
     }
 

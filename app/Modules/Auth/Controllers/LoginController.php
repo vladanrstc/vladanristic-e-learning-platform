@@ -4,6 +4,7 @@ namespace App\Modules\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Modules\Auth\Enums\Messages;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Services\ILoginService;
 use App\Modules\Auth\Services\LoginServiceImpl;
@@ -33,7 +34,7 @@ class LoginController extends Controller
         $loginResult = $this->loginService->login($request->only(["email", "password"]));
 
         if(!$loginResult) {
-            return response()->json(['message' => 'Your credentials are incorrect. Please try again'], 422);
+            return response()->json(['message' => Messages::INCORRECT_CREDENTIALS], 422);
         }
 
         return response()->json([

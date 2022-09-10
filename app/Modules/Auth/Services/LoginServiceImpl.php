@@ -22,7 +22,7 @@ class LoginServiceImpl implements ILoginService
     }
 
     /**
-     * @param $loginParams
+     * @param array $loginParams
      * @return bool|array
      */
     public function login(array $loginParams): bool|array {

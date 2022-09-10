@@ -16,6 +16,10 @@ class UsersRepo implements IUsersRepo {
         return User::where('email', $email)->first();
     }
 
+    /**
+     * @param array $userData
+     * @return User
+     */
     public function createUser(array $userData): User {
         $created_user = new User();
         $created_user->password       = $userData['password'];
