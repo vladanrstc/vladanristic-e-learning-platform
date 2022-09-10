@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\Auth\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get("/user/verify/{token}", [RegisterController::class, "verify"]);
+//Route::get("/user/reset-password/{token}", "Auth\ForgotPasswordController@show_form");
+//Route::post("/user/reset-password/final", "Auth\ForgotPasswordController@update_password");

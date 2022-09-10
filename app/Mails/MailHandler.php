@@ -6,10 +6,16 @@ use App\Mails\MailDTOs\MailDataDTO;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use SendGrid\Mail\Mail;
+use SendGrid\Mail\TypeException;
 
 class MailHandler {
 
-    public static function sendMail(MailDataDTO $mailDataDTO) {
+    /**
+     * @param MailDataDTO $mailDataDTO
+     * @return bool
+     * @throws TypeException
+     */
+    public static function sendMail(MailDataDTO $mailDataDTO): bool {
 
         $email = new Mail();
         $email->setFrom(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));

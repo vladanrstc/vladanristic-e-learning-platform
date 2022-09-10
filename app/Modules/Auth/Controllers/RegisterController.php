@@ -2,14 +2,18 @@
 
 namespace App\Modules\Auth\Controllers;
 
+use App\Exceptions\UserUpdateFailedException;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Modules\Auth\Enums\Messages;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\IRegisterService;
 use App\Modules\Auth\Services\RegisterServiceImpl;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
 class RegisterController extends Controller
 {
@@ -19,6 +23,9 @@ class RegisterController extends Controller
      */
     private $registerService;
 
+    /**
+     * @param RegisterServiceImpl $registerService
+     */
     public function __construct(RegisterServiceImpl $registerService) {
         $this->registerService = $registerService;
     }
@@ -37,18 +44,16 @@ class RegisterController extends Controller
         }
     }
 
-    public function verify($token) {
-
-        $user = User::where("remember_token", $token)->whereNull("email_verified_at")->first();
-
-        if($user != null) {
-            $user->email_verified_at = new \DateTime();
-            $user->save();
+    /**
+     * @param string $token
+     * @return Application|JsonResponse|RedirectResponse|Redirector
+     * @throws UserUpdateFailedException
+     */
+    public function verify(string $token) {
+        if($this->registerService->verify($token)) {
             return redirect(url("/" . $token . "/confirmed"));
         }
-
-        return "Non existing user!";
-
+        return response()->json(["message" => Messages::EMAIL_VERIFICATION_FAILED], 500);
     }
 
 }
