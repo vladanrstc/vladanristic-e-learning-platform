@@ -2,9 +2,9 @@
 
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseStartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonCompletedController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
@@ -14,6 +14,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Modules\Auth\Controllers\ForgotPasswordController;
 use App\Modules\Auth\Controllers\LoginController;
 use App\Modules\Auth\Controllers\RegisterController;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // get last three videos
-Route::get("/home/videos", "HomeController@last_three_videos");
+Route::get("/home/videos", [HomeController::class, "last_three_videos"]);
 
 // register and login routes
 Route::post('/login', [LoginController::class, "login"]);
@@ -40,7 +41,7 @@ Route::post('/register', [RegisterController::class, "register"]);
 
 Route::get("/courses/all", [CourseController::class, "all_courses"]);
 
-Route::post("/reset-password", [ForgotPasswordController::class, "send_reset_mail"]);
+Route::post("/reset-password", [ForgotPasswordController::class, "sendResetMail"]);
 
 Route::post("/message", function (Request $request) {
     Mail::to("vladanrstc@gmail.com"
