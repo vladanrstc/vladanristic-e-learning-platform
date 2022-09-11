@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Languages;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,8 @@ class CheckLocaleMiddleware
         if(!is_null(!is_array($lang = $request->header("Lang")))) {
             App::setLocale($lang);
         }
+
+        App::setLocale(Languages::EN->value);
 
         return $next($request);
     }

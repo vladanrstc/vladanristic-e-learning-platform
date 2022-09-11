@@ -1,28 +1,48 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Course\Controllers;
 
+use App\Enums\Modules;
+use App\Exceptions\MessageTranslationNotFoundException;
+use App\Lang\LangHelper;
 use App\Models\Course;
+use App\Modules\Course\Exceptions\CourseNotFoundException;
+use App\Modules\Course\Services\CourseService;
+use App\Modules\Course\Services\ICourseService;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
+
+    /**
+     * @var CourseService|ICourseService
+     */
+    private ICourseService|CourseService $courseService;
+
+    public function __construct(CourseService $courseService) {
+        $this->courseService = $courseService;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
-        return Course::orderBy('created_at', 'desc')->paginate(8);
+        return response()->json(["data" => Course::orderBy('created_at', 'desc')->paginate(8)]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -56,7 +76,7 @@ class CourseController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param Course $course
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Course $course)
     {
@@ -90,32 +110,36 @@ class CourseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Course $course
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
+     * @throws MessageTranslationNotFoundException
      */
-    public function destroy(Course $course)
+    public function destroy(Course $course): JsonResponse
     {
-        $course->delete();
-        return response()->json("success", 200);
+        if($this->courseService->deleteCourse($course)) {
+            return response()->json(["message" => LangHelper::getMessage("course_deleted", Modules::COURSE)]);
+        }
+        return response()->json(["message" => LangHelper::getMessage("course_delete_error", Modules::COURSE)]);
     }
 
-    public function course_details($course)
+    /**
+     * @param string $courseSlug
+     * @return JsonResponse
+     */
+    public function courseDetails(string $courseSlug): JsonResponse
     {
-
-        return Course::where("course_slug", $course)
-            ->with(["sections" => function ($query) {
-                $query->orderBy("section_order", "ASC");
-            },
-                "sections.lessons" => function ($query) {
-                    $query->where("lesson_published", "1")
-                        ->orderBy("lesson_order", "ASC");
-                },
-                "sections.lessons.test"
-            ])
-            ->first();
+        try {
+            return response()->json(["data" => $this->courseService->getCourseDetailsByCourseSlug($courseSlug)]);
+        } catch (Exception $exception) {
+            return response()->json(["message" => $exception->getMessage()]);
+        }
     }
 
-    public function all_courses() {
-        return Course::all();
+    /**
+     * @return JsonResponse
+     */
+    public function allCourses(): JsonResponse
+    {
+        return response()->json(["data" => $this->courseService->getAllCourses()]);
     }
 
 }

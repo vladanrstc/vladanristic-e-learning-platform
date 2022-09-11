@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LessonAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -9,13 +10,13 @@ use Spatie\Translatable\HasTranslations;
 
 class Lesson extends Model
 {
-    use HasTranslations;
+    use HasTranslations, LessonAttributes;
     public $translatable = ['lesson_title', 'lesson_description', 'lesson_practice', 'lesson_video_link'];
 
-    protected $table = 'lessons';
+    protected $table      = 'lessons';
     protected $primaryKey = 'lesson_id';
-    protected $guarded = [];
-    protected $appends = ['lesson_completed'];
+    protected $guarded    = [];
+    protected $appends    = ['lesson_completed'];
 
     public function lessons_completed() {
         return $this->hasMany(LessonCompleted::class, "lesson_completed_id");

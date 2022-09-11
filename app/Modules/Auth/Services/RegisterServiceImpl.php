@@ -5,7 +5,7 @@ namespace App\Modules\Auth\Services;
 use App\Exceptions\UserUpdateFailedException;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Models\User;
-use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
+use App\Modules\Auth\Exceptions\CourseNotFoundException;
 use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
 use Exception;
@@ -41,7 +41,7 @@ class RegisterServiceImpl implements IRegisterService
         return DB::transaction(function () use($registerParams) {
 
             if(!is_null($this->usersRepo->getUserByEmail($registerParams['email']))) {
-                throw new UserAlreadyExistsException($registerParams['email']);
+                throw new CourseNotFoundException($registerParams['email']);
             }
 
             $registerParams['password'] = bcrypt($registerParams['password']);

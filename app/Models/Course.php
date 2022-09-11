@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CourseAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Translatable\HasTranslations;
@@ -9,13 +10,13 @@ use Spatie\Translatable\HasTranslations;
 class Course extends Model
 {
 
-    use HasTranslations;
+    use HasTranslations, CourseAttributes;
     public $translatable = ['course_name', 'course_description'];
 
-    protected $table = 'courses';
+    protected $table      = 'courses';
     protected $primaryKey = 'course_id';
-    protected $guarded = [];
-    protected $appends = ['course_average_mark', 'course_percentage_completed'];
+    protected $guarded    = [];
+    protected $appends    = ['course_average_mark', 'course_percentage_completed'];
 
     public function courses_started() {
         return $this->hasMany(CourseStart::class, "course_id");
