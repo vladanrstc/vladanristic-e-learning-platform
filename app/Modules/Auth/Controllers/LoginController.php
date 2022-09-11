@@ -2,16 +2,14 @@
 
 namespace App\Modules\Auth\Controllers;
 
+use App\Enums\Modules;
+use App\Exceptions\MessageTranslationNotFoundException;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Modules\Auth\Enums\Messages;
+use App\Lang\LangHelper;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Services\ILoginService;
 use App\Modules\Auth\Services\LoginServiceImpl;
-use App\Repositories\IUsersRepo;
-use App\Repositories\UsersRepo;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -28,13 +26,14 @@ class LoginController extends Controller
     /**
      * @param LoginRequest $request
      * @return JsonResponse
+     * @throws MessageTranslationNotFoundException
      */
     public function login(LoginRequest $request) {
 
         $loginResult = $this->loginService->login($request->only(["email", "password"]));
 
         if(!$loginResult) {
-            return response()->json(['message' => Messages::INCORRECT_CREDENTIALS], 422);
+            return response()->json(['message' => LangHelper::getMessage("incorrect_credentials", Modules::AUTH)], 422);
         }
 
         return response()->json([

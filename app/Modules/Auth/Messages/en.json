@@ -1,0 +1,7 @@
+{
+    "incorrect_credentials": "Your credentials are incorrect. Please try again",
+    "verify_email": "Please verify your email",
+    "email_verification_failed": "There was an error verifying your account",
+    "reset_password_email_subject": "Reset your password",
+    "reset_password_email_sent": "We sent you a password reset email. Check your inbox"
+}

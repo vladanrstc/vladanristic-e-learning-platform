@@ -2,9 +2,11 @@
 
 namespace App\Modules\Auth\Controllers;
 
+use App\Enums\Modules;
+use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Http\Controllers\Controller;
-use App\Modules\Auth\Enums\Messages;
+use App\Lang\LangHelper;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\IRegisterService;
@@ -47,13 +49,13 @@ class RegisterController extends Controller
     /**
      * @param string $token
      * @return Application|JsonResponse|RedirectResponse|Redirector
-     * @throws UserUpdateFailedException
+     * @throws UserUpdateFailedException|MessageTranslationNotFoundException
      */
     public function verify(string $token) {
         if($this->registerService->verify($token)) {
             return redirect(url("/" . $token . "/confirmed"));
         }
-        return response()->json(["message" => Messages::EMAIL_VERIFICATION_FAILED], 500);
+        return response()->json(["message" => LangHelper::getMessage("email_verification_failed", Modules::AUTH)], 500);
     }
 
 }

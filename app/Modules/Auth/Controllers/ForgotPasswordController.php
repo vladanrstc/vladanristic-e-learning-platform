@@ -2,12 +2,12 @@
 
 namespace App\Modules\Auth\Controllers;
 
+use App\Enums\Modules;
 use App\Http\Controllers\Controller;
-use App\Modules\Auth\Enums\Messages;
+use App\Lang\LangHelper;
 use App\Modules\Auth\Requests\PasswordResetRequest;
 use App\Modules\Auth\Services\ForgotPasswordService;
 use App\Modules\Auth\Services\IForgotPasswordService;
-//use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -32,9 +32,9 @@ class ForgotPasswordController extends Controller
 
         try {
             if($this->forgotPasswordService->sendResetPasswordMail($request->get("email"))) {
-                return response()->json(["data" => Messages::RESET_PASSWORD_EMAIL_SENT]);
+                return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
             }
-            return response()->json(["data" => Messages::RESET_PASSWORD_EMAIL_SENT]);
+            return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
         } catch (Exception $exception) {
             return response()->json(["data" => $exception->getMessage()]);
         }

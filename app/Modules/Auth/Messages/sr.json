@@ -1,0 +1,7 @@
+{
+    "incorrect_credentials": "Pogrešni pristupni podaci. Pokušajte ponovo",
+    "verify_email": "Molimo Vas verifikujte vašu elektronsku adresu",
+    "email_verification_failed": "Došlo je do greške prilikom verifikacije Vašeg naloga",
+    "reset_password_email_subject": "Resetujte Vašu lozinku",
+    "reset_password_email_sent": "Poslali smo vam email za reset lozinke. Proverite Vaše poštansko sanduče"
+}
