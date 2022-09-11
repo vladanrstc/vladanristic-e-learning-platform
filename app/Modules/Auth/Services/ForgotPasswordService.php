@@ -52,7 +52,7 @@ class ForgotPasswordService implements IForgotPasswordService
                 ], $user);
 
                 if(!MailHandler::sendMail($this->mailDTOBuilder
-                    ->addTo($user->email)
+                    ->addTo($user->{User::email()})
                     ->addBody(view("emails.resetPassword", ["user" => $user])->render())
                     ->addSubject(LangHelper::getMessage("reset_password_email_subject", Modules::AUTH))
                     ->build())) {

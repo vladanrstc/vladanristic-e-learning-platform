@@ -2,6 +2,7 @@
 
 namespace App\Modules\Auth\Services;
 
+use App\Models\User;
 use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class LoginServiceImpl implements ILoginService
         if(Auth::attempt($loginParams)) {
             // Creating a token with scopes
             $user  = $this->usersRepo->getUserByEmail($loginParams['email']);
-            $role  = $user->role;
+            $role  = $user->{User::role()};
 
             $token = $user->createToken('My Token', [$role])->plainTextToken;
 
