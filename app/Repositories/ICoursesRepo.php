@@ -10,4 +10,5 @@ interface ICoursesRepo {
     public function getAllCourses(): Collection;
     public function deleteCourse(Course $course): bool;
     public function createCourse(string $courseName, string $courseDescription, $courseImage, string $lang): Course;
+    public function updateCourse(Course $course, string $courseName, string $courseDescription, $courseImage = null, string $lang): Course;
 }

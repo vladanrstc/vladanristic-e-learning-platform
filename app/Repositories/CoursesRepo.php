@@ -39,6 +39,28 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
+     * @param Course $course
+     * @param string $courseName
+     * @param string $courseDescription
+     * @param null $courseImage
+     * @param string $lang
+     * @return Course
+     */
+    public function updateCourse(Course $course, string $courseName, string $courseDescription, $courseImage = null, string $lang): Course {
+
+        $course->setTranslation(Course::courseName(), $lang, $courseName);
+        $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
+
+        if (!is_null($courseImage)) {
+            $course->{Course::courseImage()} = $courseImage->store('course_photos', 'public');
+        }
+
+        $course->save();
+
+        return $course;
+    }
+
+    /**
      * @param string $courseSlug
      * @return Course|null
      */

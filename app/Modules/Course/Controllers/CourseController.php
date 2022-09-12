@@ -6,16 +6,13 @@ use App\Enums\Modules;
 use App\Exceptions\MessageTranslationNotFoundException;
 use App\Lang\LangHelper;
 use App\Models\Course;
-use App\Modules\Course\Exceptions\CourseNotFoundException;
 use App\Modules\Course\Requests\CourseStoreRequest;
+use App\Modules\Course\Requests\CourseUpdateRequest;
 use App\Modules\Course\Services\CourseService;
 use App\Modules\Course\Services\ICourseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -59,35 +56,27 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param CourseUpdateRequest $request
      * @param Course $course
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, Course $course)
+    public function update(CourseUpdateRequest $request, Course $course): JsonResponse
     {
 
-        try {
-
-            $lang = $request->lang;
-
-            request()->validate([
-                'course_name' => 'required|max:255|min:3',
-                'course_description' => 'required|max:1024|min:3',
-            ]);
-
-            $course->setTranslation('course_name', $lang, $request->course_name);
-            $course->setTranslation('course_description', $lang, $request->course_description);
-
-            if ($request->course_image != "null") {
-                $course->course_image = $request->course_image->store('course_photos', 'public');
-            }
-
-            $course->save();
-
-            return response()->json("success", 200);
-        } catch (\Exception $e) {
-            return response()->json($e, 422);
+        $image = null;
+        if ($request->get("course_image") != "null") {
+           $image = $request->course_image;
         }
+
+        return response()->json([
+            "data" => $this->courseService->updateCourse(
+                $course,
+                $request->get("course_name"),
+                $request->get("course_description"),
+                $image,
+                $request->get("lang")
+            )
+        ]);
 
     }
 
