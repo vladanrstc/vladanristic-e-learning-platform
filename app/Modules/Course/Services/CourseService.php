@@ -9,6 +9,7 @@ use App\Repositories\ICoursesRepo;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\File\File;
 
 class CourseService implements ICourseService
 {
@@ -63,13 +64,13 @@ class CourseService implements ICourseService
     /**
      * @param string $courseName
      * @param string $courseDescription
-     * @param $courseImage
+     * @param File|null $courseImage
      * @param string $lang
      * @return Course|bool
      */
-    public function createCourse(string $courseName, string $courseDescription, $courseImage, string $lang): Course|bool {
+    public function createCourse(string $courseName, string $courseDescription, File $courseImage = null, string $lang): Course|bool {
         try {
-            return $this->createCourse($courseName, $courseDescription, $courseImage, $lang);
+            return $this->coursesRepo->createCourse($courseName, $courseDescription, $courseImage, $lang);
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return false;
@@ -80,11 +81,11 @@ class CourseService implements ICourseService
      * @param Course $course
      * @param string $courseName
      * @param string $courseDescription
-     * @param $courseImage
+     * @param File|null $courseImage
      * @param string $lang
      * @return Course|bool
      */
-    public function updateCourse(Course $course, string $courseName, string $courseDescription, $courseImage, string $lang): Course|bool {
+    public function updateCourse(Course $course, string $courseName, string $courseDescription, File $courseImage = null, string $lang): Course|bool {
         try {
             return $this->coursesRepo->updateCourse($course, $courseName, $courseDescription, $courseImage, $lang);
         } catch (Exception $exception) {

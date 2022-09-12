@@ -7,7 +7,7 @@ use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Http\Controllers\Controller;
 use App\Lang\LangHelper;
-use App\Modules\Auth\Exceptions\CourseNotFoundException;
+use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\IRegisterService;
 use App\Modules\Auth\Services\RegisterServiceImpl;
@@ -39,7 +39,7 @@ class RegisterController extends Controller
     public function register(RegisterRequest $registerRequest) {
         try {
             return response()->json(["data" => $this->registerService->registerUser($registerRequest->all())]);
-        } catch (CourseNotFoundException $userAlreadyExistsException) {
+        } catch (UserAlreadyExistsException $userAlreadyExistsException) {
             return response()->json(["message" => $userAlreadyExistsException->getMessage()], 422);
         } catch (Exception $exception) {
             return response()->json(["message" => $exception->getMessage()], 500);
@@ -51,7 +51,8 @@ class RegisterController extends Controller
      * @return Application|JsonResponse|RedirectResponse|Redirector
      * @throws UserUpdateFailedException|MessageTranslationNotFoundException
      */
-    public function verify(string $token) {
+    public function verify(string $token): JsonResponse|Redirector|Application|RedirectResponse
+    {
         if($this->registerService->verify($token)) {
             return redirect(url("/" . $token . "/confirmed"));
         }

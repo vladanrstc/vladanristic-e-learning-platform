@@ -44,12 +44,15 @@ class CourseController extends Controller
      */
     public function store(CourseStoreRequest $request): JsonResponse
     {
+        $pom = $request->file("course_imagee");
+        $pom->
+        $p = 2;
         return response()->json([
             "data" => $this->courseService->createCourse(
-                $request->get("course_name"),
-                $request->get("course_description"),
-                $request->get("course_image"),
-                $request->get("lang")
+                $request->input("course_name"),
+                $request->input("course_description"),
+                $request->file("course_image"),
+                $request->input("lang")
             )]);
     }
 
@@ -64,17 +67,17 @@ class CourseController extends Controller
     {
 
         $image = null;
-        if ($request->get("course_image") != "null") {
-           $image = $request->course_image;
+        if ($request->input("course_image") != "null") {
+           $image = $request->input("course_image");
         }
 
         return response()->json([
             "data" => $this->courseService->updateCourse(
                 $course,
-                $request->get("course_name"),
-                $request->get("course_description"),
+                $request->input("course_name"),
+                $request->input("course_description"),
                 $image,
-                $request->get("lang")
+                $request->input("lang")
             )
         ]);
 
