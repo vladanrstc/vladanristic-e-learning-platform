@@ -7,6 +7,7 @@ use App\Exceptions\MessageTranslationNotFoundException;
 use App\Lang\LangHelper;
 use App\Models\Course;
 use App\Modules\Course\Exceptions\CourseNotFoundException;
+use App\Modules\Course\Requests\CourseStoreRequest;
 use App\Modules\Course\Services\CourseService;
 use App\Modules\Course\Services\ICourseService;
 use Exception;
@@ -41,40 +42,24 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return Response
+     * @param CourseStoreRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request): JsonResponse
     {
-
-        try {
-
-            $lang = $request->lang;
-
-            request()->validate([
-                'course_name' => 'required|max:255|min:3',
-                'course_description' => 'required|max:1024|min:3',
-                'course_image' => 'image'
-            ]);
-
-            $course = new Course();
-            $course->setTranslation('course_name', $lang, $request->course_name);
-            $course->setTranslation('course_description', $lang, $request->course_description);
-            $course->course_slug = rand(100, 100000) . "-" . Str::slug($request->course_name, "-");
-
-            $course->course_image = $request->course_image->store('course_photos', 'public');
-
-            $course->save();
-
-        } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json("error", 422);
-        }
+        return response()->json([
+            "data" => $this->courseService->createCourse(
+                $request->get("course_name"),
+                $request->get("course_description"),
+                $request->get("course_image"),
+                $request->get("lang")
+            )]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Course $course
      * @return Response
      */

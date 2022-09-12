@@ -9,5 +9,5 @@ interface ICoursesRepo {
     public function getCourseForSlug(string $courseSlug): Course|null;
     public function getAllCourses(): Collection;
     public function deleteCourse(Course $course): bool;
-    public function get
+    public function createCourse(string $courseName, string $courseDescription, $courseImage, string $lang): Course;
 }

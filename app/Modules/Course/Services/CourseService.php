@@ -59,4 +59,15 @@ class CourseService implements ICourseService
             return false;
         }
     }
+
+
+    public function createCourse(string $courseName, string $courseDescription, $courseImage, string $lang): Course|bool {
+        try {
+            return $this->createCourse($courseName, $courseDescription, $courseImage, $lang);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return false;
+        }
+    }
+
 }

@@ -6,8 +6,37 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Section;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CoursesRepo implements ICoursesRepo {
+
+    /**
+     * @param string $courseName
+     * @param string $courseDescription
+     * @param $courseImage
+     * @param string $lang
+     * @return Course
+     */
+    public function createCourse(string $courseName, string $courseDescription, $courseImage, string $lang): Course {
+
+        return DB::transaction(function() use($courseName, $courseDescription, $courseImage, $lang) {
+
+            $course = new Course();
+
+            $course->setTranslation(Course::courseName(), $lang, $courseName);
+            $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
+
+            $course->{Course::courseSlug()}  = rand(100, 100000) . "-" . Str::slug($courseName, "-");
+            $course->{Course::courseImage()} = $courseImage->store('course_photos', 'public');
+
+            $course->save();
+
+            return $course;
+
+        });
+
+    }
 
     /**
      * @param string $courseSlug

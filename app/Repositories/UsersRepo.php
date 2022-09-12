@@ -19,18 +19,22 @@ class UsersRepo implements IUsersRepo {
     }
 
     /**
-     * @param array $userData
+     * @param string $name
+     * @param string $lastName
+     * @param string $email
+     * @param string $password
+     * @param string $language
      * @return User
      */
-    public function createUser(array $userData): User {
+    public function createUser(string $name, string $lastName, string $email, string $password, string $language): User {
         $created_user = new User();
-        $created_user->{User::password()}       = $userData['password'];
-        $created_user->{User::email()}          = $userData['email'];
-        $created_user->{User::name()}           = $userData['name'];
-        $created_user->{User::lastName()}       = $userData['last_name'];
-        $created_user->{User::role()}           = Roles::USER;
-        $created_user->{User::rememberToken()}  = Str::random(50);
-        $created_user->{User::language()}       = $userData['language'];
+        $created_user->{User::name()}          = $name;
+        $created_user->{User::lastName()}      = $lastName;
+        $created_user->{User::email()}         = $email;
+        $created_user->{User::password()}      = $password;
+        $created_user->{User::role()}          = Roles::USER->value;
+        $created_user->{User::rememberToken()} = Str::random(50);
+        $created_user->{User::language()}      = $language;
         $created_user->save();
         return $created_user;
     }
@@ -53,7 +57,6 @@ class UsersRepo implements IUsersRepo {
      * @throws UserUpdateFailedException
      */
     public function updateUser(array $paramsToUpdate, User $user): User {
-        Log::info($paramsToUpdate);
         if($user->update($paramsToUpdate)) {
             return $user;
         }
