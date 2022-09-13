@@ -2,6 +2,7 @@
 
 namespace App\Modules\Course\Controllers;
 
+use App\DTOs\FileDTO;
 use App\Enums\Modules;
 use App\Exceptions\MessageTranslationNotFoundException;
 use App\Lang\LangHelper;
@@ -44,14 +45,11 @@ class CourseController extends Controller
      */
     public function store(CourseStoreRequest $request): JsonResponse
     {
-        $pom = $request->file("course_imagee");
-        $pom->
-        $p = 2;
         return response()->json([
             "data" => $this->courseService->createCourse(
                 $request->input("course_name"),
                 $request->input("course_description"),
-                $request->file("course_image"),
+                new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()),
                 $request->input("lang")
             )]);
     }
@@ -76,7 +74,7 @@ class CourseController extends Controller
                 $course,
                 $request->input("course_name"),
                 $request->input("course_description"),
-                $image,
+                new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()),
                 $request->input("lang")
             )
         ]);

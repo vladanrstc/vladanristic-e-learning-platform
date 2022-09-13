@@ -2,6 +2,7 @@
 
 namespace App\Modules\Course\Services;
 
+use App\DTOs\FileDTO;
 use App\Models\Course;
 use App\Modules\Course\Exceptions\CourseNotFoundException;
 use App\Repositories\CoursesRepo;
@@ -64,13 +65,17 @@ class CourseService implements ICourseService
     /**
      * @param string $courseName
      * @param string $courseDescription
-     * @param File|null $courseImage
+     * @param FileDTO|null $courseImage
      * @param string $lang
      * @return Course|bool
      */
-    public function createCourse(string $courseName, string $courseDescription, File $courseImage = null, string $lang): Course|bool {
+    public function createCourse(string $courseName, string $courseDescription, FileDTO $courseImage = null, string $lang): Course|bool {
         try {
-            return $this->coursesRepo->createCourse($courseName, $courseDescription, $courseImage, $lang);
+            return $this->coursesRepo->createCourse(
+                $courseName,
+                $courseDescription,
+                $courseImage,
+                $lang);
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return false;
@@ -81,11 +86,11 @@ class CourseService implements ICourseService
      * @param Course $course
      * @param string $courseName
      * @param string $courseDescription
-     * @param File|null $courseImage
+     * @param FileDTO|null $courseImage
      * @param string $lang
      * @return Course|bool
      */
-    public function updateCourse(Course $course, string $courseName, string $courseDescription, File $courseImage = null, string $lang): Course|bool {
+    public function updateCourse(Course $course, string $courseName, string $courseDescription, FileDTO $courseImage = null, string $lang): Course|bool {
         try {
             return $this->coursesRepo->updateCourse($course, $courseName, $courseDescription, $courseImage, $lang);
         } catch (Exception $exception) {
