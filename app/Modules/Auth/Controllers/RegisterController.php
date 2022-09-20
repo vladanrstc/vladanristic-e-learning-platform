@@ -23,7 +23,7 @@ class RegisterController extends Controller
     /**
      * @var IRegisterService
      */
-    private $registerService;
+    private IRegisterService $registerService;
 
     /**
      * @param RegisterServiceImpl $registerService
@@ -36,7 +36,8 @@ class RegisterController extends Controller
      * @param RegisterRequest $registerRequest
      * @return JsonResponse
      */
-    public function register(RegisterRequest $registerRequest) {
+    public function register(RegisterRequest $registerRequest): JsonResponse
+    {
         try {
             return response()->json(["data" => $this->registerService->registerUser($registerRequest->all())]);
         } catch (UserAlreadyExistsException $userAlreadyExistsException) {
