@@ -12,11 +12,11 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\UserController;
 use App\Modules\Auth\Controllers\ForgotPasswordController;
 use App\Modules\Auth\Controllers\LoginController;
 use App\Modules\Auth\Controllers\RegisterController;
 use App\Modules\Course\Controllers\CourseController;
+use App\Modules\User\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -159,12 +159,12 @@ Route::post("/get-new-token", function (Request $request) {
 
 //    });
 
-//    Route::group(['middleware' => ['scope:super-admin']], function () {
-//        Route::resource('users', "UserController");
-//        Route::delete("/users/ban/{user}", [UserController::class, "ban_user"]);
-//        Route::get("/users-banned", [UserController::class, "banned_users"]);
-//        Route::get("/users/unban/{user}", [UserController::class, "unban_user"]);
-//    });
+    Route::group(['middleware' => ['scope:super-admin']], function () {
+        Route::resource('users', "UserController");
+        Route::delete("/users/ban/{user}", [UserController::class, "ban_user"]);
+        Route::get("/users-banned", [UserController::class, "banned_users"]);
+        Route::get("/users/unban/{user}", [UserController::class, "unban_user"]);
+    });
 
 //});
 

@@ -7,4 +7,5 @@ enum Modules: string
     case AUTH   = "Auth";
     case ROOT   = "Root";
     case COURSE = "Course";
+    case USER   = "User";
 }

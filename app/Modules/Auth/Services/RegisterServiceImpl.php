@@ -2,6 +2,7 @@
 
 namespace App\Modules\Auth\Services;
 
+use App\Enums\Roles;
 use App\Exceptions\UserUpdateFailedException;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RegisterServiceImpl implements IRegisterService
 {
@@ -51,7 +53,9 @@ class RegisterServiceImpl implements IRegisterService
                 $registerParams['last_name'],
                 $registerParams['email'],
                 $registerParams['password'],
-                $registerParams['language']
+                $registerParams['language'],
+                Roles::USER->value,
+                Str::random(50)
             );
 
 //            if(!MailHandler::sendMail($this->mailDTOBuilder
