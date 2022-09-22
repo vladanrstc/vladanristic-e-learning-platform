@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    private $moduleList = ["Auth", "Course"];
+
     /**
      * The path to the "home" route for your application.
      *
@@ -32,6 +35,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
+
+            foreach ($this->moduleList as $module) {
+                Route::middleware('api')
+                    ->prefix('api' . "/" . strtolower($module))
+                    ->group(app_path() . DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . "routes.php");
+            }
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
