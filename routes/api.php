@@ -3,20 +3,13 @@
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CourseStartController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonCompletedController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SectionController;
-use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TestController;
-use App\Modules\Auth\Controllers\ForgotPasswordController;
-use App\Modules\Auth\Controllers\LoginController;
-use App\Modules\Auth\Controllers\RegisterController;
-use App\Modules\Course\Controllers\CourseController;
-use App\Modules\User\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -31,17 +24,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// get last three videos
-Route::get("/home/videos", [HomeController::class, "last_three_videos"]);
-
-// register and login routes
-Route::post('/login', [LoginController::class, "login"]);
-Route::post('/register', [RegisterController::class, "register"]);
-
-Route::get("/courses/all", [CourseController::class, "allCourses"]);
-
-Route::post("/reset-password", [ForgotPasswordController::class, "sendResetMail"]);
 
 Route::post("/message", function (Request $request) {
     Mail::to("vladanrstc@gmail.com"
@@ -90,7 +72,6 @@ Route::post("/get-new-token", function (Request $request) {
 //Route::group(['middleware' => ['auth:api']], function () {
 
     // course details
-    Route::get("/course/details/{course}", [CourseController::class, "courseDetails"]);
 
 //    Route::group(['middleware' => ['scope:user,admin,super-admin']], function () {
 
@@ -127,10 +108,6 @@ Route::post("/get-new-token", function (Request $request) {
 
 //    Route::group(['middleware' => ['scope:admin,super-admin']], function () {
 
-        Route::get("/stats", [StatsController::class, "general_stats"]);
-
-        Route::resource('courses', CourseController::class);
-        Route::post("/courses/update/{course}", [CourseController::class, "update"]);
 
         Route::resource('sections', SectionController::class);
 
@@ -159,12 +136,7 @@ Route::post("/get-new-token", function (Request $request) {
 
 //    });
 
-    Route::group(['middleware' => ['scope:super-admin']], function () {
-        Route::resource('users', "UserController");
-        Route::delete("/users/ban/{user}", [UserController::class, "ban_user"]);
-        Route::get("/users-banned", [UserController::class, "banned_users"]);
-        Route::get("/users/unban/{user}", [UserController::class, "unban_user"]);
-    });
+
 
 //});
 
