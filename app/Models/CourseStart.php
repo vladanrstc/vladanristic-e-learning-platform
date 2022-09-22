@@ -2,23 +2,30 @@
 
 namespace App\Models;
 
+use App\Traits\CourseStartAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CourseStart extends Model
 {
-    protected $table = 'user_courses_started';
+
+    use CourseStartAttributes;
+
+    protected $table      = 'user_courses_started';
     protected $primaryKey = 'user_course_started_id';
 
     public function lessons_completed() {
         return $this->hasMany(LessonCompleted::class);
     }
 
-    public function course() {
-        return $this->belongsTo(Course::class);
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class, "course_id");
     }
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "user_id");
     }
 
 }

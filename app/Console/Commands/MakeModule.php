@@ -42,7 +42,7 @@ class MakeModule extends Command
         File::makeDirectory(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "Services");
         File::makeDirectory(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "ResponseFormatters");
         File::makeDirectory(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "Providers");
-        File::makeDirectory(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "DTOs.");
+        File::makeDirectory(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "DTOs");
         File::put(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "routes.php", "<?php");
 
         return 0;

@@ -198,6 +198,9 @@ return [
         // Stats module
         App\Modules\Stats\Providers\StatsServiceProvider::class,
 
+        // Notes module
+        App\Modules\Notes\Providers\NotesServiceProvider::class,
+
     ],
 
     /*

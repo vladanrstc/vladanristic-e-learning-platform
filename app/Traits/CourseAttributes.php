@@ -4,6 +4,10 @@ namespace App\Traits;
 
 trait CourseAttributes {
 
+    public static function courseId() {
+        return "course_id";
+    }
+
     public static function courseName() {
         return "course_name";
     }
