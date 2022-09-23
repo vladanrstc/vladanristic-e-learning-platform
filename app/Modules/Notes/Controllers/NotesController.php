@@ -21,10 +21,6 @@ class NotesController extends Controller
         $this->notesService = $notesService;
     }
 
-    public function courseNotes($courseId) {
-
-    }
-
     /**
      * @param UpdateCourseNoteRequest $request
      * @return JsonResponse

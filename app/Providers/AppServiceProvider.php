@@ -10,7 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
 
     public $bindings = [
-        ICourseStartRepo::class => CourseStartRepo::class,
+        ICourseStartRepo::class => CourseStartRepo::class
     ];
 
 }

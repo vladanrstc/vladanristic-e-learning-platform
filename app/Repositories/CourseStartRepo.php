@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\UserUpdateFailedException;
+use App\Exceptions\CourseStartUpdateFailedException;
 use App\Models\Course;
 use App\Models\CourseStart;
-use App\Modules\Notes\Exceptions\NotesUpdateFailedException;
+use Illuminate\Support\Collection;
 
 class CourseStartRepo implements ICourseStartRepo {
 
@@ -29,8 +29,8 @@ class CourseStartRepo implements ICourseStartRepo {
      */
     public function getCourseNotes($courseId): mixed
     {
-        return CourseStart::where("course_id", $courseId)
-            ->whereNotNull("user_course_started_note")
+        return CourseStart::where(CourseStart::courseId(), $courseId)
+            ->whereNotNull(CourseStart::courseStartNote())
             ->with('user')
             ->paginate(10);
     }
@@ -39,13 +39,38 @@ class CourseStartRepo implements ICourseStartRepo {
      * @param array $updateParams
      * @param CourseStart $courseStart
      * @return CourseStart
-     * @throws NotesUpdateFailedException
+     * @throws CourseStartUpdateFailedException
      */
-    public function updateCourseStartNote(array $updateParams, CourseStart $courseStart): CourseStart
+    public function updateCourseStart(array $updateParams, CourseStart $courseStart): CourseStart
     {
         if($courseStart->update($updateParams)) {
             return $courseStart;
         }
-        throw new NotesUpdateFailedException();
+        throw new CourseStartUpdateFailedException();
+    }
+
+    /**
+     * @param $courseId
+     * @return mixed
+     */
+    public function getCourseReviewMarks($courseId): Collection
+    {
+        return CourseStart::where(CourseStart::courseId(), $courseId)
+            ->whereNotNull(CourseStart::courseStartMark())
+            ->with('user')
+            ->get();
+    }
+
+    /**
+     * @param $courseId
+     * @return Collection
+     */
+    public function getCourseReviews($courseId): Collection
+    {
+        return CourseStart::where(CourseStart::courseId(), $courseId)
+            ->whereNotNull(CourseStart::courseStartReview())
+            ->whereNotNull(CourseStart::courseStartMark())
+            ->with('user')
+            ->get();
     }
 }

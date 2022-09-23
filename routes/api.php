@@ -6,7 +6,6 @@ use App\Http\Controllers\CourseStartController;
 use App\Http\Controllers\LessonCompletedController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -89,10 +88,7 @@ Route::post("/get-new-token", function (Request $request) {
 
         // notes
 
-        // reviews
-        Route::patch("/courses/started/review", [ReviewController::class, "update_course_review"]);
-        Route::get("/courses/started/review/{course}", [ReviewController::class, "get_course_review"]);
-        Route::get("/reviews/course/user/{course}", [ReviewController::class, "course_reviews_user"]);
+
 
         // lessons
         Route::get("/lesson/finish/{lesson}", [LessonCompletedController::class, "finish_lesson"]);
@@ -114,9 +110,7 @@ Route::post("/get-new-token", function (Request $request) {
         Route::resource('tests', TestController::class);
         Route::resource('answers', AnswerController::class);
         Route::resource('questions', QuestionController::class);
-        Route::resource('reviews', ReviewController::class);
 
-        Route::get("/reviews/course/{course}", [ReviewController::class, "course_reviews"]);
 
         Route::get("/questions/test/{test}", [QuestionController::class, "test_questions"]);
         Route::get("/test/status/{test}", [TestController::class, "test_requirements"]);

@@ -37,7 +37,7 @@ class NotesServiceImpl implements INotesService {
      */
     public function updateUserCourseStartedNotes(string $courseSlug, string $notes, int $userId): CourseStart
     {
-        return $this->courseStartRepo->updateCourseStartNote(
+        return $this->courseStartRepo->updateCourseStart(
             [CourseStart::courseStartNote() => $courseSlug],
             $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId)
         );
@@ -49,7 +49,7 @@ class NotesServiceImpl implements INotesService {
      */
     public function removeCourseStartedNote(CourseStart $courseStart): CourseStart
     {
-        return $this->courseStartRepo->updateCourseStartNote([CourseStart::courseStartNote() => null], $courseStart);
+        return $this->courseStartRepo->updateCourseStart([CourseStart::courseStartNote() => null], $courseStart);
     }
 
     /**
