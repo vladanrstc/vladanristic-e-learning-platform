@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
 
-    private $moduleList = ["Auth", "Course", "User", "Stats", "Notes", "Reviews"];
+    private $moduleList = ["Auth", "Course", "User", "Stats", "Notes", "Reviews", "CourseStart"];
 
     /**
      * The path to the "home" route for your application.

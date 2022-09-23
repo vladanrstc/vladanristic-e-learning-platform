@@ -2,7 +2,6 @@
 
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\CourseStartController;
 use App\Http\Controllers\LessonCompletedController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\QuestionController;
@@ -80,11 +79,7 @@ Route::post("/get-new-token", function (Request $request) {
 //        Route::get("/logged/user", [UserController::class, "logged_user"]);
 //        Route::patch("/logged/user", [UserController::class, "edit_logged_user"]);
 
-        Route::resource('user_courses_started', CourseStartController::class);
 
-        // started and not started courses
-        Route::get("/courses/started", [CourseStartController::class, "courses_started"]);
-        Route::get("/courses/not-started", [CourseStartController::class, "courses_not_started"]);
 
         // notes
 

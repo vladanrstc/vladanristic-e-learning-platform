@@ -5,9 +5,11 @@ namespace App\Repositories;
 use App\DTOs\FileDTO;
 use App\Enums\Modules;
 use App\Models\Course;
+use App\Models\CourseStart;
 use App\Models\Lesson;
 use App\Models\Section;
 use App\StorageManagement\StorageHelper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -99,5 +101,31 @@ class CoursesRepo implements ICoursesRepo {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param int $userId
+     * @return Collection
+     */
+    public function getCoursesUserHasntEnrolledIn(int $userId): Collection
+    {
+        return Course::whereDoesntHave('courses_started', function (Builder $query) use ($userId) {
+            $query->where(CourseStart::userId(), $userId);
+        })
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    /**
+     * @param int $userId
+     * @return Collection
+     */
+    public function getCoursesUserEnrolledIn(int $userId): Collection
+    {
+        return Course::whereHas('courses_started', function (Builder $query) use ($userId) {
+            $query->where(CourseStart::userId(), $userId);
+        })
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

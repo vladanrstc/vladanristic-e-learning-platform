@@ -6,6 +6,7 @@ use App\Exceptions\CourseStartUpdateFailedException;
 use App\Models\Course;
 use App\Models\CourseStart;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class CourseStartRepo implements ICourseStartRepo {
 
@@ -72,5 +73,19 @@ class CourseStartRepo implements ICourseStartRepo {
             ->whereNotNull(CourseStart::courseStartMark())
             ->with('user')
             ->get();
+    }
+
+    /**
+     * @param string $courseId
+     * @param string $userId
+     * @return CourseStart
+     */
+    public function enrollUserInCourse(string $courseId, string $userId): CourseStart
+    {
+        $courseStarted = new CourseStart();
+        $courseStarted->{CourseStart::courseId()} = $courseId;
+        $courseStarted->{CourseStart::userId()}   = $userId;
+        $courseStarted->save();
+        return $courseStarted;
     }
 }
