@@ -2,7 +2,6 @@
 
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\LessonCompletedController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SectionController;
@@ -86,7 +85,6 @@ Route::post("/get-new-token", function (Request $request) {
 
 
         // lessons
-        Route::get("/lesson/finish/{lesson}", [LessonCompletedController::class, "finish_lesson"]);
 
         // tests
         Route::get("/test/data/{lesson}", [TestController::class, "get_test_data"]);

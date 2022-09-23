@@ -4,6 +4,10 @@ namespace App\Traits;
 
 trait CourseStartAttributes {
 
+    public static function courseStartedId() {
+        return "user_course_started_id";
+    }
+
     public static function userId() {
         return "user_id";
     }

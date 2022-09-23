@@ -4,6 +4,10 @@ namespace App\Traits;
 
 trait LessonAttributes {
 
+    public static function lessonId() {
+        return "lesson_id";
+    }
+
     public static function lessonTitle() {
         return "lesson_title";
     }

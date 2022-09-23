@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
     // started and not started courses
     Route::get("/courses/started", [CourseStartController::class, "courses_started"]);
     Route::get("/courses/not-started", [CourseStartController::class, "courses_not_started"]);
+
+    Route::get("/lesson/finish/{lesson}", [LessonCompletedController::class, "finish_lesson"]);
 //});
 
 

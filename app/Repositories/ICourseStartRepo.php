@@ -12,4 +12,5 @@ interface ICourseStartRepo {
     public function getCourseReviewMarks($courseId): Collection;
     public function getCourseReviews($courseId): Collection;
     public function enrollUserInCourse(string $courseId, string $userId): CourseStart;
+    public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): CourseStart;
 }

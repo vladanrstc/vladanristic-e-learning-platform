@@ -201,6 +201,12 @@ return [
         // Notes module
         App\Modules\Notes\Providers\NotesServiceProvider::class,
 
+        // Review module
+        App\Modules\Reviews\Providers\ReviewServiceProvider::class,
+
+        // CourseStart module
+        App\Modules\CourseStart\Providers\CourseStartServiceProvider::class,
+
     ],
 
     /*
