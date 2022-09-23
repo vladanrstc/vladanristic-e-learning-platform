@@ -24,6 +24,18 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
+     * @param $courseId
+     * @return mixed
+     */
+    public function getCourseNotes($courseId): mixed
+    {
+        return CourseStart::where("course_id", $courseId)
+            ->whereNotNull("user_course_started_note")
+            ->with('user')
+            ->paginate(10);
+    }
+
+    /**
      * @param array $updateParams
      * @param CourseStart $courseStart
      * @return CourseStart

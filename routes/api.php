@@ -88,7 +88,6 @@ Route::post("/get-new-token", function (Request $request) {
         Route::get("/courses/not-started", [CourseStartController::class, "courses_not_started"]);
 
         // notes
-//        Route::patch("/courses/started/notes", [NotesController::class, "update_course_note"]);
 
         // reviews
         Route::patch("/courses/started/review", [ReviewController::class, "update_course_review"]);
@@ -116,10 +115,8 @@ Route::post("/get-new-token", function (Request $request) {
         Route::resource('answers', AnswerController::class);
         Route::resource('questions', QuestionController::class);
         Route::resource('reviews', ReviewController::class);
-//        Route::resource('notes', NotesController::class);
 
         Route::get("/reviews/course/{course}", [ReviewController::class, "course_reviews"]);
-//        Route::get("/notes/course/{course}", [NotesController::class, "course_notes"]);
 
         Route::get("/questions/test/{test}", [QuestionController::class, "test_questions"]);
         Route::get("/test/status/{test}", [TestController::class, "test_requirements"]);

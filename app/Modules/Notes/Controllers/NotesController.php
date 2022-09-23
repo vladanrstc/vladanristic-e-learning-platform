@@ -4,11 +4,9 @@ namespace App\Modules\Notes\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseStart;
-use App\Models\Note;
+use App\Modules\Notes\Requests\UpdateCourseNoteRequest;
 use App\Modules\Notes\Services\INotesService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
@@ -23,18 +21,17 @@ class NotesController extends Controller
         $this->notesService = $notesService;
     }
 
-    public function course_notes($course) {
-        return CourseStart::where("course_id", $course)
-            ->whereNotNull("user_course_started_note")
-            ->with('user')->paginate(10);
+    public function courseNotes($courseId) {
+
     }
 
-    public function update_course_note(Request $request) {
-        $course = Course::where("course_slug", "like", $request->course)->first();
-        $started_course = CourseStart::where("course_id", $course->course_id)->where("user_id", Auth::id())->first();
-        $started_course->user_course_started_note = $request->notes;
-        $started_course->save();
-        return response()->json("success", 200);
+    /**
+     * @param UpdateCourseNoteRequest $request
+     * @return JsonResponse
+     */
+    public function updateCourseNote(UpdateCourseNoteRequest $request): JsonResponse
+    {
+        return response()->json(["data" => $this->notesService->updateUserCourseStartedNotes($request->input("course"), $request->input("notes"), Auth::id())]);
     }
 
     /**
@@ -43,7 +40,7 @@ class NotesController extends Controller
      */
     public function getCourseNotes($course): JsonResponse
     {
-        return response()->json(["data" => $this->notesService->getUserNotesForCourse($course,/* Auth::id()*/12)]);
+        return response()->json(["data" => $this->notesService->getUserNotesForCourse($course, Auth::id())]);
     }
 
     /**
