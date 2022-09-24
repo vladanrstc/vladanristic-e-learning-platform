@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\AnswersRepo;
 use App\Repositories\CoursesRepo;
 use App\Repositories\CourseStartRepo;
+use App\Repositories\IAnswersRepo;
 use App\Repositories\ICoursesRepo;
 use App\Repositories\ICourseStartRepo;
 use App\Repositories\ILessonsRepo;
@@ -22,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
         ICoursesRepo::class     => CoursesRepo::class,
         ISectionsRepo::class    => SectionsRepo::class,
         ILessonsRepo::class     => LessonsRepo::class,
-        IQuestionsRepo::class   => QuestionsRepo::class
+        IQuestionsRepo::class   => QuestionsRepo::class,
+        IAnswersRepo::class     => AnswersRepo::class
     ];
 
 }

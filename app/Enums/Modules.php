@@ -15,4 +15,5 @@ enum Modules: string
     case SECTIONS     = "Sections";
     case STATS        = "Stats";
     case QUESTIONS    = "Questions";
+    case ANSWERS      = "Answers";
 }

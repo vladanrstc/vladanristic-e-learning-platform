@@ -32,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->moduleList[] = Modules::COURSE_START->value;
         $this->moduleList[] = Modules::SECTIONS->value;
         $this->moduleList[] = Modules::QUESTIONS->value;
+        $this->moduleList[] = Modules::ANSWERS->value;
     }
 
     /**

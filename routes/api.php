@@ -1,8 +1,6 @@
 <?php
 
 //use App\Mail\ResetPassword;
-use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -97,7 +95,6 @@ Route::post("/get-new-token", function (Request $request) {
 
 
         Route::resource('tests', TestController::class);
-        Route::resource('answers', AnswerController::class);
 
         Route::get("/test/status/{test}", [TestController::class, "test_requirements"]);
 

@@ -211,8 +211,13 @@ return [
         App\Modules\Sections\Providers\SectionServiceProvider::class,
 
         // Lessons module
-        App\Modules\Lessons\Providers\LessonsServiceProvider::class
+        App\Modules\Lessons\Providers\LessonsServiceProvider::class,
 
+        // Questions module
+        App\Modules\Questions\Providers\QuestionsServiceProvider::class,
+
+        // Answers module
+        App\Modules\Answers\Providers\AnswersServiceProvider::class,
 
     ],
 
