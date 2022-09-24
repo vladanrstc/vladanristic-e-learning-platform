@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\QuestionAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Spatie\Translatable\HasTranslations;
 
 class Question extends Model
 {
-    use HasTranslations;
+    use HasTranslations, QuestionAttributes;
     public $translatable = ['question_text'];
 
     protected $table = 'questions';

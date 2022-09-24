@@ -3,70 +3,76 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use Illuminate\Http\Request;
+use App\Modules\Questions\Requests\QuestionStoreRequest;
+use App\Modules\Questions\Requests\QuestionUpdateRequest;
+use App\Modules\Questions\Services\IQuestionsService;
+use Illuminate\Http\JsonResponse;
 
 class QuestionController extends Controller
 {
 
     /**
+     * @var IQuestionsService
+     */
+    private IQuestionsService $questionsService;
+
+    /**
+     * @param IQuestionsService $questionsService
+     */
+    public function __construct(IQuestionsService $questionsService) {
+        $this->questionsService = $questionsService;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param QuestionStoreRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(QuestionStoreRequest $request): JsonResponse
     {
-        $lang = $request->lang;
-        request()->validate([
-            'question_text.'.$lang => 'required|max:255|min:3'
+        return response()->json(["data" => $this->questionsService->createQuestion(
+            $request->input("question_text")[$request->input("lang")],
+            $request->input("test"),
+            $request->input("lang"))
         ]);
-
-        $question = new Question();
-        $question->setTranslation('question_text', $lang, $request->question_text[$lang]);
-        $question->test_id = $request->test;
-        $question->save();
-
-        return response()->json("success", 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Question  $question
-     * @return \Illuminate\Http\Response
+     * @param QuestionUpdateRequest $request
+     * @param Question $question
+     * @return JsonResponse
      */
-    public function update(Request $request, Question $question)
+    public function update(QuestionUpdateRequest $request, Question $question): JsonResponse
     {
-        $lang = $request->lang;
-        request()->validate([
-            'question_text.'.$lang => 'required|max:255|min:3'
-        ]);
-
-        $question->setTranslation('question_text', $lang, $request->question_text[$lang]);
-        $question->save();
-
-        return response()->json("success", 200);
+        return response()->json(["data" => $this->questionsService->updateQuestion(
+            $request->input("question_text")[$request->input("lang")],
+            $request->input("lang"),
+            $question
+        )]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  Question  $question
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function destroy(Question $question)
+    public function destroy(Question $question): JsonResponse
     {
-        $question->delete();
-        return response()->json("success", 200);
+        $deleteResult = $this->questionsService->deleteQuestion($question);
+        return response()->json(["data" => $deleteResult], $deleteResult ? 200 : 500);
     }
 
-    public function test_questions($test) {
+    /**
+     * @param $test
+     * @return mixed
+     */
+    public function testQuestions($test): mixed
+    {
         return Question::where("test_id", $test)->with('answers')->get();
-    }
-
-    public function aaa() {
-        return Question::where("question_id", "2")->with('answers')->get();
     }
 
 }
