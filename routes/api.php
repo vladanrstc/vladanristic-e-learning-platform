@@ -4,7 +4,6 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -95,7 +94,6 @@ Route::post("/get-new-token", function (Request $request) {
 //    Route::group(['middleware' => ['scope:admin,super-admin']], function () {
 
 
-        Route::resource('sections', SectionController::class);
 
         Route::resource('lessons', LessonController::class);
         Route::post("/lessons/update/{lesson}", [LessonController::class, "update"]);
@@ -113,8 +111,7 @@ Route::post("/get-new-token", function (Request $request) {
         Route::post("/lessons/switch", [LessonController::class, "lessons_switch"]);
         Route::post("/lessons/video", [LessonController::class, "lessons_video"]);
 
-        Route::get("/sections/course/{course}", [SectionController::class, "course_sections"]);
-        Route::post("/sections/order", [SectionController::class, "sections_order"]);
+
 
 //    });
 

@@ -207,6 +207,9 @@ return [
         // CourseStart module
         App\Modules\CourseStart\Providers\CourseStartServiceProvider::class,
 
+        // Sections module
+        App\Modules\Sections\Providers\SectionServiceProvider::class
+
     ],
 
     /*
