@@ -2,7 +2,7 @@
 
 //use App\Mail\ResetPassword;
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\LessonController;
+use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
@@ -95,8 +95,7 @@ Route::post("/get-new-token", function (Request $request) {
 
 
 
-        Route::resource('lessons', LessonController::class);
-        Route::post("/lessons/update/{lesson}", [LessonController::class, "update"]);
+
 
         Route::resource('tests', TestController::class);
         Route::resource('answers', AnswerController::class);
@@ -106,10 +105,7 @@ Route::post("/get-new-token", function (Request $request) {
         Route::get("/questions/test/{test}", [QuestionController::class, "test_questions"]);
         Route::get("/test/status/{test}", [TestController::class, "test_requirements"]);
 
-        Route::get("/lessons/section/{section}", [LessonController::class, "section_lessons"]);
-        Route::post("/lessons/order", [LessonController::class, "lessons_order"]);
-        Route::post("/lessons/switch", [LessonController::class, "lessons_switch"]);
-        Route::post("/lessons/video", [LessonController::class, "lessons_video"]);
+
 
 
 

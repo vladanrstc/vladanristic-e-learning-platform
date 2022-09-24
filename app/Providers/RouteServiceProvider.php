@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\Modules;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -11,7 +12,16 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
 
-    private $moduleList = ["Auth", "Course", "User", "Stats", "Notes", "Reviews", "CourseStart", "Sections"];
+    private $moduleList = [
+        Modules::AUTH,
+        Modules::COURSE,
+        Modules::USER,
+        Modules::STATS,
+        Modules::NOTES,
+        Modules::REVIEWS,
+        Modules::COURSE_START,
+        Modules::SECTIONS
+    ];
 
     /**
      * The path to the "home" route for your application.

@@ -208,7 +208,11 @@ return [
         App\Modules\CourseStart\Providers\CourseStartServiceProvider::class,
 
         // Sections module
-        App\Modules\Sections\Providers\SectionServiceProvider::class
+        App\Modules\Sections\Providers\SectionServiceProvider::class,
+
+        // Lessons module
+        App\Modules\Lessons\Providers\LessonsServiceProvider::class
+
 
     ],
 

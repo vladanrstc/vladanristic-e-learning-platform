@@ -40,4 +40,8 @@ trait LessonAttributes {
         return "lesson_published";
     }
 
+    public static function lessonSectionId() {
+        return "lesson_section_id";
+    }
+
 }
