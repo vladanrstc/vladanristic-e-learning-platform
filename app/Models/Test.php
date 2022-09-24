@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\TestAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Spatie\Translatable\HasTranslations;
 
 class Test extends Model
 {
-    use HasTranslations;
+    use HasTranslations, TestAttributes;
     public $translatable = ['test_name', 'test_description'];
 
     protected $table = 'tests';

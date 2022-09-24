@@ -138,4 +138,25 @@ class LessonsRepo implements ILessonsRepo {
         }
         return false;
     }
+
+    /**
+     * @param int $lessonTestId
+     * @param Lesson $lesson
+     * @return Lesson
+     */
+    public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson
+    {
+        $lesson->{Lesson::lessonTestId()} = $lessonTestId;
+        $lesson->save();
+        return $lesson;
+    }
+
+    /**
+     * @param int $testId
+     * @return Lesson
+     */
+    public function getLessonByTestId(int $testId): Lesson
+    {
+        return Lesson::where(Lesson::lessonTestId(), $testId)->first();
+    }
 }

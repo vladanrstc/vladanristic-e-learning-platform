@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\QuestionController;
+use App\Modules\Questions\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 //    Route::group(['middleware' => ['scope:admin,super-admin']], function () {

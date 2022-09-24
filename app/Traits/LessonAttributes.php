@@ -44,4 +44,8 @@ trait LessonAttributes {
         return "lesson_section_id";
     }
 
+    public static function lessonTestId() {
+        return "lesson_test_id";
+    }
+
 }

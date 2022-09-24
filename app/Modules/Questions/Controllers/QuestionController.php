@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Questions\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Modules\Questions\Requests\QuestionStoreRequest;
 use App\Modules\Questions\Requests\QuestionUpdateRequest;
