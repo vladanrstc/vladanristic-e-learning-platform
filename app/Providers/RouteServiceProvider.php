@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->moduleList[] = Modules::SECTIONS->value;
         $this->moduleList[] = Modules::QUESTIONS->value;
         $this->moduleList[] = Modules::ANSWERS->value;
+        $this->moduleList[] = Modules::TESTS->value;
     }
 
     /**

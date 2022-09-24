@@ -11,9 +11,11 @@ use App\Repositories\ICourseStartRepo;
 use App\Repositories\ILessonsRepo;
 use App\Repositories\IQuestionsRepo;
 use App\Repositories\ISectionsRepo;
+use App\Repositories\ITestsRepo;
 use App\Repositories\LessonsRepo;
 use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
+use App\Repositories\TestsRepo;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
         ISectionsRepo::class    => SectionsRepo::class,
         ILessonsRepo::class     => LessonsRepo::class,
         IQuestionsRepo::class   => QuestionsRepo::class,
-        IAnswersRepo::class     => AnswersRepo::class
+        IAnswersRepo::class     => AnswersRepo::class,
+        ITestsRepo::class       => TestsRepo::class
     ];
 
 }

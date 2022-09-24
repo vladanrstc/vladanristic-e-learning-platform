@@ -219,6 +219,9 @@ return [
         // Answers module
         App\Modules\Answers\Providers\AnswersServiceProvider::class,
 
+        // Tests module
+        App\Modules\Tests\Providers\TestsServiceProvider::class,
+
     ],
 
     /*
