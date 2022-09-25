@@ -2,10 +2,15 @@
 
 namespace App\Modules\Auth\Services;
 
+use App\Enums\Modules;
 use App\Enums\Roles;
 use App\Exceptions\UserUpdateFailedException;
+use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
+use App\Mails\Exceptions\MailNotSentException;
+use App\Mails\MailHandler;
 use App\Models\User;
+use App\Modules\Auth\Enums\Messages;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Repositories\IUsersRepo;
 use App\Repositories\UsersRepo;
@@ -58,13 +63,13 @@ class RegisterServiceImpl implements IRegisterService
                 Str::random(50)
             );
 
-//            if(!MailHandler::sendMail($this->mailDTOBuilder
-//                ->addTo($user->email)
-//                ->addBody(view("emails.verifyUser", ["user" => $user])->render())
-//                ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
-//                ->build())) {
-//                throw new MailNotSentException(str_replace("#{email}", $user->email, Messages::VERIFY_EMAIL_NOT_SENT->value));
-//            }
+            if(!MailHandler::sendMail($this->mailDTOBuilder
+                ->addTo($user->email)
+                ->addBody(view("emails.verifyUser", ["user" => $user])->render())
+                ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
+                ->build())) {
+                throw new MailNotSentException(str_replace("#{email}", $user->email, Messages::VERIFY_EMAIL_NOT_SENT->value));
+            }
 
             return $user;
 

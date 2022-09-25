@@ -55,7 +55,7 @@ class RegisterController extends Controller
     public function verify(string $token): JsonResponse|Redirector|Application|RedirectResponse
     {
         if($this->registerService->verify($token)) {
-            return redirect(url("/" . $token . "/confirmed"));
+            return redirect(env("APP_FRONTEND_URL") . "/" . $token . "/confirmed");
         }
         return response()->json(["message" => LangHelper::getMessage("email_verification_failed", Modules::AUTH)], 500);
     }
