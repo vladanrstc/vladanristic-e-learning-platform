@@ -68,9 +68,9 @@ class CourseStartRepo implements ICourseStartRepo {
      * @param $courseId
      * @return Collection
      */
-    public function getCourseReviews($courseId): Collection
+    public function getCourseReviews($courseSlug): Collection
     {
-        return CourseStart::where(CourseStart::courseId(), $courseId)
+        return CourseStart::where(CourseStart::cour(), $courseId)
             ->whereNotNull(CourseStart::courseStartReview())
             ->whereNotNull(CourseStart::courseStartMark())
             ->with('user')

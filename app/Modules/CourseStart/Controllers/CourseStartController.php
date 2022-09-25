@@ -26,7 +26,7 @@ class CourseStartController extends Controller
      * @param CourseEnrollRequest $request
      * @return JsonResponse
      */
-    public function store(CourseEnrollRequest $request): JsonResponse
+    public function enrollInCourse(CourseEnrollRequest $request): JsonResponse
     {
         return response()->json(["data" => $this->courseStartService->enrollUserToCourse($request->input("course_id"), Auth::id())]);
     }

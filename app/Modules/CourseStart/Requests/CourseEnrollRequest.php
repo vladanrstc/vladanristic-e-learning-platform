@@ -15,7 +15,7 @@ class CourseEnrollRequest extends FormRequest
     public function rules()
     {
         return [
-            'course_id' => 'required|max:255|min:3'
+            'course_id' => 'required|max:255|min:1'
         ];
     }
 }
