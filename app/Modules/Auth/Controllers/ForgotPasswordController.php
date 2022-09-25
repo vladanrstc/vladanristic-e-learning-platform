@@ -3,13 +3,20 @@
 namespace App\Modules\Auth\Controllers;
 
 use App\Enums\Modules;
+use App\Exceptions\UserUpdateFailedException;
 use App\Http\Controllers\Controller;
 use App\Lang\LangHelper;
+use App\Models\User;
 use App\Modules\Auth\Requests\PasswordResetRequest;
+use App\Modules\Auth\Requests\UpdatePasswordRequest;
 use App\Modules\Auth\Services\ForgotPasswordService;
 use App\Modules\Auth\Services\IForgotPasswordService;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -41,32 +48,33 @@ class ForgotPasswordController extends Controller
 
     }
 
-    // TODO: Complete show form and update password
-    /*
-    public function show_form(Request $request, $token) {
-        $user = User::where("remember_token", "like", $request->token)->first();
-        if($user != null) {
-            return view("auth.passwords.reset", ["token" => $token, "lang" => $user->language]);
+    /**
+     * @param $token
+     * @return Application|Factory|View|void
+     */
+    public function showForm($token) {
+        if(!is_null($user = $this->forgotPasswordService->getUserWithToken($token))) {
+            return view("auth.passwords.reset", ["token" => $token, "lang" => $user->{User::language()}]);
         } else {
             abort(404);
         }
 
     }
 
-    public function update_password(Request $request) {
-
-        request()->validate([
-            'password' => 'required|max:255|min:3',
-            'password_confirmation' => 'required|max:255|min:3|same:password',
+    /**
+     * @param UpdatePasswordRequest $request
+     * @return Application|Factory|View
+     * @throws UserUpdateFailedException
+     */
+    public function updatePassword(UpdatePasswordRequest $request): View|Factory|Application
+    {
+        $user = $this->forgotPasswordService->updateUserPassword(
+            $request->input("token"),
+            $request->input("password")
+        );
+        return view("auth.passwords.reset_success", [
+            "lang" => $user->{User::language()}
         ]);
-
-        $user = User::where("remember_token", "like", $request->token)->first();
-        $user->password = $request->password;
-        $user->remember_token = null;
-        $user->save();
-
-        return view("auth.passwords.reset_success", ["lang" => $user->language]);
-
     }
-    */
+
 }

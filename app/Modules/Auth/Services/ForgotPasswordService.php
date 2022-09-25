@@ -3,6 +3,7 @@
 namespace App\Modules\Auth\Services;
 
 use App\Enums\Modules;
+use App\Exceptions\UserUpdateFailedException;
 use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
@@ -67,5 +68,28 @@ class ForgotPasswordService implements IForgotPasswordService
 
         });
 
+    }
+
+    /**
+     * @param string $token
+     * @param string $password
+     * @return User
+     * @throws UserUpdateFailedException
+     */
+    public function updateUserPassword(string $token, string $password): User
+    {
+        return $this->usersRepo->updateUser([
+            User::password()      => bcrypt($password),
+            User::rememberToken() => null
+        ], $this->usersRepo->getUserByToken($token));
+    }
+
+    /**
+     * @param string $token
+     * @return User|null
+     */
+    public function getUserWithToken(string $token): User|null
+    {
+        return $this->usersRepo->getUserByToken($token);
     }
 }

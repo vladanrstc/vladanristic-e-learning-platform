@@ -120,4 +120,12 @@ class UsersRepo implements IUsersRepo {
         return $bannedUser->restore();
     }
 
+    /**
+     * @param string $token
+     * @return User
+     */
+    public function getUserByToken(string $token): User|null
+    {
+        return User::where(User::rememberToken(), $token)->first();
+    }
 }

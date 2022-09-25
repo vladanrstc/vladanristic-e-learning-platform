@@ -14,5 +14,6 @@ interface IUsersRepo {
     public function unbanUser(User $bannedUser): bool;
     public function updateUser(array $paramsToUpdate, User $user): User;
     public function permanentlyDeleteUser(User $user): bool;
+    public function getUserByToken(string $token): User|null;
     public function banUser(User $user): bool;
 }
