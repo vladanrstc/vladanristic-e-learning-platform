@@ -7,6 +7,7 @@ use App\Exceptions\UserPermanentDeleteException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\Log;
 
 class UsersRepo implements IUsersRepo {
 

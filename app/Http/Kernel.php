@@ -42,9 +42,10 @@ class Kernel extends HttpKernel
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+//            \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'json',
-            'lang' => CheckLocaleMiddleware::class
+            'lang' => CheckLocaleMiddleware::class,
+//            'auth:api',
         ],
     ];
 
@@ -66,6 +67,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'json' => \App\Http\Middleware\ForceJsonResponse::class
+        'json' => \App\Http\Middleware\ForceJsonResponse::class,
+        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     ];
 }

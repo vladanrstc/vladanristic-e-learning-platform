@@ -11,6 +11,7 @@ use App\Lang\LangHelper;
 use App\Models\User;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\User\Requests\CreateUserRequest;
+use App\Modules\User\Requests\UpdateLoggedUserRequest;
 use App\Modules\User\Requests\UpdateUserRequest;
 use App\Modules\User\Services\IUserService;
 use App\Modules\User\Services\UserServiceImpl;
@@ -128,21 +129,23 @@ class UserController extends Controller
     }
 
     /**
-     * @return Authenticatable|null
+     * @return JsonResponse
      */
-    public function loggedUser(): ?Authenticatable
+    public function loggedUser(): JsonResponse
     {
-        return Auth::user();
+        return response()->json(["data" => Auth::user()]);
     }
 
     /**
-     * @param UpdateUserRequest $request
+     * @param UpdateLoggedUserRequest $request
      * @return JsonResponse
      * @throws UserUpdateFailedException
      */
-    public function editLoggedUser(UpdateUserRequest $request): JsonResponse
+    public function updateLoggedUser(UpdateLoggedUserRequest $request): JsonResponse
     {
-        return response()->json(['data' => $this->userService->updateUser($request->all(), Auth::user())]);
+        return response()->json(['data' => $this->userService->updateUser($request->except([
+            "current_password", "password_repeat"
+        ]), Auth::user())]);
     }
 
 }

@@ -103,7 +103,7 @@ class TestController extends Controller
             ->get()]);
     }
 
-    public function submit_test(Test $test, Request $request) {
+    public function submitTest(Test $test, Request $request) {
 
         $return_results = [];
         $results = $request->answers;

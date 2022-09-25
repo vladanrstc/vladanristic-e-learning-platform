@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,8 +24,19 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         $this->registerPolicies();
 
-        //
+        Passport::tokensExpireIn(now()->addCentury(1));
+
+        Passport::refreshTokensExpireIn(now()->addYear());
+
+        Passport::ignoreCsrfToken(true);
+
+        Passport::tokensCan([
+            'admin' => 'Can do anything',
+            'user' => 'Can\'t do everything',
+            'super-admin' => 'Can\'t do anything+ ',
+        ]);
     }
 }

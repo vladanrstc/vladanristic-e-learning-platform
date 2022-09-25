@@ -5,7 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['scope:super-admin']], function () {
     Route::resource('users', UserController::class);
-    Route::delete("/users/ban/{user}", [UserController::class, "ban_user"]);
-    Route::get("/users-banned", [UserController::class, "banned_users"]);
-    Route::get("/users/unban/{user}", [UserController::class, "unban_user"]);
+    Route::delete("/ban/{user}", [UserController::class, "banUser"]);
+    Route::get("/users-banned", [UserController::class, "bannedUsers"]);
+    Route::get("/unban/{user}", [UserController::class, "unbanUser"]);
+});
+
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get("/logged", [UserController::class, "loggedUser"]);
+    Route::patch("/logged", [UserController::class, "updateLoggedUser"]);
 });

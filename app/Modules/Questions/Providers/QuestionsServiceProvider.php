@@ -2,15 +2,15 @@
 
 namespace App\Modules\Questions\Providers;
 
-use App\Repositories\IQuestionsRepo;
-use App\Repositories\QuestionsRepo;
+use App\Modules\Questions\Services\IQuestionsService;
+use App\Modules\Questions\Services\QuestionsServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class QuestionsServiceProvider extends ServiceProvider
 {
 
     public $bindings = [
-        IQuestionsRepo::class => QuestionsRepo::class,
+        IQuestionsService::class => QuestionsServiceImpl::class,
     ];
 
 }

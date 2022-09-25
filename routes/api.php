@@ -1,7 +1,6 @@
 <?php
 
 //use App\Mail\ResetPassword;
-use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -70,37 +69,6 @@ Route::post("/get-new-token", function (Request $request) {
         Route::get("/check-admin", function () {
             return response()->json("success", 200);
         });
-
-//        Route::get("/logged/user", [UserController::class, "logged_user"]);
-//        Route::patch("/logged/user", [UserController::class, "edit_logged_user"]);
-
-
-
-        // notes
-
-
-
-        // lessons
-
-        // tests
-        Route::get("/test/data/{lesson}", [TestController::class, "get_test_data"]);
-        Route::post("/test/submit/{test}", [TestController::class, "submit_test"]);
-
-//    });
-
-//    Route::group(['middleware' => ['scope:admin,super-admin']], function () {
-
-
-
-
-
-        Route::resource('tests', TestController::class);
-
-        Route::get("/test/status/{test}", [TestController::class, "test_requirements"]);
-
-
-
-
 
 //    });
 

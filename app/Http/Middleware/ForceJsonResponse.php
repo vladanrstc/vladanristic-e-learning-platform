@@ -8,6 +8,7 @@ class ForceJsonResponse
 {
     public function handle($request, Closure $next)
     {
+        $pom = $request->headers;
         if (!$request->headers->has('Accept') || $request->headers->has('Accept') == "*/*") {
             $request->headers->set('Accept', 'application/json');
         }

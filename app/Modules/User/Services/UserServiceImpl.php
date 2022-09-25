@@ -53,7 +53,7 @@ class UserServiceImpl implements IUserService
     public function updateUser(array $userDataToUpdate, User $user): User
     {
 
-        if($userDataToUpdate['password'] != '') {
+        if(isset($userDataToUpdate['password']) && $userDataToUpdate['password'] != '') {
             $userDataToUpdate['password'] = bcrypt($userDataToUpdate['password']);
         } else {
             unset($userDataToUpdate['password']);

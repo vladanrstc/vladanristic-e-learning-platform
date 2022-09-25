@@ -33,7 +33,7 @@ class LoginServiceImpl implements ILoginService
             $user  = $this->usersRepo->getUserByEmail($loginParams['email']);
             $role  = $user->{User::role()};
 
-            $token = $user->createToken('My Token', [$role])->plainTextToken;
+            $token = $user->createToken('My Token', [$role])->accessToken;
 
             return [
                 "user"  => $user,
