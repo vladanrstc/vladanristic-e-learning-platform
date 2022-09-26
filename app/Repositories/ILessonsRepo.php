@@ -12,7 +12,7 @@ interface ILessonsRepo {
     public function updateLessonOrder(int $lessonOrder, Lesson $lesson);
     public function toggleLessonPublishedStatus(string $isLessonPublished, Lesson $lesson);
     public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson;
-    public function getLessonByLessonId(int $lessonId): Lesson;
-    public function getLessonByTestId(int $testId): Lesson;
+    public function getLessonByLessonId(int $lessonId): Lesson|null;
+    public function getLessonByTestId(int $testId): Lesson|null;
     public function deleteLesson(Lesson $lesson): bool;
 }

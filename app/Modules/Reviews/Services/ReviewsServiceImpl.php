@@ -34,9 +34,9 @@ class ReviewsServiceImpl implements IReviewsService {
     /**
      * @param string $courseSlug
      * @param int $userId
-     * @return CourseStart
+     * @return CourseStart|null
      */
-    public function getUserReviewsForCourse(string $courseSlug, int $userId): CourseStart
+    public function getUserReviewsForCourse(string $courseSlug, int $userId): CourseStart|null
     {
         return $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId);
     }
@@ -55,19 +55,19 @@ class ReviewsServiceImpl implements IReviewsService {
 
     /**
      * @param int $courseId
-     * @return Collection
+     * @return Collection|null
      */
-    public function getCourseReviewMarks(int $courseId): Collection
+    public function getCourseReviewMarks(int $courseId): Collection|null
     {
         return $this->courseStartRepo->getCourseReviewMarks($courseId);
     }
 
     /**
-     * @param int $courseId
-     * @return Collection
+     * @param string $courseSlug
+     * @return Collection|null
      */
-    public function getCourseReviews(int $courseId) : Collection
+    public function getCourseReviews(string $courseSlug) : Collection|null
     {
-        return $this->courseStartRepo->getCourseReviews($courseId);
+        return $this->courseStartRepo->getCourseReviews($courseSlug);
     }
 }

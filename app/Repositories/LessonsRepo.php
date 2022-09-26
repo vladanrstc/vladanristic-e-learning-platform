@@ -89,9 +89,9 @@ class LessonsRepo implements ILessonsRepo {
 
     /**
      * @param int $lessonId
-     * @return Lesson
+     * @return Lesson|null
      */
-    public function getLessonByLessonId(int $lessonId): Lesson {
+    public function getLessonByLessonId(int $lessonId): Lesson|null {
         return Lesson::where(Lesson::lessonId(), $lessonId)->first();
     }
 
@@ -120,6 +120,11 @@ class LessonsRepo implements ILessonsRepo {
         return $lesson;
     }
 
+    /**
+     * @param int $lessonOrder
+     * @param Lesson $lesson
+     * @return Lesson
+     */
     public function updateLessonOrder(int $lessonOrder, Lesson $lesson)
     {
         $lesson->{Lesson::lessonOrder()} = $lessonOrder;
@@ -129,7 +134,7 @@ class LessonsRepo implements ILessonsRepo {
 
     /**
      * @param Lesson $lesson
-     * @return Lesson
+     * @return bool
      */
     public function deleteLesson(Lesson $lesson): bool
     {
@@ -153,9 +158,9 @@ class LessonsRepo implements ILessonsRepo {
 
     /**
      * @param int $testId
-     * @return Lesson
+     * @return Lesson|null
      */
-    public function getLessonByTestId(int $testId): Lesson
+    public function getLessonByTestId(int $testId): Lesson|null
     {
         return Lesson::where(Lesson::lessonTestId(), $testId)->first();
     }

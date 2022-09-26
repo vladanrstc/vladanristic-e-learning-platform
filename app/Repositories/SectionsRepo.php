@@ -19,9 +19,9 @@ class SectionsRepo implements ISectionsRepo {
 
     /**
      * @param int $courseId
-     * @return Section
+     * @return Section|null
      */
-    public function getLastSectionForCourse(int $courseId): Section
+    public function getLastSectionForCourse(int $courseId): Section|null
     {
         return Section::where(Section::sectionCourseId(), $courseId)
             ->orderBy(Section::sectionOrder(), "desc")

@@ -84,9 +84,9 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
-     * @return Collection
+     * @return Collection|null
      */
-    public function getAllCourses(): Collection
+    public function getAllCourses(): Collection|null
     {
         return Course::all();
     }
@@ -105,9 +105,9 @@ class CoursesRepo implements ICoursesRepo {
 
     /**
      * @param int $userId
-     * @return Collection
+     * @return Collection|null
      */
-    public function getCoursesUserHasntEnrolledIn(int $userId): Collection
+    public function getCoursesUserHasntEnrolledIn(int $userId): Collection|null
     {
         return Course::whereDoesntHave('courses_started', function (Builder $query) use ($userId) {
             $query->where(CourseStart::userId(), $userId);
@@ -118,9 +118,9 @@ class CoursesRepo implements ICoursesRepo {
 
     /**
      * @param int $userId
-     * @return Collection
+     * @return Collection|null
      */
-    public function getCoursesUserEnrolledIn(int $userId): Collection
+    public function getCoursesUserEnrolledIn(int $userId): Collection|null
     {
         return Course::whereHas('courses_started', function (Builder $query) use ($userId) {
             $query->where(CourseStart::userId(), $userId);

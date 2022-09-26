@@ -29,10 +29,10 @@ class CourseService implements ICourseService
 
     /**
      * @param string $courseSlug
-     * @return Course
+     * @return Course|null
      * @throws CourseNotFoundException
      */
-    public function getCourseDetailsByCourseSlug(string $courseSlug): Course
+    public function getCourseDetailsByCourseSlug(string $courseSlug): Course|null
     {
         if(!is_null($course = $this->coursesRepo->getCourseForSlug($courseSlug))) {
             return $course;
@@ -41,9 +41,9 @@ class CourseService implements ICourseService
     }
 
     /**
-     * @return Collection
+     * @return Collection|null
      */
-    public function getAllCourses(): Collection
+    public function getAllCourses(): Collection|null
     {
         return $this->coursesRepo->getAllCourses();
     }

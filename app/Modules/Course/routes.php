@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/all", [CourseController::class, "allCourses"]);
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api', 'scope:user']], function () {
     // course details
     Route::get("/details/{course}", [CourseController::class, "courseDetails"]);
 });

@@ -22,12 +22,12 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param $course
+     * @param string $courseSlug
      * @return JsonResponse
      */
-    public function getCourseReviews($course): JsonResponse
+    public function getCourseReviews(string $courseSlug): JsonResponse
     {
-        return response()->json(["data" => $this->reviewsService->getCourseReviews($course)]);
+        return response()->json(["data" => $this->reviewsService->getCourseReviews($courseSlug)]);
     }
 
     /**

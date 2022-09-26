@@ -14,7 +14,7 @@ class CourseStart extends Model
     protected $table      = 'user_courses_started';
     protected $primaryKey = 'user_course_started_id';
 
-    public function lessons_completed() {
+    public function lessonsCompleted() {
         return $this->hasMany(LessonCompleted::class);
     }
 

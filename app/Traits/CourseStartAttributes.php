@@ -17,15 +17,15 @@ trait CourseStartAttributes {
     }
 
     public static function courseStartNote() {
-        return "course_start_note";
+        return "user_course_started_note";
     }
 
     public static function courseStartReview() {
-        return "course_start_review";
+        return "user_course_started_review_text";
     }
 
     public static function courseStartMark() {
-        return "course_start_mark";
+        return "user_course_started_review_mark";
     }
 
 }

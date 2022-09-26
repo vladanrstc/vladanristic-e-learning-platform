@@ -4,6 +4,7 @@ namespace App\Modules\Notes\Services;
 
 use App\Models\CourseStart;
 use App\Repositories\ICourseStartRepo;
+use Illuminate\Support\Collection;
 
 class NotesServiceImpl implements INotesService {
 
@@ -22,9 +23,9 @@ class NotesServiceImpl implements INotesService {
     /**
      * @param string $courseSlug
      * @param int $userId
-     * @return CourseStart
+     * @return CourseStart|null
      */
-    public function getUserNotesForCourse(string $courseSlug, int $userId): CourseStart
+    public function getUserNotesForCourse(string $courseSlug, int $userId): CourseStart|null
     {
         return $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId);
     }
@@ -54,9 +55,9 @@ class NotesServiceImpl implements INotesService {
 
     /**
      * @param string $courseId
-     * @return mixed
+     * @return Collection|null
      */
-    public function getNotesForCourse(string $courseId): mixed
+    public function getNotesForCourse(string $courseId): CourseStart|null
     {
         return $this->courseStartRepo->getCourseNotes($courseId);
     }

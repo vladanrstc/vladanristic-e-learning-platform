@@ -15,9 +15,9 @@ class CourseStartRepo implements ICourseStartRepo {
     /**
      * @param string $courseSlug
      * @param int $userId
-     * @return CourseStart
+     * @return CourseStart|null
      */
-    public function getCourseStartForCourseAndUser(string $courseSlug, int $userId): CourseStart
+    public function getCourseStartForCourseAndUser(string $courseSlug, int $userId): CourseStart|null
     {
         return CourseStart::whereHas("course", function($query) use ($courseSlug) {
             $query->where(Course::courseSlug(), $courseSlug);
@@ -28,9 +28,9 @@ class CourseStartRepo implements ICourseStartRepo {
 
     /**
      * @param $courseId
-     * @return mixed
+     * @return CourseStart|null
      */
-    public function getCourseNotes($courseId): mixed
+    public function getCourseNotes($courseId): CourseStart|null
     {
         return CourseStart::where(CourseStart::courseId(), $courseId)
             ->whereNotNull(CourseStart::courseStartNote())
@@ -54,9 +54,9 @@ class CourseStartRepo implements ICourseStartRepo {
 
     /**
      * @param $courseId
-     * @return mixed
+     * @return Collection|null
      */
-    public function getCourseReviewMarks($courseId): Collection
+    public function getCourseReviewMarks($courseId): Collection|null
     {
         return CourseStart::where(CourseStart::courseId(), $courseId)
             ->whereNotNull(CourseStart::courseStartMark())
@@ -65,12 +65,14 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param $courseId
-     * @return Collection
+     * @param string $courseSlug
+     * @return Collection|null
      */
-    public function getCourseReviews($courseSlug): Collection
+    public function getCourseReviews(string $courseSlug): Collection|null
     {
-        return CourseStart::where(CourseStart::cour(), $courseId)
+        return CourseStart::whereHas("course", function($query) use($courseSlug) {
+            $query->where(Course::courseSlug(), $courseSlug);
+        })
             ->whereNotNull(CourseStart::courseStartReview())
             ->whereNotNull(CourseStart::courseStartMark())
             ->with('user')
@@ -94,9 +96,9 @@ class CourseStartRepo implements ICourseStartRepo {
     /**
      * @param int $courseId
      * @param int $userId
-     * @return CourseStart
+     * @return CourseStart|null
      */
-    public function getCourseStartedForUserIdAndCourse(int $courseId, int $userId): CourseStart
+    public function getCourseStartedForUserIdAndCourse(int $courseId, int $userId): CourseStart|null
     {
         return CourseStart::where(Course::courseId(), $courseId)
             ->where(CourseStart::userId(), Auth::id())
@@ -106,9 +108,9 @@ class CourseStartRepo implements ICourseStartRepo {
     /**
      * @param int $lessonId
      * @param int $userId
-     * @return CourseStart
+     * @return CourseStart|null
      */
-    public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): CourseStart
+    public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): CourseStart|null
     {
         return CourseStart::where(CourseStart::userId(), $userId)
             ->whereHas("course.sections.lessons", function(Builder $query) use ($lessonId) {

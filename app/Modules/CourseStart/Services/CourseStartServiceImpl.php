@@ -36,18 +36,18 @@ class CourseStartServiceImpl implements ICourseStartService {
 
     /**
      * @param int $userId
-     * @return Collection
+     * @return Collection|null
      */
-    public function getCoursesUserHasntEnrolledIn(int $userId): Collection
+    public function getCoursesUserHasntEnrolledIn(int $userId): Collection|null
     {
         return $this->coursesRepo->getCoursesUserHasntEnrolledIn($userId);
     }
 
     /**
      * @param int $userId
-     * @return Collection
+     * @return Collection|null
      */
-    public function getCoursesUserEnrolledIn(int $userId): Collection
+    public function getCoursesUserEnrolledIn(int $userId): Collection|null
     {
         return $this->coursesRepo->getCoursesUserEnrolledIn($userId);
     }
