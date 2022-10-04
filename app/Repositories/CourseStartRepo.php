@@ -110,11 +110,11 @@ class CourseStartRepo implements ICourseStartRepo {
      * @param int $userId
      * @return CourseStart|null
      */
-    public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): CourseStart|null
+    public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): ?CourseStart
     {
         return CourseStart::where(CourseStart::userId(), $userId)
-            ->whereHas("course.sections.lessons", function(Builder $query) use ($lessonId) {
+            ->whereHas("course.sections.lessons", function($query) use ($lessonId) {
                 $query->where(Lesson::lessonId(), $lessonId);
-            });
+            })->first();
     }
 }

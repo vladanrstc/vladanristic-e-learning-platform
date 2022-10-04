@@ -33,7 +33,7 @@ class CoursesRepo implements ICoursesRepo {
             $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
             $course->{Course::courseSlug()}  = rand(100, 100000) . "-" . Str::slug($courseName, "-");
-            $course->{Course::courseImage()} = StorageHelper::storeFile("local", $courseImage, Modules::COURSE->value, "images");
+            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value, "images");
 
             $course->save();
 

@@ -21,12 +21,12 @@ class LessonCompletedController extends Controller
     }
 
     /**
-     * @param Lesson $lesson
+     * @param $lessonId
      * @return JsonResponse
      */
-    public function finishLesson(Lesson $lesson): JsonResponse
+    public function finishLesson($lessonId): JsonResponse
     {
-        return response()->json(["data" => $this->lessonFinishService->completeLesson($lesson->{Lesson::lessonId()}, Auth::id())]);
+        return response()->json(["data" => $this->lessonFinishService->completeLesson($lessonId, Auth::id())]);
     }
 
 }

@@ -11,7 +11,7 @@ Route::group(['middleware' => ['auth:api,scope:user,admin,super-admin']], functi
     Route::get("/started", [CourseStartController::class, "coursesStarted"]);
     Route::get("/not-started", [CourseStartController::class, "coursesNotStarted"]);
 
-    Route::get("/lesson/finish/{lesson}", [LessonCompletedController::class, "finishLesson"]);
+    Route::get("/lesson/finish/{lessonId}", [LessonCompletedController::class, "finishLesson"]);
 });
 
 
