@@ -2,9 +2,31 @@
 
 namespace App\Repositories;
 
+use App\Models\Answer;
 use App\Models\Question;
 
 class QuestionsRepo implements IQuestionsRepo {
+
+    /**
+     * @param int $questionId
+     * @return Question|null
+     */
+    public function getQuestionById(int $questionId): ?Question {
+        return Question::where(Question::questionId(), $questionId)
+            ->first();
+    }
+
+    /**
+     * @param int $questionId
+     * @return Question|null
+     */
+    public function getQuestionByIdWithCorrectAnswers(int $questionId): ?Question {
+        return Question::where(Question::questionId(), $questionId)
+            ->with(["answers" => function ($query) {
+                $query->where(Answer::isAnswerCorrect(), 1);
+            }])
+            ->first();
+    }
 
     /**
      * @param string $questionText

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 //    Route::group(['middleware' => ['scope:user,admin,super-admin']], function () {
 
 Route::get("/test/data/{lesson}", [TestController::class, "getTestData"]);
-Route::post("/test/submit/{test}", [TestController::class, "submitTest"]);
+Route::post("/test/submit", [TestController::class, "submitTest"]);
 
 //    });
 

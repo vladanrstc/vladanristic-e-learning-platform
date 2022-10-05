@@ -98,59 +98,23 @@ class TestController extends Controller
      */
     public function getTestData(Lesson $lesson): JsonResponse
     {
-        return response()->json(["data" => Test::where("test_id", $lesson->lesson_test_id)
-            ->with(["questions", "questions.answers"])
-            ->get()]);
+        return response()->json(["data" => $lesson->test()->with(["questions", "questions.answers"])->get()]);
     }
 
-    public function submitTest(Test $test, Request $request) {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function submitTest(Request $request): JsonResponse
+    {
 
         $return_results = [];
-        $results = $request->answers;
+        $results        = $request->answers;
         foreach ($results as $key => $value) {
-            array_push($return_results, $this->check_answer($key, $value));
+            array_push($return_results, $this->testsService->checkAnswer($key, $value));
         }
 
-        return $return_results;
-    }
-
-    public function check_answer($question_id, $answer) {
-
-        $question = Question::where("question_id", $question_id)
-            ->with(["answers" => function ($query) {
-                $query->where("answer_true", 1);
-            }])
-            ->first();
-
-        $question_with_all_answers = Question::where("question_id", $question_id)->with("answers")->first();
-
-        if(is_array($answer)) {
-
-            // the $answer variable actually contains multiple answers (array) - multiple choice question
-            if(count($question->answers) == count($answer)) {
-
-                $flag = true;
-                foreach ($question->answers as $answer_db) {
-                    if(!in_array($answer_db->answer_id, $answer)) {
-                        $flag = false;
-                        break;
-                    }
-                }
-                return ["question" => $question_with_all_answers, "true" => $flag];
-
-            } else {
-                return ["question" => $question_with_all_answers, "true" => false];
-            }
-
-        } else {
-
-            if($question->answers[0]->answer_id == $answer) {
-                return ["question" => $question_with_all_answers, "true" => true];
-            } else {
-                return ["question" => $question_with_all_answers, "true" => false];
-            }
-        }
-
+        return response()->json(["data" => $return_results]);
     }
 
 }

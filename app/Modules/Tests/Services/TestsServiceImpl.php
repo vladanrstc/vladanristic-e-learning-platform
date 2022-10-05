@@ -2,9 +2,12 @@
 
 namespace App\Modules\Tests\Services;
 
+use App\Models\Answer;
 use App\Models\Lesson;
+use App\Models\Question;
 use App\Models\Test;
 use App\Repositories\ILessonsRepo;
+use App\Repositories\IQuestionsRepo;
 use App\Repositories\ITestsRepo;
 use Illuminate\Support\Facades\DB;
 
@@ -21,12 +24,19 @@ class TestsServiceImpl implements ITestsService {
     private ILessonsRepo $lessonsRepo;
 
     /**
+     * @var IQuestionsRepo
+     */
+    private IQuestionsRepo $questionsRepo;
+
+    /**
      * @param ITestsRepo $testsRepo
      * @param ILessonsRepo $lessonsRepo
+     * @param IQuestionsRepo $questionsRepo
      */
-    public function __construct(ITestsRepo $testsRepo, ILessonsRepo $lessonsRepo) {
-        $this->testsRepo   = $testsRepo;
-        $this->lessonsRepo = $lessonsRepo;
+    public function __construct(ITestsRepo $testsRepo, ILessonsRepo $lessonsRepo, IQuestionsRepo $questionsRepo) {
+        $this->testsRepo     = $testsRepo;
+        $this->lessonsRepo   = $lessonsRepo;
+        $this->questionsRepo = $questionsRepo;
     }
 
     /**
@@ -65,5 +75,43 @@ class TestsServiceImpl implements ITestsService {
 
             $this->testsRepo->deleteTest($test);
         });
+    }
+
+    /**
+     * @param $questionId
+     * @param $answer
+     * @return array
+     */
+    public function checkAnswer($questionId, $answer): array
+    {
+        $question               = $this->questionsRepo->getQuestionByIdWithCorrectAnswers($questionId);
+        $questionWithAllAnswers = $this->questionsRepo->getQuestionById($questionId)->load("answers");
+
+        if(is_array($answer)) {
+
+            // the $answer variable actually contains multiple answers (array) - multiple choice question
+            if(count($question->answers) == count($answer)) {
+
+                $flag = true;
+                foreach ($question->answers as $answer_db) {
+                    if(!in_array($answer_db->answer_id, $answer)) {
+                        $flag = false;
+                        break;
+                    }
+                }
+                return ["question" => $questionWithAllAnswers, "true" => $flag];
+
+            } else {
+                return ["question" => $questionWithAllAnswers, "true" => false];
+            }
+
+        } else {
+
+            if($question->answers[0]->answer_id == $answer) {
+                return ["question" => $questionWithAllAnswers, "true" => true];
+            } else {
+                return ["question" => $questionWithAllAnswers, "true" => false];
+            }
+        }
     }
 }

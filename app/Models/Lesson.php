@@ -18,7 +18,7 @@ class Lesson extends Model
     protected $guarded    = [];
     protected $appends    = ['lesson_completed'];
 
-    public function lessons_completed() {
+    public function lessonsCompleted() {
         return $this->hasMany(LessonCompleted::class, "lesson_completed_id");
     }
 

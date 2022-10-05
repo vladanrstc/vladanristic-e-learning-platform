@@ -4,6 +4,10 @@ namespace App\Traits;
 
 trait QuestionAttributes {
 
+    public static function questionId() {
+        return "question_id";
+    }
+
     public static function questionText() {
         return "question_text";
     }
