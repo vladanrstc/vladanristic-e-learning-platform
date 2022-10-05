@@ -26,7 +26,6 @@ class Question extends Model
     }
 
     public function getQuestionTypeAttribute() {
-        Log::info("QQQQQ");
         return $this->getQuestionType();
     }
 

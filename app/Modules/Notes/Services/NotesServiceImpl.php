@@ -39,7 +39,7 @@ class NotesServiceImpl implements INotesService {
     public function updateUserCourseStartedNotes(string $courseSlug, string $notes, int $userId): CourseStart
     {
         return $this->courseStartRepo->updateCourseStart(
-            [CourseStart::courseStartNote() => $courseSlug],
+            [CourseStart::courseStartNote() => $notes],
             $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId)
         );
     }

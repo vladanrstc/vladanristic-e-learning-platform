@@ -27,7 +27,11 @@ class NotesController extends Controller
      */
     public function updateCourseNote(UpdateCourseNoteRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->notesService->updateUserCourseStartedNotes($request->input("course"), $request->input("notes"), Auth::id())]);
+        return response()->json(["data" => $this->notesService->updateUserCourseStartedNotes(
+            $request->input("course"),
+            $request->input("notes"),
+            Auth::id())]
+        );
     }
 
     /**
