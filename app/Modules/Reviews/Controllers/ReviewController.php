@@ -4,7 +4,7 @@ namespace App\Modules\Reviews\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseStart;
-use App\Modules\Notes\Requests\UpdateCourseReviewRequest;
+use App\Modules\Reviews\Requests\UpdateCourseReviewRequest;
 use App\Modules\Reviews\Services\IReviewsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;

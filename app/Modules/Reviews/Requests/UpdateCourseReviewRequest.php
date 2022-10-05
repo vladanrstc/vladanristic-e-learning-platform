@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Notes\Requests;
+namespace App\Modules\Reviews\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,9 +15,9 @@ class UpdateCourseReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'course'  => 'required|max:255|min:3',
-            'review'  => 'required|max:1024|min:3',
-            'rating'  => 'required|max:1024|min:3'
+            'course'  => 'required|max:255',
+            'review'  => 'required|max:1024',
+            'rating'  => 'required|max:1024'
         ];
     }
 }
