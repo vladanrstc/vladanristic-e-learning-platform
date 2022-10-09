@@ -60,22 +60,6 @@ Route::post("/get-new-token", function (Request $request) {
 
 });
 
-//Route::group(['middleware' => ['auth:api']], function () {
-
-    // course details
-
-//    Route::group(['middleware' => ['scope:user,admin,super-admin']], function () {
-
-        Route::get("/check-admin", function () {
-            return response()->json("success", 200);
-        });
-
-//    });
-
-
-
-//});
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
