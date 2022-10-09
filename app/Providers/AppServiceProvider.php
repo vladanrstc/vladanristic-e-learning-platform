@@ -14,18 +14,21 @@ use App\Repositories\ILogsRepo;
 use App\Repositories\IQuestionsRepo;
 use App\Repositories\ISectionsRepo;
 use App\Repositories\ITestsRepo;
+use App\Repositories\IUsersRepo;
 use App\Repositories\LessonCompletedRepo;
 use App\Repositories\LessonsRepo;
 use App\Repositories\LogsRepo;
 use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
 use App\Repositories\TestsRepo;
+use App\Repositories\UsersRepo;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
 
     public array $bindings = [
+        IUsersRepo::class           => UsersRepo::class,
         ICourseStartRepo::class     => CourseStartRepo::class,
         ICoursesRepo::class         => CoursesRepo::class,
         ISectionsRepo::class        => SectionsRepo::class,
