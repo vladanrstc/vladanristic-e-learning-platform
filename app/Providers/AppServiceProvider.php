@@ -10,11 +10,13 @@ use App\Repositories\ICoursesRepo;
 use App\Repositories\ICourseStartRepo;
 use App\Repositories\ILessonCompletedRepo;
 use App\Repositories\ILessonsRepo;
+use App\Repositories\ILogsRepo;
 use App\Repositories\IQuestionsRepo;
 use App\Repositories\ISectionsRepo;
 use App\Repositories\ITestsRepo;
 use App\Repositories\LessonCompletedRepo;
 use App\Repositories\LessonsRepo;
+use App\Repositories\LogsRepo;
 use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
 use App\Repositories\TestsRepo;
@@ -31,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
         ILessonCompletedRepo::class => LessonCompletedRepo::class,
         IQuestionsRepo::class       => QuestionsRepo::class,
         IAnswersRepo::class         => AnswersRepo::class,
-        ITestsRepo::class           => TestsRepo::class
+        ITestsRepo::class           => TestsRepo::class,
+        ILogsRepo::class            => LogsRepo::class
     ];
 
 }
