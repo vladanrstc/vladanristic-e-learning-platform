@@ -62,6 +62,14 @@ class ReviewController extends Controller
         return response()->json(["data" => $this->reviewsService->getUserReviewsForCourse($course, Auth::id())]);
     }
 
+    public function allCourseReviews(string $course) {
+        return CourseStart::where("course_id", $course)
+            ->whereNotNull("user_course_started_review_text")
+            ->whereNotNull("user_course_started_review_mark")
+            ->with('user')
+            ->paginate(10);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

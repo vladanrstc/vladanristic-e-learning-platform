@@ -3,6 +3,7 @@
 namespace App\Modules\Sections\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Section;
 use App\Modules\Sections\Requests\SectionsReorderRequest;
 use App\Modules\Sections\Requests\SectionStoreRequest;
@@ -62,6 +63,13 @@ class SectionController extends Controller
     public function sectionsReorder(SectionsReorderRequest $request): JsonResponse
     {
         return response()->json(["data" => $this->sectionsService->reorderSections($request->input("sections"))]);
+    }
+
+    public function courseSections(Course $course) {
+        $course->load(["sections" => function ($query) {
+            $query->orderBy('section_order', 'asc');
+        }]);
+        return response()->json($course->sections, 200);
     }
 
     /**

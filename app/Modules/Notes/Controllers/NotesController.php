@@ -43,6 +43,13 @@ class NotesController extends Controller
         return response()->json(["data" => $this->notesService->getUserNotesForCourse($course, Auth::id())]);
     }
 
+    public function courseNotes($course) {
+        return CourseStart::where("course_id", $course)
+            ->whereNotNull("user_course_started_note")
+            ->with('user')
+            ->paginate(10);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

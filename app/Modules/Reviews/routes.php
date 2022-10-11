@@ -12,5 +12,5 @@ Route::get("/course/{courseSlug}", [ReviewController::class, "getCourseReviews"]
 
  Route::group(['middleware' => ['auth:api','scope:admin,super-admin']], function () {
     Route::resource('reviews', ReviewController::class);
-    Route::get("/reviews/course/{course}", [ReviewController::class, "course_reviews"]);
+    Route::get("/reviews/course/{course}", [ReviewController::class, "allCourseReviews"]);
 });
