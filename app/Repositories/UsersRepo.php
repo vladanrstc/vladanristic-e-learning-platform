@@ -99,8 +99,7 @@ class UsersRepo implements IUsersRepo {
      */
     public function getTrashedUserById(int $userId): User
     {
-        return User::onlyTrashed()
-            ->where("id", $userId)
+        return User::where("id", $userId)->onlyTrashed()
             ->first();
     }
 
@@ -123,7 +122,7 @@ class UsersRepo implements IUsersRepo {
 
     /**
      * @param string $token
-     * @return User
+     * @return User|null
      */
     public function getUserByToken(string $token): User|null
     {

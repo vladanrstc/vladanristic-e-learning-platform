@@ -3,6 +3,7 @@
 namespace App\Modules\User\Controllers;
 
 use App\Enums\Modules;
+use App\Enums\Roles;
 use App\Exceptions\BanUserException;
 use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserPermanentDeleteException;
@@ -46,16 +47,17 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request)
     {
         $param = $request->get('q');
 
         if ($param != null) {
-            return User::where("email", 'like', '%' . $param . '%')->paginate(10);
+            return User::where("email", 'like', '%' . $param . '%')
+                ->where(User::role(), Roles::USER->name)
+                ->paginate(10);
         } else {
-            return User::paginate(10);
+            return User::where(User::role(), Roles::USER->name)->paginate(10);
         }
 
     }
@@ -124,7 +126,7 @@ class UserController extends Controller
      */
     public function unbanUser($user): JsonResponse
     {
-        $this->usersRepo->unbanUser($user);
+        $this->userService->unbanUser($user);
         return response()->json(["message" => LangHelper::getMessage("unbanned_user", Modules::USER)]);
     }
 

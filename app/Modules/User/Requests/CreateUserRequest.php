@@ -20,7 +20,7 @@ class CreateUserRequest extends FormRequest
             'email'     => 'required|email|max:1024|min:3',
             'password'  => 'required|max:1024|min:3',
             'role'      => 'required|max:1024|min:3',
-            'language'  => 'required|max:1024|min:3'
+            'language'  => 'required|max:1024|min:2'
         ];
     }
 }
