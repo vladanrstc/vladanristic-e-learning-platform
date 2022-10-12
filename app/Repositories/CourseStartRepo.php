@@ -117,4 +117,13 @@ class CourseStartRepo implements ICourseStartRepo {
                 $query->where(Lesson::lessonId(), $lessonId);
             })->first();
     }
+
+    /**
+     * @param int $courseStartedId
+     * @return CourseStart|null
+     */
+    public function getCourseStartedById(int $courseStartedId): ?CourseStart
+    {
+        return CourseStart::where(CourseStart::courseStartedId(), $courseStartedId)->first();
+    }
 }

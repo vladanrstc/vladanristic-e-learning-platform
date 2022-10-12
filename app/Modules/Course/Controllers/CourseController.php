@@ -61,12 +61,12 @@ class CourseController extends Controller
      * @param Course $course
      * @return JsonResponse
      */
-    public function update(CourseUpdateRequest $request, Course $course): JsonResponse
+    public function update(CourseUpdateRequest $request, Course $course)//: JsonResponse
     {
 
         $image = null;
         if ($request->input("course_image") != "null") {
-           $image = $request->input("course_image");
+           $image = $request->file("course_image");
         }
 
         return response()->json([
@@ -74,7 +74,7 @@ class CourseController extends Controller
                 $course,
                 $request->input("course_name"),
                 $request->input("course_description"),
-                new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()),
+                !is_null($image) ? new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()) : null,
                 $request->input("lang")
             )
         ]);

@@ -4,10 +4,12 @@ namespace App\Modules\Reviews\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseStart;
+use App\Modules\CourseStart\Services\ICourseStartService;
 use App\Modules\Reviews\Requests\UpdateCourseReviewRequest;
 use App\Modules\Reviews\Services\IReviewsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ReviewController extends Controller
 {
@@ -17,8 +19,14 @@ class ReviewController extends Controller
      */
     private IReviewsService $reviewsService;
 
-    public function __construct(IReviewsService $reviewsService) {
-        $this->reviewsService = $reviewsService;
+    /**
+     * @var ICourseStartService
+     */
+    private ICourseStartService $courseStartService;
+
+    public function __construct(IReviewsService $reviewsService, ICourseStartService $courseStartService) {
+        $this->reviewsService     = $reviewsService;
+        $this->courseStartService = $courseStartService;
     }
 
     /**
@@ -62,6 +70,10 @@ class ReviewController extends Controller
         return response()->json(["data" => $this->reviewsService->getUserReviewsForCourse($course, Auth::id())]);
     }
 
+    /**
+     * @param string $course
+     * @return mixed
+     */
     public function allCourseReviews(string $course) {
         return CourseStart::where("course_id", $course)
             ->whereNotNull("user_course_started_review_text")
@@ -73,12 +85,12 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param CourseStart $courseStart
+     * @param $courseStartId
      * @return JsonResponse
      */
-    public function destroy(CourseStart $courseStart): JsonResponse
+    public function destroy($courseStartId): JsonResponse
     {
-        return response()->json(["data" => $this->reviewsService->removeReview($courseStart)]);
+        return response()->json(["data" => $this->reviewsService->removeReview($this->courseStartService->getCourseStartById($courseStartId))]);
     }
 
 }

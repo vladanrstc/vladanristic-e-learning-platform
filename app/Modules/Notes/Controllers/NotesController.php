@@ -4,6 +4,7 @@ namespace App\Modules\Notes\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseStart;
+use App\Modules\CourseStart\Services\ICourseStartService;
 use App\Modules\Notes\Requests\UpdateCourseNoteRequest;
 use App\Modules\Notes\Services\INotesService;
 use Illuminate\Http\JsonResponse;
@@ -17,8 +18,14 @@ class NotesController extends Controller
      */
     private INotesService $notesService;
 
-    public function __construct(INotesService $notesService) {
-        $this->notesService = $notesService;
+    /**
+     * @var ICourseStartService
+     */
+    private ICourseStartService $courseStartService;
+
+    public function __construct(INotesService $notesService, ICourseStartService $courseStartService) {
+        $this->notesService       = $notesService;
+        $this->courseStartService = $courseStartService;
     }
 
     /**
@@ -53,12 +60,12 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param CourseStart $courseStart
+     * @param $courseStart
      * @return JsonResponse
      */
-    public function destroy(CourseStart $courseStart): JsonResponse
+    public function destroy($courseStart): JsonResponse
     {
-        return response()->json(["data" => $this->notesService->removeCourseStartedNote($courseStart)]);
+        return response()->json(["data" => $this->notesService->removeCourseStartedNote($this->courseStartService->getCourseStartById($courseStart))]);
     }
 
 }

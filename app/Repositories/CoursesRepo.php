@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTOs\FileDTO;
 use App\Enums\Modules;
+use App\Exceptions\FileStorageException;
 use App\Models\Course;
 use App\Models\CourseStart;
 use App\Models\Lesson;
@@ -50,6 +51,7 @@ class CoursesRepo implements ICoursesRepo {
      * @param null $courseImage
      * @param string $lang
      * @return Course
+     * @throws FileStorageException
      */
     public function updateCourse(Course $course, string $courseName, string $courseDescription, $courseImage = null, string $lang): Course {
 
@@ -57,7 +59,7 @@ class CoursesRepo implements ICoursesRepo {
         $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
         if (!is_null($courseImage)) {
-            $course->{Course::courseImage()} = $courseImage->store('course_photos', 'public');
+            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value, "images");
         }
 
         $course->save();
