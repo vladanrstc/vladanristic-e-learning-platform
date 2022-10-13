@@ -23,7 +23,8 @@ class CourseController extends Controller
      */
     private ICourseService|CourseService $courseService;
 
-    public function __construct(CourseService $courseService) {
+    public function __construct(CourseService $courseService)
+    {
         $this->courseService = $courseService;
     }
 
@@ -40,7 +41,7 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CourseStoreRequest $request
+     * @param  CourseStoreRequest  $request
      * @return JsonResponse
      */
     public function store(CourseStoreRequest $request): JsonResponse
@@ -49,16 +50,18 @@ class CourseController extends Controller
             "data" => $this->courseService->createCourse(
                 $request->input("course_name"),
                 $request->input("course_description"),
-                new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()),
+                new FileDTO($request->file("course_image")->getClientOriginalName(),
+                    $request->file("course_image")->getContent()),
                 $request->input("lang")
-            )]);
+            )
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param CourseUpdateRequest $request
-     * @param Course $course
+     * @param  CourseUpdateRequest  $request
+     * @param  Course  $course
      * @return JsonResponse
      */
     public function update(CourseUpdateRequest $request, Course $course)//: JsonResponse
@@ -66,7 +69,7 @@ class CourseController extends Controller
 
         $image = null;
         if ($request->input("course_image") != "null") {
-           $image = $request->file("course_image");
+            $image = $request->file("course_image");
         }
 
         return response()->json([
@@ -74,7 +77,8 @@ class CourseController extends Controller
                 $course,
                 $request->input("course_name"),
                 $request->input("course_description"),
-                !is_null($image) ? new FileDTO($request->file("course_image")->getClientOriginalName(), $request->file("course_image")->getContent()) : null,
+                !is_null($image) ? new FileDTO($request->file("course_image")->getClientOriginalName(),
+                    $request->file("course_image")->getContent()) : null,
                 $request->input("lang")
             )
         ]);
@@ -84,20 +88,20 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Course $course
+     * @param  Course  $course
      * @return JsonResponse
      * @throws MessageTranslationNotFoundException
      */
     public function destroy(Course $course): JsonResponse
     {
-        if($this->courseService->deleteCourse($course)) {
+        if ($this->courseService->deleteCourse($course)) {
             return response()->json(["message" => LangHelper::getMessage("course_deleted", Modules::COURSE)]);
         }
         return response()->json(["message" => LangHelper::getMessage("course_delete_error", Modules::COURSE)]);
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return JsonResponse
      */
     public function courseDetails(string $courseSlug): JsonResponse

@@ -2,7 +2,9 @@
 
 namespace App\Modules\Stats\Services;
 
-interface IStatsService {
+interface IStatsService
+{
     public function getAppStats(): array;
+
     public function getLastThreeVideos(): array;
 }

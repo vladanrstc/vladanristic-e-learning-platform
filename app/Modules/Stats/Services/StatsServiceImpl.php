@@ -13,30 +13,32 @@ use App\Repositories\ILogsRepo;
 use Illuminate\Support\Carbon;
 use JetBrains\PhpStorm\ArrayShape;
 
-class StatsServiceImpl implements IStatsService {
+class StatsServiceImpl implements IStatsService
+{
 
     /**
      * @var ILogsRepo
      */
     private ILogsRepo $logsRepo;
 
-    public function __construct(ILogsRepo $logsRepo) {
+    public function __construct(ILogsRepo $logsRepo)
+    {
         $this->logsRepo = $logsRepo;
     }
 
     #[ArrayShape([
-        "users"               => "mixed",
-        "tests"               => "mixed",
-        "sections"            => "mixed",
-        "lessons"             => "mixed",
-        "courses"             => "mixed",
-        "latest_user"         => "string",
-        "latest_course"       => "string",
-        "latest_section"      => "string",
-        "latest_lesson"       => "string",
-        "latest_test"         => "string",
-        "latest_enrollment"   => "string",
-        "courses_started"     => "mixed",
+        "users" => "mixed",
+        "tests" => "mixed",
+        "sections" => "mixed",
+        "lessons" => "mixed",
+        "courses" => "mixed",
+        "latest_user" => "string",
+        "latest_course" => "string",
+        "latest_section" => "string",
+        "latest_lesson" => "string",
+        "latest_test" => "string",
+        "latest_enrollment" => "string",
+        "courses_started" => "mixed",
         "num_of_monthly_logs" => "array"
     ])]
     public function getAppStats(): array
@@ -57,25 +59,36 @@ class StatsServiceImpl implements IStatsService {
             'Dec' => 0
         ];
 
-        $logs = $this->logsRepo->getYearLogsPerTypeForPastYear(LogTypes::USER_LOGGED_IN->value)?->countBy(function($log) {
+        $logs = $this->logsRepo->getYearLogsPerTypeForPastYear(LogTypes::USER_LOGGED_IN->value)?->countBy(function ($log
+        ) {
             return Carbon::parse($log->created_at)->format('M');
         })->toArray();
 
         return [
-            "users"               => User::count(),
-            "tests"               => Test::count(),
-            "sections"            => Section::count(),
-            "lessons"             => Lesson::count(),
-            "courses"             => Course::count(),
-            "courses_started"     => CourseStart::count(),
-            "latest_user"         => $this->formatStatOutput(User::orderBy("created_at", "DESC")->first()?->only([User::name(), User::lastName()])),
-            "latest_course"       => $this->formatStatOutput(array(Course::orderBy("created_at", "DESC")->first()?->getTranslation(Course::courseName(), "sr"))),
-            "latest_section"      => $this->formatStatOutput(Section::orderBy("created_at", "DESC")->first()?->only([Section::sectionName()])),
-            "latest_lesson"       => $this->formatStatOutput(Lesson::orderBy("created_at", "DESC")->first()?->only([Lesson::lessonTitle()])),
-            "latest_test"         => $this->formatStatOutput(array(Test::orderBy("created_at", "DESC")->first()?->getTranslation(Test::testName(), "sr"))),
-            "latest_enrollment"   => CourseStart::orderBy("created_at", "DESC")->limit(1)->get()?->map(function(CourseStart $enrollement) {
+            "users" => User::count(),
+            "tests" => Test::count(),
+            "sections" => Section::count(),
+            "lessons" => Lesson::count(),
+            "courses" => Course::count(),
+            "courses_started" => CourseStart::count(),
+            "latest_user" => $this->formatStatOutput(User::orderBy("created_at", "DESC")->first()?->only([
+                User::name(), User::lastName()
+            ])),
+            "latest_course" => $this->formatStatOutput(array(
+                Course::orderBy("created_at", "DESC")->first()?->getTranslation(Course::courseName(), "sr")
+            )),
+            "latest_section" => $this->formatStatOutput(Section::orderBy("created_at",
+                "DESC")->first()?->only([Section::sectionName()])),
+            "latest_lesson" => $this->formatStatOutput(Lesson::orderBy("created_at",
+                "DESC")->first()?->only([Lesson::lessonTitle()])),
+            "latest_test" => $this->formatStatOutput(array(
+                Test::orderBy("created_at", "DESC")->first()?->getTranslation(Test::testName(), "sr")
+            )),
+            "latest_enrollment" => CourseStart::orderBy("created_at", "DESC")->limit(1)->get()?->map(function (
+                CourseStart $enrollement
+            ) {
                 return $this->formatStatOutput($enrollement->user()->first()->only([User::name(), User::lastName()]))
-                    . ", " .
+                    .", ".
                     $this->formatStatOutput($enrollement->course()->first()->only([Course::courseName()]));
             })[0],
             "num_of_monthly_logs" => array_values(array_merge($numOfLogsPerMonth, $logs))
@@ -94,10 +107,11 @@ class StatsServiceImpl implements IStatsService {
     }
 
     /**
-     * @param array $values
+     * @param  array  $values
      * @return string
      */
-    private function formatStatOutput(array $values) {
+    private function formatStatOutput(array $values)
+    {
         return implode(" ", array_values($values));
     }
 

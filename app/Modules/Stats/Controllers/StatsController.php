@@ -14,21 +14,24 @@ class StatsController extends Controller
      */
     private IStatsService $statsService;
 
-    public function __construct(IStatsService $statsService) {
+    public function __construct(IStatsService $statsService)
+    {
         $this->statsService = $statsService;
     }
 
     /**
      * @return JsonResponse
      */
-    public function generalStats(): JsonResponse {
+    public function generalStats(): JsonResponse
+    {
         return response()->json(["data" => $this->statsService->getAppStats()]);
     }
 
     /**
      * @return JsonResponse
      */
-    public function lastThreeVideos(): JsonResponse {
+    public function lastThreeVideos(): JsonResponse
+    {
         return response()->json(["data" => $this->statsService->getLastThreeVideos()]);
     }
 

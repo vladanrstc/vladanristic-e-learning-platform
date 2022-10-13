@@ -11,22 +11,26 @@ use Spatie\Translatable\HasTranslations;
 class Lesson extends Model
 {
     use HasTranslations, LessonAttributes;
+
     public $translatable = ['lesson_title', 'lesson_description', 'lesson_practice', 'lesson_video_link'];
 
-    protected $table      = 'lessons';
+    protected $table = 'lessons';
     protected $primaryKey = 'lesson_id';
-    protected $guarded    = [];
-    protected $appends    = ['lesson_completed'];
+    protected $guarded = [];
+    protected $appends = ['lesson_completed'];
 
-    public function lessonsCompleted() {
+    public function lessonsCompleted()
+    {
         return $this->hasMany(LessonCompleted::class, "lesson_completed_id");
     }
 
-    public function section() {
+    public function section()
+    {
         return $this->belongsTo(Section::class, 'section_id');
     }
 
-    public function test() {
+    public function test()
+    {
         return $this->belongsTo(Test::class, 'lesson_test_id');
     }
 
@@ -35,23 +39,24 @@ class Lesson extends Model
         return $this->getLessonCompleted();
     }
 
-    public function getLessonCompleted() {
+    public function getLessonCompleted()
+    {
 
         $section = Section::where("section_id", $this->lesson_section_id)->first();
-        $course = Course::where("course_id", $section->section_course_id)->first();
+        $course  = Course::where("course_id", $section->section_course_id)->first();
 
         $course_started = CourseStart::where("course_id", $course->course_id)
             ->where("user_id", Auth::id())
             ->first();
 
-        if($course_started == null) {
+        if ($course_started == null) {
             return false;
         }
 
         $lesson_completed = LessonCompleted::where("lesson_id", $this->lesson_id)
             ->where("course_started_id", $course_started->user_course_started_id)->first();
 
-        if($lesson_completed != null) {
+        if ($lesson_completed != null) {
             return true;
         } else {
             return false;

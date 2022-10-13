@@ -21,20 +21,21 @@ class CourseService implements ICourseService
     private ICoursesRepo $coursesRepo;
 
     /**
-     * @param CoursesRepo $coursesRepo
+     * @param  CoursesRepo  $coursesRepo
      */
-    public function __construct(CoursesRepo $coursesRepo) {
+    public function __construct(CoursesRepo $coursesRepo)
+    {
         $this->coursesRepo = $coursesRepo;
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return Course|null
      * @throws CourseNotFoundException
      */
     public function getCourseDetailsByCourseSlug(string $courseSlug): Course|null
     {
-        if(!is_null($course = $this->coursesRepo->getCourseForSlug($courseSlug))) {
+        if (!is_null($course = $this->coursesRepo->getCourseForSlug($courseSlug))) {
             return $course;
         }
         throw new CourseNotFoundException();
@@ -49,7 +50,7 @@ class CourseService implements ICourseService
     }
 
     /**
-     * @param Course $course
+     * @param  Course  $course
      * @return bool
      */
     public function deleteCourse(Course $course): bool
@@ -63,13 +64,18 @@ class CourseService implements ICourseService
     }
 
     /**
-     * @param string $courseName
-     * @param string $courseDescription
-     * @param FileDTO|null $courseImage
-     * @param string $lang
+     * @param  string  $courseName
+     * @param  string  $courseDescription
+     * @param  FileDTO|null  $courseImage
+     * @param  string  $lang
      * @return Course|bool
      */
-    public function createCourse(string $courseName, string $courseDescription, FileDTO $courseImage = null, string $lang): Course|bool {
+    public function createCourse(
+        string $courseName,
+        string $courseDescription,
+        FileDTO $courseImage = null,
+        string $lang
+    ): Course|bool {
         try {
             return $this->coursesRepo->createCourse(
                 $courseName,
@@ -83,14 +89,20 @@ class CourseService implements ICourseService
     }
 
     /**
-     * @param Course $course
-     * @param string $courseName
-     * @param string $courseDescription
-     * @param FileDTO|null $courseImage
-     * @param string $lang
+     * @param  Course  $course
+     * @param  string  $courseName
+     * @param  string  $courseDescription
+     * @param  FileDTO|null  $courseImage
+     * @param  string  $lang
      * @return Course|bool
      */
-    public function updateCourse(Course $course, string $courseName, string $courseDescription, FileDTO $courseImage = null, string $lang): Course|bool {
+    public function updateCourse(
+        Course $course,
+        string $courseName,
+        string $courseDescription,
+        FileDTO $courseImage = null,
+        string $lang
+    ): Course|bool {
         try {
             return $this->coursesRepo->updateCourse($course, $courseName, $courseDescription, $courseImage, $lang);
         } catch (Exception $exception) {

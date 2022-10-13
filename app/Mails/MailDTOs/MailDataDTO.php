@@ -2,13 +2,14 @@
 
 namespace App\Mails\MailDTOs;
 
-class MailDataDTO {
+class MailDataDTO
+{
 
     private string $subject = "";
-    private string $body    = "";
-    private array $to       = [];
-    private array $cc       = [];
-    private array $bcc      = [];
+    private string $body = "";
+    private array $to = [];
+    private array $cc = [];
+    private array $bcc = [];
 
     /**
      * @return string
@@ -19,7 +20,7 @@ class MailDataDTO {
     }
 
     /**
-     * @param string $subject
+     * @param  string  $subject
      */
     public function setSubject(string $subject): void
     {
@@ -35,7 +36,7 @@ class MailDataDTO {
     }
 
     /**
-     * @param string $body
+     * @param  string  $body
      */
     public function setBody(string $body): void
     {
@@ -51,7 +52,7 @@ class MailDataDTO {
     }
 
     /**
-     * @param array $to
+     * @param  array  $to
      */
     public function setTo(array $to): void
     {
@@ -67,7 +68,7 @@ class MailDataDTO {
     }
 
     /**
-     * @param array $cc
+     * @param  array  $cc
      */
     public function setCc(array $cc): void
     {
@@ -83,7 +84,7 @@ class MailDataDTO {
     }
 
     /**
-     * @param array $bcc
+     * @param  array  $bcc
      */
     public function setBcc(array $bcc): void
     {
@@ -91,23 +92,26 @@ class MailDataDTO {
     }
 
     /**
-     * @param string $toEmail
+     * @param  string  $toEmail
      */
-    public function addTo(string $toEmail) {
+    public function addTo(string $toEmail)
+    {
         $this->to[] = $toEmail;
     }
 
     /**
-     * @param string $ccEmail
+     * @param  string  $ccEmail
      */
-    public function addCC(string $ccEmail) {
+    public function addCC(string $ccEmail)
+    {
         $this->to[] = $ccEmail;
     }
 
     /**
-     * @param string $bccEmail
+     * @param  string  $bccEmail
      */
-    public function addBCC(string $bccEmail) {
+    public function addBCC(string $bccEmail)
+    {
         $this->to[] = $bccEmail;
     }
 

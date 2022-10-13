@@ -24,24 +24,26 @@ class LoginServiceImpl implements ILoginService
     private ILogsRepo $logsRepo;
 
     /**
-     * @param UsersRepo $usersRepo
-     * @param ILogsRepo $logsRepo
+     * @param  UsersRepo  $usersRepo
+     * @param  ILogsRepo  $logsRepo
      */
-    public function __construct(IUsersRepo $usersRepo, ILogsRepo $logsRepo) {
+    public function __construct(IUsersRepo $usersRepo, ILogsRepo $logsRepo)
+    {
         $this->usersRepo = $usersRepo;
         $this->logsRepo  = $logsRepo;
     }
 
     /**
-     * @param array $loginParams
+     * @param  array  $loginParams
      * @return bool|array
      */
-    public function login(array $loginParams): bool|array {
+    public function login(array $loginParams): bool|array
+    {
 
-        if(Auth::attempt($loginParams)) {
+        if (Auth::attempt($loginParams)) {
             // Creating a token with scopes
-            $user  = $this->usersRepo->getUserByEmail($loginParams['email']);
-            $role  = $user->{User::role()};
+            $user = $this->usersRepo->getUserByEmail($loginParams['email']);
+            $role = $user->{User::role()};
 
             $token = $user->createToken('My Token', [strtolower($role)])->accessToken;
 
@@ -50,9 +52,9 @@ class LoginServiceImpl implements ILoginService
             ]);
 
             return [
-                "user"  => $user,
+                "user" => $user,
                 "token" => $token,
-                "role"  => $role
+                "role" => $role
             ];
         }
 

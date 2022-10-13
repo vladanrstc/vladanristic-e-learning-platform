@@ -17,18 +17,19 @@ class UserServiceImpl implements IUserService
      */
     private IUsersRepo $usersRepo;
 
-    public function __construct(UsersRepo $usersRepo) {
+    public function __construct(UsersRepo $usersRepo)
+    {
         $this->usersRepo = $usersRepo;
     }
 
     /**
-     * @param array $userData
+     * @param  array  $userData
      * @return User
      * @throws UserAlreadyExistsException
      */
     public function createUser(array $userData): User
     {
-        if(!is_null($this->usersRepo->getUserByEmail($userData['email']))) {
+        if (!is_null($this->usersRepo->getUserByEmail($userData['email']))) {
             throw new UserAlreadyExistsException($userData['email']);
         }
 
@@ -45,15 +46,15 @@ class UserServiceImpl implements IUserService
     }
 
     /**
-     * @param array $userDataToUpdate
-     * @param User $user
+     * @param  array  $userDataToUpdate
+     * @param  User  $user
      * @return User
      * @throws UserUpdateFailedException
      */
     public function updateUser(array $userDataToUpdate, User $user): User
     {
 
-        if(isset($userDataToUpdate['password']) && $userDataToUpdate['password'] != '') {
+        if (isset($userDataToUpdate['password']) && $userDataToUpdate['password'] != '') {
             $userDataToUpdate['password'] = bcrypt($userDataToUpdate['password']);
         } else {
             unset($userDataToUpdate['password']);
@@ -64,7 +65,7 @@ class UserServiceImpl implements IUserService
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return bool
      * @throws UserPermanentDeleteException
      */
@@ -74,7 +75,7 @@ class UserServiceImpl implements IUserService
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return bool
      */
     public function unbanUser(int $userId): bool

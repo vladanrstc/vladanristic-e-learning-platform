@@ -6,7 +6,8 @@ use App\Models\CourseStart;
 use App\Repositories\ICourseStartRepo;
 use Illuminate\Support\Collection;
 
-class NotesServiceImpl implements INotesService {
+class NotesServiceImpl implements INotesService
+{
 
     /**
      * @var ICourseStartRepo
@@ -14,15 +15,16 @@ class NotesServiceImpl implements INotesService {
     private ICourseStartRepo $courseStartRepo;
 
     /**
-     * @param ICourseStartRepo $courseStartRepo
+     * @param  ICourseStartRepo  $courseStartRepo
      */
-    public function __construct(ICourseStartRepo $courseStartRepo) {
+    public function __construct(ICourseStartRepo $courseStartRepo)
+    {
         $this->courseStartRepo = $courseStartRepo;
     }
 
     /**
-     * @param string $courseSlug
-     * @param int $userId
+     * @param  string  $courseSlug
+     * @param  int  $userId
      * @return CourseStart|null
      */
     public function getUserNotesForCourse(string $courseSlug, int $userId): CourseStart|null
@@ -31,9 +33,9 @@ class NotesServiceImpl implements INotesService {
     }
 
     /**
-     * @param string $courseSlug
-     * @param string $notes
-     * @param int $userId
+     * @param  string  $courseSlug
+     * @param  string  $notes
+     * @param  int  $userId
      * @return CourseStart
      */
     public function updateUserCourseStartedNotes(string $courseSlug, string $notes, int $userId): CourseStart
@@ -45,7 +47,7 @@ class NotesServiceImpl implements INotesService {
     }
 
     /**
-     * @param CourseStart $courseStart
+     * @param  CourseStart  $courseStart
      * @return CourseStart
      */
     public function removeCourseStartedNote(CourseStart $courseStart): CourseStart
@@ -54,7 +56,7 @@ class NotesServiceImpl implements INotesService {
     }
 
     /**
-     * @param string $courseId
+     * @param  string  $courseId
      * @return Collection|null
      */
     public function getNotesForCourse(string $courseId): CourseStart|null

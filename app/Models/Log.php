@@ -9,7 +9,7 @@ class Log extends Model
 {
     use LogAttributes;
 
-    protected $table   = 'logs';
+    protected $table = 'logs';
     protected $guarded = [];
 
 }

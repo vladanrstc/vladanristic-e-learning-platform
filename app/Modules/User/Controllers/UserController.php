@@ -38,7 +38,8 @@ class UserController extends Controller
      */
     private IUsersRepo $usersRepo;
 
-    public function __construct(UserServiceImpl $userServiceImpl, UsersRepo $usersRepo) {
+    public function __construct(UserServiceImpl $userServiceImpl, UsersRepo $usersRepo)
+    {
         $this->userService = $userServiceImpl;
         $this->usersRepo   = $usersRepo;
     }
@@ -46,14 +47,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      */
     public function index(Request $request)
     {
         $param = $request->get('q');
 
         if ($param != null) {
-            return User::where("email", 'like', '%' . $param . '%')
+            return User::where("email", 'like', '%'.$param.'%')
                 ->where(User::role(), Roles::USER->name)
                 ->paginate(10);
         } else {
@@ -65,7 +66,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateUserRequest $userRequest
+     * @param  CreateUserRequest  $userRequest
      * @return JsonResponse
      * @throws UserAlreadyExistsException
      */
@@ -77,8 +78,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateUserRequest $updateUserRequest
-     * @param User $user
+     * @param  UpdateUserRequest  $updateUserRequest
+     * @param  User  $user
      * @return JsonResponse
      * @throws UserUpdateFailedException
      */
@@ -101,12 +102,13 @@ class UserController extends Controller
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return JsonResponse
      * @throws MessageTranslationNotFoundException
      * @throws BanUserException
      */
-    public function banUser(User $user) {
+    public function banUser(User $user)
+    {
         $this->usersRepo->banUser($user);
         return response()->json(["message" => LangHelper::getMessage("banned_user", Modules::USER)]);
     }
@@ -139,15 +141,17 @@ class UserController extends Controller
     }
 
     /**
-     * @param UpdateLoggedUserRequest $request
+     * @param  UpdateLoggedUserRequest  $request
      * @return JsonResponse
      * @throws UserUpdateFailedException
      */
     public function updateLoggedUser(UpdateLoggedUserRequest $request): JsonResponse
     {
-        return response()->json(['data' => $this->userService->updateUser($request->except([
-            "current_password", "password_repeat"
-        ]), Auth::user())]);
+        return response()->json([
+            'data' => $this->userService->updateUser($request->except([
+                "current_password", "password_repeat"
+            ]), Auth::user())
+        ]);
     }
 
 }

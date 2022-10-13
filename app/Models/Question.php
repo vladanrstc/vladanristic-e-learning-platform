@@ -10,6 +10,7 @@ use Spatie\Translatable\HasTranslations;
 class Question extends Model
 {
     use HasTranslations, QuestionAttributes;
+
     public $translatable = ['question_text'];
 
     protected $table = 'questions';
@@ -17,30 +18,34 @@ class Question extends Model
     protected $guarded = [];
     protected $appends = ["question_type"];
 
-    public function answers() {
+    public function answers()
+    {
         return $this->hasMany(Answer::class, 'question_id');
     }
 
-    public function test() {
+    public function test()
+    {
         return $this->belongsTo(Test::class, "question_id");
     }
 
-    public function getQuestionTypeAttribute() {
+    public function getQuestionTypeAttribute()
+    {
         return $this->getQuestionType();
     }
 
-    public function getQuestionType() {
+    public function getQuestionType()
+    {
 
         $answers = Answer::where("question_id", $this->question_id)->get();
         $trigger = 0;
         foreach ($answers as $answer) {
 
-            if($answer->answer_true == 1) {
+            if ($answer->answer_true == 1) {
                 $trigger++;
             }
 
         }
-        if($trigger == 1) {
+        if ($trigger == 1) {
             return "single";
         } else {
             return "multiple";

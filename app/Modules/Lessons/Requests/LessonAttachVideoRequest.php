@@ -16,8 +16,8 @@ class LessonAttachVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            'lang'              => 'required|max:255|min:3',
-            'lesson_id'         => 'required|max:255|min:3',
+            'lang' => 'required|max:255|min:3',
+            'lesson_id' => 'required|max:255|min:3',
             'lesson_video_link' => 'required',
         ];
     }

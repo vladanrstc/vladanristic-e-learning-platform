@@ -10,17 +10,20 @@ class Section extends Model
 {
 
     use HasTranslations, SectionAttributes;
+
     public $translatable = ['section_name'];
 
-    protected $table      = 'sections';
+    protected $table = 'sections';
     protected $primaryKey = 'section_id';
-    protected $guarded    = [];
+    protected $guarded = [];
 
-    public function lessons() {
+    public function lessons()
+    {
         return $this->hasMany(Lesson::class, "lesson_section_id");
     }
 
-    public function course() {
+    public function course()
+    {
         return $this->belongsTo(Course::class, 'course_id');
     }
 

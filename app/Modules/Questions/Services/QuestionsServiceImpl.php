@@ -5,7 +5,8 @@ namespace App\Modules\Questions\Services;
 use App\Models\Question;
 use App\Repositories\IQuestionsRepo;
 
-class QuestionsServiceImpl implements IQuestionsService {
+class QuestionsServiceImpl implements IQuestionsService
+{
 
     /**
      * @var IQuestionsRepo
@@ -13,26 +14,28 @@ class QuestionsServiceImpl implements IQuestionsService {
     private IQuestionsRepo $questionsRepo;
 
     /**
-     * @param IQuestionsRepo $questionsRepo
+     * @param  IQuestionsRepo  $questionsRepo
      */
-    public function __construct(IQuestionsRepo $questionsRepo) {
+    public function __construct(IQuestionsRepo $questionsRepo)
+    {
         $this->questionsRepo = $questionsRepo;
     }
 
     /**
-     * @param string $questionText
-     * @param int $testId
-     * @param string $lang
+     * @param  string  $questionText
+     * @param  int  $testId
+     * @param  string  $lang
      * @return Question
      */
-    public function createQuestion(string $questionText, int $testId, string $lang): Question {
+    public function createQuestion(string $questionText, int $testId, string $lang): Question
+    {
         return $this->questionsRepo->createQuestion($questionText, $testId, $lang);
     }
 
     /**
-     * @param string $questionText
-     * @param string $lang
-     * @param Question $question
+     * @param  string  $questionText
+     * @param  string  $lang
+     * @param  Question  $question
      * @return Question
      */
     public function updateQuestion(string $questionText, string $lang, Question $question): Question
@@ -41,7 +44,7 @@ class QuestionsServiceImpl implements IQuestionsService {
     }
 
     /**
-     * @param Question $question
+     * @param  Question  $question
      * @return bool
      */
     public function deleteQuestion(Question $question): bool

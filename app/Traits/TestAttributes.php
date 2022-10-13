@@ -2,17 +2,21 @@
 
 namespace App\Traits;
 
-trait TestAttributes {
+trait TestAttributes
+{
 
-    public static function testId() {
+    public static function testId()
+    {
         return "test_id";
     }
 
-    public static function testName() {
+    public static function testName()
+    {
         return "test_name";
     }
 
-    public static function testDescription() {
+    public static function testDescription()
+    {
         return "test_description";
     }
 

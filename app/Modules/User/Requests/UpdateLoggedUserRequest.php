@@ -15,12 +15,12 @@ class UpdateLoggedUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required|max:255|min:3',
-            'last_name'         => 'required|max:255|min:3',
-            'email'             => 'required|email|max:255|min:3',
-            'current_password'  => 'nullable|current_password:api',
-            'password'          => 'nullable',
-            'password_repeat'   => 'nullable|same:password',
+            'name' => 'required|max:255|min:3',
+            'last_name' => 'required|max:255|min:3',
+            'email' => 'required|email|max:255|min:3',
+            'current_password' => 'nullable|current_password:api',
+            'password' => 'nullable',
+            'password_repeat' => 'nullable|same:password',
 
         ];
     }

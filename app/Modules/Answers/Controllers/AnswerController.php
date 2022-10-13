@@ -17,43 +17,48 @@ class AnswerController extends Controller
     private IAnswersService $answersService;
 
     /**
-     * @param IAnswersService $answersService
+     * @param  IAnswersService  $answersService
      */
-    public function __construct(IAnswersService $answersService) {
+    public function __construct(IAnswersService $answersService)
+    {
         $this->answersService = $answersService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AnswerUpdateRequest $request
+     * @param  AnswerUpdateRequest  $request
      * @return JsonResponse
      */
     public function store(AnswerUpdateRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->answersService->createAnswer(
-            $request->input("answer_text")[$request->input("lang")],
-            $request->input("question"),
-            $request->input("answer_true"),
-            $request->input("lang")
-        )]);
+        return response()->json([
+            "data" => $this->answersService->createAnswer(
+                $request->input("answer_text")[$request->input("lang")],
+                $request->input("question"),
+                $request->input("answer_true"),
+                $request->input("lang")
+            )
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param AnswerUpdateRequest $request
-     * @param Answer $answer
+     * @param  AnswerUpdateRequest  $request
+     * @param  Answer  $answer
      * @return JsonResponse
      */
     public function update(AnswerUpdateRequest $request, Answer $answer)
     {
-        return response()->json(["data" => $this->answersService->updateAnswer(
-            $request->input("answer_text")[$request->input("lang")],
-            $request->input("answer_true"),
-            $request->input("lang"),
-            $answer
-        )]);
+        return response()->json([
+            "data" => $this->answersService->updateAnswer(
+                $request->input("answer_text")[$request->input("lang")],
+                $request->input("answer_true"),
+                $request->input("lang"),
+                $answer
+            )
+        ]);
     }
 
     /**

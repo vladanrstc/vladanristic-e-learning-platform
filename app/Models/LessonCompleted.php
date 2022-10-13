@@ -11,11 +11,13 @@ class LessonCompleted extends Model
     protected $primaryKey = 'lesson_completed_id';
     protected $guarded = [];
 
-    public function lesson() {
+    public function lesson()
+    {
         return $this->belongsTo(Lesson::class);
     }
 
-    public function course_started() {
+    public function course_started()
+    {
         return $this->belongsTo(CourseStart::class);
     }
 

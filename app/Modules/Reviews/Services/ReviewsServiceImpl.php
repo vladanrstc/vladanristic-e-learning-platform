@@ -6,34 +6,41 @@ use App\Models\CourseStart;
 use App\Repositories\ICourseStartRepo;
 use Illuminate\Support\Collection;
 
-class ReviewsServiceImpl implements IReviewsService {
+class ReviewsServiceImpl implements IReviewsService
+{
 
     /**
      * @var ICourseStartRepo
      */
     private ICourseStartRepo $courseStartRepo;
 
-    public function __construct(ICourseStartRepo $courseStartRepo) {
+    public function __construct(ICourseStartRepo $courseStartRepo)
+    {
         $this->courseStartRepo = $courseStartRepo;
     }
 
     /**
-     * @param string $courseSlug
-     * @param string $reviewText
-     * @param string $reviewMark
-     * @param int $userId
+     * @param  string  $courseSlug
+     * @param  string  $reviewText
+     * @param  string  $reviewMark
+     * @param  int  $userId
      * @return CourseStart
      */
-    public function updateCourseStartReview(string $courseSlug, string $reviewText, string $reviewMark, int $userId): CourseStart {
+    public function updateCourseStartReview(
+        string $courseSlug,
+        string $reviewText,
+        string $reviewMark,
+        int $userId
+    ): CourseStart {
         return $this->courseStartRepo->updateCourseStart([
-            CourseStart::courseStartMark()   => $reviewMark,
+            CourseStart::courseStartMark() => $reviewMark,
             CourseStart::courseStartReview() => $reviewText
         ], $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId));
     }
 
     /**
-     * @param string $courseSlug
-     * @param int $userId
+     * @param  string  $courseSlug
+     * @param  int  $userId
      * @return CourseStart|null
      */
     public function getUserReviewsForCourse(string $courseSlug, int $userId): CourseStart|null
@@ -42,19 +49,19 @@ class ReviewsServiceImpl implements IReviewsService {
     }
 
     /**
-     * @param CourseStart $courseStart
+     * @param  CourseStart  $courseStart
      * @return CourseStart
      */
     public function removeReview(CourseStart $courseStart): CourseStart
     {
         return $this->courseStartRepo->updateCourseStart([
             CourseStart::courseStartReview() => null,
-            CourseStart::courseStartMark()   => null
+            CourseStart::courseStartMark() => null
         ], $courseStart);
     }
 
     /**
-     * @param int $courseId
+     * @param  int  $courseId
      * @return Collection|null
      */
     public function getCourseReviewMarks(int $courseId): Collection|null
@@ -63,10 +70,10 @@ class ReviewsServiceImpl implements IReviewsService {
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return Collection|null
      */
-    public function getCourseReviews(string $courseSlug) : Collection|null
+    public function getCourseReviews(string $courseSlug): Collection|null
     {
         return $this->courseStartRepo->getCourseReviews($courseSlug);
     }

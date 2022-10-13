@@ -18,41 +18,45 @@ class QuestionController extends Controller
     private IQuestionsService $questionsService;
 
     /**
-     * @param IQuestionsService $questionsService
+     * @param  IQuestionsService  $questionsService
      */
-    public function __construct(IQuestionsService $questionsService) {
+    public function __construct(IQuestionsService $questionsService)
+    {
         $this->questionsService = $questionsService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param QuestionStoreRequest $request
+     * @param  QuestionStoreRequest  $request
      * @return JsonResponse
      */
     public function store(QuestionStoreRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->questionsService->createQuestion(
-            $request->input("question_text")[$request->input("lang")],
-            $request->input("test"),
-            $request->input("lang"))
+        return response()->json([
+            "data" => $this->questionsService->createQuestion(
+                $request->input("question_text")[$request->input("lang")],
+                $request->input("test"),
+                $request->input("lang"))
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param QuestionUpdateRequest $request
-     * @param Question $question
+     * @param  QuestionUpdateRequest  $request
+     * @param  Question  $question
      * @return JsonResponse
      */
     public function update(QuestionUpdateRequest $request, Question $question): JsonResponse
     {
-        return response()->json(["data" => $this->questionsService->updateQuestion(
-            $request->input("question_text")[$request->input("lang")],
-            $request->input("lang"),
-            $question
-        )]);
+        return response()->json([
+            "data" => $this->questionsService->updateQuestion(
+                $request->input("question_text")[$request->input("lang")],
+                $request->input("lang"),
+                $question
+            )
+        ]);
     }
 
     /**

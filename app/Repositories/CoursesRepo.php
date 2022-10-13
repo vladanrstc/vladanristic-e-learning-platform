@@ -15,26 +15,33 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class CoursesRepo implements ICoursesRepo {
+class CoursesRepo implements ICoursesRepo
+{
 
     /**
-     * @param string $courseName
-     * @param string $courseDescription
-     * @param FileDTO $courseImage
-     * @param string $lang
+     * @param  string  $courseName
+     * @param  string  $courseDescription
+     * @param  FileDTO  $courseImage
+     * @param  string  $lang
      * @return Course
      */
-    public function createCourse(string $courseName, string $courseDescription, FileDTO $courseImage, string $lang): Course {
+    public function createCourse(
+        string $courseName,
+        string $courseDescription,
+        FileDTO $courseImage,
+        string $lang
+    ): Course {
 
-        return DB::transaction(function() use($courseName, $courseDescription, $courseImage, $lang) {
+        return DB::transaction(function () use ($courseName, $courseDescription, $courseImage, $lang) {
 
             $course = new Course();
 
             $course->setTranslation(Course::courseName(), $lang, $courseName);
             $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
-            $course->{Course::courseSlug()}  = rand(100, 100000) . "-" . Str::slug($courseName, "-");
-            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value, "images");
+            $course->{Course::courseSlug()} = rand(100, 100000)."-".Str::slug($courseName, "-");
+            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value,
+                "images");
 
             $course->save();
 
@@ -45,21 +52,28 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
-     * @param Course $course
-     * @param string $courseName
-     * @param string $courseDescription
-     * @param null $courseImage
-     * @param string $lang
+     * @param  Course  $course
+     * @param  string  $courseName
+     * @param  string  $courseDescription
+     * @param  null  $courseImage
+     * @param  string  $lang
      * @return Course
      * @throws FileStorageException
      */
-    public function updateCourse(Course $course, string $courseName, string $courseDescription, $courseImage = null, string $lang): Course {
+    public function updateCourse(
+        Course $course,
+        string $courseName,
+        string $courseDescription,
+        $courseImage = null,
+        string $lang
+    ): Course {
 
         $course->setTranslation(Course::courseName(), $lang, $courseName);
         $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
         if (!is_null($courseImage)) {
-            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value, "images");
+            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value,
+                "images");
         }
 
         $course->save();
@@ -68,14 +82,16 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return Course|null
      */
-    public function getCourseForSlug(string $courseSlug): Course|null {
+    public function getCourseForSlug(string $courseSlug): Course|null
+    {
         return Course::where(Course::courseSlug(), $courseSlug)
-            ->with(["sections" => function ($query) {
-                $query->orderBy(Section::sectionOrder(), "ASC");
-            },
+            ->with([
+                "sections" => function ($query) {
+                    $query->orderBy(Section::sectionOrder(), "ASC");
+                },
                 "sections.lessons" => function ($query) {
                     $query->where(Lesson::lessonPublished(), "1")
                         ->orderBy(Lesson::lessonOrder(), "ASC");
@@ -94,19 +110,19 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
-     * @param Course $course
+     * @param  Course  $course
      * @return bool
      */
     public function deleteCourse(Course $course): bool
     {
-        if($course->delete()) {
+        if ($course->delete()) {
             return true;
         }
         return false;
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection|null
      */
     public function getCoursesUserHasntEnrolledIn(int $userId): Collection|null
@@ -119,7 +135,7 @@ class CoursesRepo implements ICoursesRepo {
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection|null
      */
     public function getCoursesUserEnrolledIn(int $userId): Collection|null

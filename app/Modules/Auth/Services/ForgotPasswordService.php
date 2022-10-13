@@ -29,30 +29,31 @@ class ForgotPasswordService implements IForgotPasswordService
     private MailDTOBuilder $mailDTOBuilder;
 
     /**
-     * @param UsersRepo $usersRepo
-     * @param MailDTOBuilder $mailDTOBuilder
+     * @param  UsersRepo  $usersRepo
+     * @param  MailDTOBuilder  $mailDTOBuilder
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder) {
+    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder)
+    {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
     }
 
     /**
-     * @param string $email
+     * @param  string  $email
      * @return bool
      */
     public function sendResetPasswordMail(string $email): bool
     {
 
-        return DB::transaction(function() use($email) {
+        return DB::transaction(function () use ($email) {
 
-            if(!is_null($user = $this->usersRepo->getUserByEmail($email))) {
+            if (!is_null($user = $this->usersRepo->getUserByEmail($email))) {
 
                 $user = $this->usersRepo->updateUser([
                     User::rememberToken() => Str::random(40)
                 ], $user);
 
-                if(!MailHandler::sendMail($this->mailDTOBuilder
+                if (!MailHandler::sendMail($this->mailDTOBuilder
                     ->addTo($user->{User::email()})
                     ->addBody(view("emails.resetPassword", ["user" => $user])->render())
                     ->addSubject(LangHelper::getMessage("reset_password_email_subject", Modules::AUTH))
@@ -71,21 +72,21 @@ class ForgotPasswordService implements IForgotPasswordService
     }
 
     /**
-     * @param string $token
-     * @param string $password
+     * @param  string  $token
+     * @param  string  $password
      * @return User
      * @throws UserUpdateFailedException
      */
     public function updateUserPassword(string $token, string $password): User
     {
         return $this->usersRepo->updateUser([
-            User::password()      => bcrypt($password),
+            User::password() => bcrypt($password),
             User::rememberToken() => null
         ], $this->usersRepo->getUserByToken($token));
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
      * @return User|null
      */
     public function getUserWithToken(string $token): User|null

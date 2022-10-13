@@ -34,8 +34,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::ignoreCsrfToken(true);
 
         Passport::tokensCan([
-            'admin'       => 'Can do anything',
-            'user'        => 'Can\'t do everything',
+            'admin' => 'Can do anything',
+            'user' => 'Can\'t do everything',
             'super-admin' => 'Can\'t do anything+ ',
         ]);
     }

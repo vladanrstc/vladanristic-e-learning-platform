@@ -11,11 +11,12 @@ class CourseStart extends Model
 
     use CourseStartAttributes;
 
-    protected $table      = 'user_courses_started';
+    protected $table = 'user_courses_started';
     protected $primaryKey = 'user_course_started_id';
-    protected $guarded    = [];
+    protected $guarded = [];
 
-    public function lessonsCompleted() {
+    public function lessonsCompleted()
+    {
         return $this->hasMany(LessonCompleted::class);
     }
 

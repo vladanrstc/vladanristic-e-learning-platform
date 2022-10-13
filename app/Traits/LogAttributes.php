@@ -2,13 +2,16 @@
 
 namespace App\Traits;
 
-trait LogAttributes {
+trait LogAttributes
+{
 
-    public static function logData() {
+    public static function logData()
+    {
         return "log_data";
     }
 
-    public static function logType() {
+    public static function logType()
+    {
         return "log_type";
     }
 

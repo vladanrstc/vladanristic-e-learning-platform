@@ -7,7 +7,8 @@ use App\Models\LessonCompleted;
 use App\Repositories\ICourseStartRepo;
 use App\Repositories\ILessonCompletedRepo;
 
-class LessonFinishServiceImpl implements ILessonFinishService {
+class LessonFinishServiceImpl implements ILessonFinishService
+{
 
     /**
      * @var ILessonCompletedRepo
@@ -19,19 +20,21 @@ class LessonFinishServiceImpl implements ILessonFinishService {
      */
     private ICourseStartRepo $courseStartRepo;
 
-    public function __construct(ILessonCompletedRepo $lessonCompletedRepo, ICourseStartRepo $courseStartRepo) {
+    public function __construct(ILessonCompletedRepo $lessonCompletedRepo, ICourseStartRepo $courseStartRepo)
+    {
         $this->lessonCompletedRepo = $lessonCompletedRepo;
         $this->courseStartRepo     = $courseStartRepo;
     }
 
     /**
-     * @param int $lessonId
-     * @param int $userId
+     * @param  int  $lessonId
+     * @param  int  $userId
      * @return LessonCompleted
      */
     public function completeLesson(int $lessonId, int $userId): LessonCompleted
     {
         $courseStarted = $this->courseStartRepo->getCourseStartedForUserAndLessonId($lessonId, $userId);
-        return $this->lessonCompletedRepo->addCompletedLesson($lessonId, $courseStarted->{CourseStart::courseStartedId()});
+        return $this->lessonCompletedRepo->addCompletedLesson($lessonId,
+            $courseStarted->{CourseStart::courseStartedId()});
     }
 }

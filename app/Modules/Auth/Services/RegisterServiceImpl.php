@@ -32,9 +32,10 @@ class RegisterServiceImpl implements IRegisterService
     private $mailDTOBuilder;
 
     /**
-     * @param UsersRepo $usersRepo
+     * @param  UsersRepo  $usersRepo
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder) {
+    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder)
+    {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
     }
@@ -45,9 +46,9 @@ class RegisterServiceImpl implements IRegisterService
     public function registerUser(array $registerParams): User
     {
 
-        return DB::transaction(function () use($registerParams) {
+        return DB::transaction(function () use ($registerParams) {
 
-            if(!is_null($this->usersRepo->getUserByEmail($registerParams['email']))) {
+            if (!is_null($this->usersRepo->getUserByEmail($registerParams['email']))) {
                 throw new UserAlreadyExistsException($registerParams['email']);
             }
 
@@ -63,12 +64,13 @@ class RegisterServiceImpl implements IRegisterService
                 Str::random(50)
             );
 
-            if(!MailHandler::sendMail($this->mailDTOBuilder
+            if (!MailHandler::sendMail($this->mailDTOBuilder
                 ->addTo($user->email)
                 ->addBody(view("emails.verifyUser", ["user" => $user])->render())
                 ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
                 ->build())) {
-                throw new MailNotSentException(str_replace("#{email}", $user->email, Messages::VERIFY_EMAIL_NOT_SENT->value));
+                throw new MailNotSentException(str_replace("#{email}", $user->email,
+                    Messages::VERIFY_EMAIL_NOT_SENT->value));
             }
 
             return $user;
@@ -78,18 +80,19 @@ class RegisterServiceImpl implements IRegisterService
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
      * @return bool
      * @throws UserUpdateFailedException
      */
-    public function verify(string $token): bool {
+    public function verify(string $token): bool
+    {
 
         $user = $this->usersRepo->getNonVerifiedUserByToken($token);
 
-        if(!is_null($user)) {
+        if (!is_null($user)) {
             $this->usersRepo->updateUser([
                 User::emailVerifiedAt() => new \DateTime(),
-                User::rememberToken()   => null
+                User::rememberToken() => null
             ], $user);
 
             return true;

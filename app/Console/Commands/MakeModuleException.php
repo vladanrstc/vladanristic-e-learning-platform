@@ -30,11 +30,11 @@ class MakeModuleException extends Command
     public function handle()
     {
 
-        $DS             = DIRECTORY_SEPARATOR;
-        $moduleName     = ucfirst(strtolower($this->argument('moduleName')));
-        $exceptionName  = ucfirst(strtolower($this->argument('exceptionName')));
+        $DS            = DIRECTORY_SEPARATOR;
+        $moduleName    = ucfirst(strtolower($this->argument('moduleName')));
+        $exceptionName = ucfirst(strtolower($this->argument('exceptionName')));
 
-        File::put(app_path() . $DS . "modules" . $DS . $moduleName . $DS . "Exceptions" . $DS . "{$exceptionName}Exception.php",
+        File::put(app_path().$DS."modules".$DS.$moduleName.$DS."Exceptions".$DS."{$exceptionName}Exception.php",
             FileBlueprint::exceptionBluePrint($moduleName, $exceptionName));
 
         return 0;

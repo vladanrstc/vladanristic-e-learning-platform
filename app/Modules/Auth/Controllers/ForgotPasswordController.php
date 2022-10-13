@@ -26,19 +26,20 @@ class ForgotPasswordController extends Controller
      */
     private IForgotPasswordService $forgotPasswordService;
 
-    public function __construct(ForgotPasswordService $forgotPasswordService) {
+    public function __construct(ForgotPasswordService $forgotPasswordService)
+    {
         $this->forgotPasswordService = $forgotPasswordService;
     }
 
     /**
-     * @param PasswordResetRequest $request
+     * @param  PasswordResetRequest  $request
      * @return JsonResponse
      */
     public function sendResetMail(PasswordResetRequest $request): JsonResponse
     {
 
         try {
-            if($this->forgotPasswordService->sendResetPasswordMail($request->get("email"))) {
+            if ($this->forgotPasswordService->sendResetPasswordMail($request->get("email"))) {
                 return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
             }
             return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
@@ -52,8 +53,9 @@ class ForgotPasswordController extends Controller
      * @param $token
      * @return Application|Factory|View|void
      */
-    public function showForm($token) {
-        if(!is_null($user = $this->forgotPasswordService->getUserWithToken($token))) {
+    public function showForm($token)
+    {
+        if (!is_null($user = $this->forgotPasswordService->getUserWithToken($token))) {
             return view("auth.passwords.reset", ["token" => $token, "lang" => $user->{User::language()}]);
         } else {
             abort(404);
@@ -62,7 +64,7 @@ class ForgotPasswordController extends Controller
     }
 
     /**
-     * @param UpdatePasswordRequest $request
+     * @param  UpdatePasswordRequest  $request
      * @return Application|Factory|View
      * @throws UserUpdateFailedException
      */

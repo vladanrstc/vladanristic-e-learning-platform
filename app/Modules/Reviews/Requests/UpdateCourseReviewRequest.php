@@ -15,9 +15,9 @@ class UpdateCourseReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'course'  => 'required|max:255',
-            'review'  => 'required|max:1024',
-            'rating'  => 'required|max:1024'
+            'course' => 'required|max:255',
+            'review' => 'required|max:1024',
+            'rating' => 'required|max:1024'
         ];
     }
 }

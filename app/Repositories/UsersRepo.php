@@ -9,29 +9,40 @@ use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 
-class UsersRepo implements IUsersRepo {
+class UsersRepo implements IUsersRepo
+{
 
     /**
-     * @param string $email
+     * @param  string  $email
      * @return User|null
      */
-    public function getUserByEmail(string $email): User|null {
+    public function getUserByEmail(string $email): User|null
+    {
         return User::where('email', $email)->first();
     }
 
     /**
-     * @param string $name
-     * @param string $lastName
-     * @param string $email
-     * @param string $password
-     * @param string $language
-     * @param string $role
-     * @param string|null $rememberToken
-     * @param DateTime|null $emailVerifiedAt
+     * @param  string  $name
+     * @param  string  $lastName
+     * @param  string  $email
+     * @param  string  $password
+     * @param  string  $language
+     * @param  string  $role
+     * @param  string|null  $rememberToken
+     * @param  DateTime|null  $emailVerifiedAt
      * @return User
      */
-    public function createUser(string $name, string $lastName, string $email, string $password, string $language, string $role, string $rememberToken = null, DateTime $emailVerifiedAt = null): User {
-        $created_user = new User();
+    public function createUser(
+        string $name,
+        string $lastName,
+        string $email,
+        string $password,
+        string $language,
+        string $role,
+        string $rememberToken = null,
+        DateTime $emailVerifiedAt = null
+    ): User {
+        $created_user                            = new User();
         $created_user->{User::name()}            = $name;
         $created_user->{User::lastName()}        = $lastName;
         $created_user->{User::email()}           = $email;
@@ -45,7 +56,7 @@ class UsersRepo implements IUsersRepo {
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
      * @return User|null
      */
     public function getNonVerifiedUserByToken(string $token): User|null
@@ -56,45 +67,47 @@ class UsersRepo implements IUsersRepo {
     }
 
     /**
-     * @param array $paramsToUpdate
-     * @param User $user
+     * @param  array  $paramsToUpdate
+     * @param  User  $user
      * @return User
      * @throws UserUpdateFailedException
      */
-    public function updateUser(array $paramsToUpdate, User $user): User {
-        if($user->update($paramsToUpdate)) {
+    public function updateUser(array $paramsToUpdate, User $user): User
+    {
+        if ($user->update($paramsToUpdate)) {
             return $user;
         }
         throw new UserUpdateFailedException();
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return bool
      * @throws UserPermanentDeleteException
      */
     public function permanentlyDeleteUser(User $user): bool
     {
-        if($user->forceDelete()) {
+        if ($user->forceDelete()) {
             return true;
         }
         throw new UserPermanentDeleteException();
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return bool
      * @throws BanUserException
      */
-    public function banUser(User $user): bool {
-        if($user->delete()) {
+    public function banUser(User $user): bool
+    {
+        if ($user->delete()) {
             return true;
         }
         throw new BanUserException();
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return User
      */
     public function getTrashedUserById(int $userId): User
@@ -104,7 +117,7 @@ class UsersRepo implements IUsersRepo {
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return User|null
      */
     public function getUserById(int $id): User|null
@@ -113,15 +126,16 @@ class UsersRepo implements IUsersRepo {
     }
 
     /**
-     * @param User $bannedUser
+     * @param  User  $bannedUser
      * @return mixed
      */
-    public function unbanUser(User $bannedUser): bool {
+    public function unbanUser(User $bannedUser): bool
+    {
         return $bannedUser->restore();
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
      * @return User|null
      */
     public function getUserByToken(string $token): User|null

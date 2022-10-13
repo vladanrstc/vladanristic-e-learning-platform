@@ -21,43 +21,48 @@ class TestController extends Controller
     private ITestsService $testsService;
 
     /**
-     * @param ITestsService $testsService
+     * @param  ITestsService  $testsService
      */
-    public function __construct(ITestsService $testsService) {
+    public function __construct(ITestsService $testsService)
+    {
         $this->testsService = $testsService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param TestStoreRequest $request
+     * @param  TestStoreRequest  $request
      * @return JsonResponse
      */
     public function store(TestStoreRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->testsService->createTest(
-            $request->input("test_name")[$request->input("lang")],
-            $request->input("test_description")[$request->input("lang")],
-            $request->input("lesson_id"),
-            $request->input("lang")
-        )]);
+        return response()->json([
+            "data" => $this->testsService->createTest(
+                $request->input("test_name")[$request->input("lang")],
+                $request->input("test_description")[$request->input("lang")],
+                $request->input("lesson_id"),
+                $request->input("lang")
+            )
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param TestUpdateRequest $request
-     * @param Test $test
+     * @param  TestUpdateRequest  $request
+     * @param  Test  $test
      * @return JsonResponse
      */
     public function update(TestUpdateRequest $request, Test $test): JsonResponse
     {
-        return response()->json(["data" => $this->testsService->updateTest(
-            $request->input("test_name")[$request->input("lang")],
-            $request->input("test_description")[$request->input("lang")],
-            $request->input("lang"),
-            $test
-        )]);
+        return response()->json([
+            "data" => $this->testsService->updateTest(
+                $request->input("test_name")[$request->input("lang")],
+                $request->input("test_description")[$request->input("lang")],
+                $request->input("lang"),
+                $test
+            )
+        ]);
     }
 
     /**
@@ -74,7 +79,7 @@ class TestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Test $test
+     * @param  Test  $test
      * @return JsonResponse
      */
     public function destroy(Test $test): JsonResponse
@@ -84,7 +89,7 @@ class TestController extends Controller
     }
 
     /**
-     * @param Test $test
+     * @param  Test  $test
      * @return JsonResponse
      */
     public function testRequirements(Test $test): JsonResponse
@@ -93,7 +98,7 @@ class TestController extends Controller
     }
 
     /**
-     * @param Lesson $lesson
+     * @param  Lesson  $lesson
      * @return JsonResponse
      */
     public function getTestData(Lesson $lesson): JsonResponse
@@ -102,7 +107,7 @@ class TestController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function submitTest(Request $request): JsonResponse

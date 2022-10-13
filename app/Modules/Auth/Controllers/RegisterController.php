@@ -26,14 +26,15 @@ class RegisterController extends Controller
     private IRegisterService $registerService;
 
     /**
-     * @param RegisterServiceImpl $registerService
+     * @param  RegisterServiceImpl  $registerService
      */
-    public function __construct(RegisterServiceImpl $registerService) {
+    public function __construct(RegisterServiceImpl $registerService)
+    {
         $this->registerService = $registerService;
     }
 
     /**
-     * @param RegisterRequest $registerRequest
+     * @param  RegisterRequest  $registerRequest
      * @return JsonResponse
      */
     public function register(RegisterRequest $registerRequest): JsonResponse
@@ -48,14 +49,14 @@ class RegisterController extends Controller
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
      * @return Application|JsonResponse|RedirectResponse|Redirector
      * @throws UserUpdateFailedException|MessageTranslationNotFoundException
      */
     public function verify(string $token): JsonResponse|Redirector|Application|RedirectResponse
     {
-        if($this->registerService->verify($token)) {
-            return redirect(env("APP_FRONTEND_URL") . "/" . $token . "/confirmed");
+        if ($this->registerService->verify($token)) {
+            return redirect(env("APP_FRONTEND_URL")."/".$token."/confirmed");
         }
         return response()->json(["message" => LangHelper::getMessage("email_verification_failed", Modules::AUTH)], 500);
     }

@@ -22,16 +22,17 @@ class LessonsController extends Controller
     private ILessonsService $lessonsService;
 
     /**
-     * @param ILessonsService $lessonsService
+     * @param  ILessonsService  $lessonsService
      */
-    public function __construct(ILessonsService $lessonsService) {
+    public function __construct(ILessonsService $lessonsService)
+    {
         $this->lessonsService = $lessonsService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param LessonStoreRequest $request
+     * @param  LessonStoreRequest  $request
      * @return JsonResponse
      */
     public function store(LessonStoreRequest $request): JsonResponse
@@ -46,14 +47,15 @@ class LessonsController extends Controller
                     $request->file("lesson_practice")->getClientOriginalName(),
                     $request->file("lesson_image")->getContent()) : null,
                 $request->input("lang")
-            )]);
+            )
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param LessonUpdateRequest $request
-     * @param Lesson $lesson
+     * @param  LessonUpdateRequest  $request
+     * @param  Lesson  $lesson
      * @return JsonResponse
      */
     public function update(LessonUpdateRequest $request, Lesson $lesson): JsonResponse
@@ -68,18 +70,19 @@ class LessonsController extends Controller
                     $request->file("lesson_image")->getContent()) : null,
                 $request->input("lang"),
                 $lesson
-            )]);
+            )
+        ]);
     }
 
     /**public function loadSectionLessons(Section $section) {
-        $section->load(["lessons" => function ($query) {
-            $query->orderBy('lesson_order', 'asc');
-        }]);
-        return response()->json($section->lessons, 200);
-    }*/
+     * $section->load(["lessons" => function ($query) {
+     * $query->orderBy('lesson_order', 'asc');
+     * }]);
+     * return response()->json($section->lessons, 200);
+     * }*/
 
     /**
-     * @param ChangeLessonsOrderRequest $request
+     * @param  ChangeLessonsOrderRequest  $request
      * @return JsonResponse
      */
     public function changeLessonsOrder(ChangeLessonsOrderRequest $request): JsonResponse
@@ -88,25 +91,30 @@ class LessonsController extends Controller
     }
 
     /**
-     * @param ToggleLessonPublishedRequest $request
+     * @param  ToggleLessonPublishedRequest  $request
      * @return JsonResponse
      */
     public function toggleLessonPublished(ToggleLessonPublishedRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->lessonsService->toggleLessonPublishedStatus($request->input('lesson_published'), $request->input('lesson_id'))]);
+        return response()->json([
+            "data" => $this->lessonsService->toggleLessonPublishedStatus($request->input('lesson_published'),
+                $request->input('lesson_id'))
+        ]);
     }
 
     /**
-     * @param LessonAttachVideoRequest $request
+     * @param  LessonAttachVideoRequest  $request
      * @return JsonResponse
      */
     public function attachLessonVideo(LessonAttachVideoRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->lessonsService->updateLessonVideoLink(
-            $request->input("lesson_video_link"),
-            $request->input("lesson_id"),
-            $request->input("lang")
-        )]);
+        return response()->json([
+            "data" => $this->lessonsService->updateLessonVideoLink(
+                $request->input("lesson_video_link"),
+                $request->input("lesson_id"),
+                $request->input("lang")
+            )
+        ]);
     }
 
     /**

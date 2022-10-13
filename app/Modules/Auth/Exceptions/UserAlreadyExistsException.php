@@ -12,7 +12,7 @@ class UserAlreadyExistsException extends Exception
     {
 
         $message = "User with email $email already exists";
-        if($email == "") {
+        if ($email == "") {
             $message = "User with email already exists";
         }
 

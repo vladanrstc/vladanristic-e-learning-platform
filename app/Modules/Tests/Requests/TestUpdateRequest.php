@@ -15,9 +15,9 @@ class TestUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'lang'                                        => 'required',
+            'lang' => 'required',
             'test_name.'.$this->request->get("lang") => 'required|max:255|min:3',
-            'test_description'                            => 'required',
+            'test_description' => 'required',
         ];
     }
 }

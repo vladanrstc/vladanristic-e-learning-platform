@@ -15,10 +15,10 @@ class CourseStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'course_name'        => 'required|max:255|min:3',
+            'course_name' => 'required|max:255|min:3',
             'course_description' => 'required|max:1024|min:3',
-            'course_image'       => 'image',
-            'lang'               => 'required'
+            'course_image' => 'image',
+            'lang' => 'required'
         ];
     }
 }

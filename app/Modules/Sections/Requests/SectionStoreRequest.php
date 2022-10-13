@@ -15,8 +15,8 @@ class SectionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'section_name.'. $this->request->get("lang") => 'required|max:255|min:3',
-            'section_course_id'                               => 'required'
+            'section_name.'.$this->request->get("lang") => 'required|max:255|min:3',
+            'section_course_id' => 'required'
         ];
     }
 }

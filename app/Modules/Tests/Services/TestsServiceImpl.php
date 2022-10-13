@@ -11,7 +11,8 @@ use App\Repositories\IQuestionsRepo;
 use App\Repositories\ITestsRepo;
 use Illuminate\Support\Facades\DB;
 
-class TestsServiceImpl implements ITestsService {
+class TestsServiceImpl implements ITestsService
+{
 
     /**
      * @var ITestsRepo
@@ -29,21 +30,22 @@ class TestsServiceImpl implements ITestsService {
     private IQuestionsRepo $questionsRepo;
 
     /**
-     * @param ITestsRepo $testsRepo
-     * @param ILessonsRepo $lessonsRepo
-     * @param IQuestionsRepo $questionsRepo
+     * @param  ITestsRepo  $testsRepo
+     * @param  ILessonsRepo  $lessonsRepo
+     * @param  IQuestionsRepo  $questionsRepo
      */
-    public function __construct(ITestsRepo $testsRepo, ILessonsRepo $lessonsRepo, IQuestionsRepo $questionsRepo) {
+    public function __construct(ITestsRepo $testsRepo, ILessonsRepo $lessonsRepo, IQuestionsRepo $questionsRepo)
+    {
         $this->testsRepo     = $testsRepo;
         $this->lessonsRepo   = $lessonsRepo;
         $this->questionsRepo = $questionsRepo;
     }
 
     /**
-     * @param string $testName
-     * @param string $testDescription
-     * @param int $lessonId
-     * @param string $lang
+     * @param  string  $testName
+     * @param  string  $testDescription
+     * @param  int  $lessonId
+     * @param  string  $lang
      * @return Test
      */
     public function createTest(string $testName, string $testDescription, int $lessonId, string $lang): Test
@@ -52,10 +54,10 @@ class TestsServiceImpl implements ITestsService {
     }
 
     /**
-     * @param string $testName
-     * @param string $testDescription
-     * @param string $lang
-     * @param Test $test
+     * @param  string  $testName
+     * @param  string  $testDescription
+     * @param  string  $lang
+     * @param  Test  $test
      * @return Test
      */
     public function updateTest(string $testName, string $testDescription, string $lang, Test $test): Test
@@ -64,12 +66,12 @@ class TestsServiceImpl implements ITestsService {
     }
 
     /**
-     * @param Test $test
+     * @param  Test  $test
      * @return bool
      */
     public function deleteTest(Test $test): bool
     {
-        return DB::transaction(function() use($test) {
+        return DB::transaction(function () use ($test) {
             // TODO: Simplify this with one query
             $this->lessonsRepo->updateLessonTest(null, $this->lessonsRepo->getLessonByTestId($test->test_id));
 
@@ -87,14 +89,14 @@ class TestsServiceImpl implements ITestsService {
         $question               = $this->questionsRepo->getQuestionByIdWithCorrectAnswers($questionId);
         $questionWithAllAnswers = $this->questionsRepo->getQuestionById($questionId)->load("answers");
 
-        if(is_array($answer)) {
+        if (is_array($answer)) {
 
             // the $answer variable actually contains multiple answers (array) - multiple choice question
-            if(count($question->answers) == count($answer)) {
+            if (count($question->answers) == count($answer)) {
 
                 $flag = true;
                 foreach ($question->answers as $answer_db) {
-                    if(!in_array($answer_db->answer_id, $answer)) {
+                    if (!in_array($answer_db->answer_id, $answer)) {
                         $flag = false;
                         break;
                     }
@@ -107,7 +109,7 @@ class TestsServiceImpl implements ITestsService {
 
         } else {
 
-            if($question->answers[0]->answer_id == $answer) {
+            if ($question->answers[0]->answer_id == $answer) {
                 return ["question" => $questionWithAllAnswers, "true" => true];
             } else {
                 return ["question" => $questionWithAllAnswers, "true" => false];

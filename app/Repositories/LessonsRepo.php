@@ -9,40 +9,55 @@ use App\StorageManagement\StorageHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class LessonsRepo implements ILessonsRepo {
+class LessonsRepo implements ILessonsRepo
+{
 
     /**
-     * @param string $lessonTitle
-     * @param string $lessonDescription
-     * @param string $lessonCode
-     * @param int $lessonSectionId
-     * @param FileDTO|null $lessonPractice
-     * @param string $lang
+     * @param  string  $lessonTitle
+     * @param  string  $lessonDescription
+     * @param  string  $lessonCode
+     * @param  int  $lessonSectionId
+     * @param  FileDTO|null  $lessonPractice
+     * @param  string  $lang
      * @return Lesson
      */
-    public function createLesson(string $lessonTitle, string $lessonDescription, string $lessonCode, int $lessonSectionId, FileDTO $lessonPractice = null, string $lang): Lesson
-    {
+    public function createLesson(
+        string $lessonTitle,
+        string $lessonDescription,
+        string $lessonCode,
+        int $lessonSectionId,
+        FileDTO $lessonPractice = null,
+        string $lang
+    ): Lesson {
 
-        return DB::transaction(function() use($lessonTitle, $lessonDescription, $lessonCode, $lessonSectionId, $lessonPractice, $lang) {
+        return DB::transaction(function () use (
+            $lessonTitle,
+            $lessonDescription,
+            $lessonCode,
+            $lessonSectionId,
+            $lessonPractice,
+            $lang
+        ) {
 
             $lesson = new Lesson();
 
             $lesson->setTranslation(Lesson::lessonTitle(), $lang, $lessonTitle);
             $lesson->setTranslation(Lesson::lessonDescription(), $lang, $lessonDescription);
 
-            $lesson->{Lesson::lessonCode()}      = $lessonCode;
+            $lesson->{Lesson::lessonCode()} = $lessonCode;
             $lesson->{Lesson::lessonSectionId()} = $lessonSectionId;
-            $lesson->{Lesson::lessonSlug()}      = rand(100, 100000) . "-" . Str::slug($lessonTitle, "-");
+            $lesson->{Lesson::lessonSlug()} = rand(100, 100000)."-".Str::slug($lessonTitle, "-");
 
-            if(!is_null($lessonPractice)) {
-                $lesson->setTranslation(Lesson::lessonPractice(), $lang, StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
+            if (!is_null($lessonPractice)) {
+                $lesson->setTranslation(Lesson::lessonPractice(), $lang,
+                    StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
             $last_lesson = Lesson::where(Lesson::lessonSectionId(), $lessonSectionId)
                 ->orderBy(Lesson::lessonOrder(), "desc")
                 ->first();
 
-            if(!is_null($last_lesson)) {
+            if (!is_null($last_lesson)) {
                 $lesson->{Lesson::lessonOrder()} = $last_lesson->{Lesson::lessonOrder()} + 1;
             } else {
                 $lesson->{Lesson::lessonOrder()} = 1;
@@ -57,27 +72,41 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param string $lessonTitle
-     * @param string $lessonDescription
-     * @param string $lessonCode
-     * @param FileDTO|null $lessonPractice
-     * @param string $lang
-     * @param Lesson $lesson
+     * @param  string  $lessonTitle
+     * @param  string  $lessonDescription
+     * @param  string  $lessonCode
+     * @param  FileDTO|null  $lessonPractice
+     * @param  string  $lang
+     * @param  Lesson  $lesson
      * @return Lesson
      */
-    public function updateLesson(string $lessonTitle, string $lessonDescription, string $lessonCode, FileDTO $lessonPractice = null, string $lang, Lesson $lesson): Lesson
-    {
-        return DB::transaction(function() use($lessonTitle, $lessonDescription, $lessonCode, $lessonPractice, $lang, $lesson) {
+    public function updateLesson(
+        string $lessonTitle,
+        string $lessonDescription,
+        string $lessonCode,
+        FileDTO $lessonPractice = null,
+        string $lang,
+        Lesson $lesson
+    ): Lesson {
+        return DB::transaction(function () use (
+            $lessonTitle,
+            $lessonDescription,
+            $lessonCode,
+            $lessonPractice,
+            $lang,
+            $lesson
+        ) {
 
             $lesson->setTranslation(Lesson::lessonTitle(), $lang, $lessonTitle);
             $lesson->setTranslation(Lesson::lessonDescription(), $lang, $lessonDescription);
 
-            if($lessonCode != 'null') {
+            if ($lessonCode != 'null') {
                 $lesson->{Lesson::lessonCode()} = $lessonCode;
             }
 
-            if(!is_null($lessonPractice)) {
-                $lesson->setTranslation(Lesson::lessonPractice(), $lang, StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
+            if (!is_null($lessonPractice)) {
+                $lesson->setTranslation(Lesson::lessonPractice(), $lang,
+                    StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
             $lesson->save();
@@ -88,17 +117,18 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param int $lessonId
+     * @param  int  $lessonId
      * @return Lesson|null
      */
-    public function getLessonByLessonId(int $lessonId): Lesson|null {
+    public function getLessonByLessonId(int $lessonId): Lesson|null
+    {
         return Lesson::where(Lesson::lessonId(), $lessonId)->first();
     }
 
     /**
-     * @param string $lessonVideoLink
-     * @param Lesson $lesson
-     * @param string $lang
+     * @param  string  $lessonVideoLink
+     * @param  Lesson  $lesson
+     * @param  string  $lang
      * @return Lesson
      */
     public function updateLessonVideo(string $lessonVideoLink, Lesson $lesson, string $lang): Lesson
@@ -109,8 +139,8 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param string $isLessonPublished
-     * @param Lesson $lesson
+     * @param  string  $isLessonPublished
+     * @param  Lesson  $lesson
      * @return Lesson
      */
     public function toggleLessonPublishedStatus(string $isLessonPublished, Lesson $lesson): Lesson
@@ -121,8 +151,8 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param int $lessonOrder
-     * @param Lesson $lesson
+     * @param  int  $lessonOrder
+     * @param  Lesson  $lesson
      * @return Lesson
      */
     public function updateLessonOrder(int $lessonOrder, Lesson $lesson)
@@ -133,20 +163,20 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param Lesson $lesson
+     * @param  Lesson  $lesson
      * @return bool
      */
     public function deleteLesson(Lesson $lesson): bool
     {
-        if($lesson->delete()) {
+        if ($lesson->delete()) {
             return true;
         }
         return false;
     }
 
     /**
-     * @param int $lessonTestId
-     * @param Lesson $lesson
+     * @param  int  $lessonTestId
+     * @param  Lesson  $lesson
      * @return Lesson
      */
     public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson
@@ -157,7 +187,7 @@ class LessonsRepo implements ILessonsRepo {
     }
 
     /**
-     * @param int $testId
+     * @param  int  $testId
      * @return Lesson|null
      */
     public function getLessonByTestId(int $testId): Lesson|null

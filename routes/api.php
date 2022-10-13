@@ -30,7 +30,7 @@ Route::post("/get-new-token", function (Request $request) {
 
     $http = new \GuzzleHttp\Client;
     try {
-        $response = $http->post(\config('api_credentials.PASSPORT_APP_IP'). '/oauth/token', [
+        $response = $http->post(\config('api_credentials.PASSPORT_APP_IP').'/oauth/token', [
             'form_params' => [
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $request->rf_t,
@@ -39,7 +39,7 @@ Route::post("/get-new-token", function (Request $request) {
                 'scope' => ''
             ],
         ]);
-        $pom = json_decode((string) $response->getBody(), true);
+        $pom      = json_decode((string) $response->getBody(), true);
         \Illuminate\Support\Facades\Log::info($pom);
         return response()->json([
             'ac_t' => $pom['access_token'],
@@ -50,8 +50,10 @@ Route::post("/get-new-token", function (Request $request) {
 
         if ($e->getCode() === 400) {
             return response()->json('Invalid Request. Please enter a username or a password.', $e->getCode());
-        } else if ($e->getCode() === 401) {
-            return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
+        } else {
+            if ($e->getCode() === 401) {
+                return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
+            }
         }
         return $e->getMessage();
         return response()->json('Something went wrong on the server.', $e->getCode());

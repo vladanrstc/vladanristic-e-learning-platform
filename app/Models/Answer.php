@@ -9,6 +9,7 @@ use Spatie\Translatable\HasTranslations;
 class Answer extends Model
 {
     use HasTranslations, AnswerAttributes;
+
     public $translatable = ['answer_text'];
 
     protected $table = 'answers';
@@ -19,7 +20,8 @@ class Answer extends Model
         return $this->hasMany("App\Answer");
     }*/
 
-    public function question() {
+    public function question()
+    {
         return $this->belongsTo(Question::class, "question_id");
     }
 

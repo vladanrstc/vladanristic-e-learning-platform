@@ -23,21 +23,24 @@ class NotesController extends Controller
      */
     private ICourseStartService $courseStartService;
 
-    public function __construct(INotesService $notesService, ICourseStartService $courseStartService) {
+    public function __construct(INotesService $notesService, ICourseStartService $courseStartService)
+    {
         $this->notesService       = $notesService;
         $this->courseStartService = $courseStartService;
     }
 
     /**
-     * @param UpdateCourseNoteRequest $request
+     * @param  UpdateCourseNoteRequest  $request
      * @return JsonResponse
      */
     public function updateCourseNote(UpdateCourseNoteRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->notesService->updateUserCourseStartedNotes(
-            $request->input("course"),
-            $request->input("notes"),
-            Auth::id())]
+        return response()->json([
+                "data" => $this->notesService->updateUserCourseStartedNotes(
+                    $request->input("course"),
+                    $request->input("notes"),
+                    Auth::id())
+            ]
         );
     }
 
@@ -50,7 +53,8 @@ class NotesController extends Controller
         return response()->json(["data" => $this->notesService->getUserNotesForCourse($course, Auth::id())]);
     }
 
-    public function courseNotes($course) {
+    public function courseNotes($course)
+    {
         return CourseStart::where("course_id", $course)
             ->whereNotNull("user_course_started_note")
             ->with('user')

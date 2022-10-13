@@ -6,6 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 //    Route::group(['middleware' => ['scope:admin,super-admin']], function () {
 
-    Route::resource('answers', AnswerController::class);
+Route::resource('answers', AnswerController::class);
 
 //    });

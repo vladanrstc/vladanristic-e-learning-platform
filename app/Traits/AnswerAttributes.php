@@ -2,17 +2,21 @@
 
 namespace App\Traits;
 
-trait AnswerAttributes {
+trait AnswerAttributes
+{
 
-    public static function answerText() {
+    public static function answerText()
+    {
         return "answer_text";
     }
 
-    public static function isAnswerCorrect() {
+    public static function isAnswerCorrect()
+    {
         return "answer_true";
     }
 
-    public static function questionId() {
+    public static function questionId()
+    {
         return "question_id";
     }
 

@@ -15,11 +15,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|max:255|min:3',
+            'name' => 'required|max:255|min:3',
             'last_name' => 'required|max:1024|min:3',
-            'email'     => 'required|email|max:1024|min:3',
-            'password'  => 'sometimes|max:255',
-            'role'      => 'required|max:1024|min:3'
+            'email' => 'required|email|max:1024|min:3',
+            'password' => 'sometimes|max:255',
+            'role' => 'required|max:1024|min:3'
         ];
     }
 }

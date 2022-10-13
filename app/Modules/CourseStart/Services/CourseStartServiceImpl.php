@@ -7,7 +7,8 @@ use App\Repositories\ICoursesRepo;
 use App\Repositories\ICourseStartRepo;
 use Illuminate\Support\Collection;
 
-class CourseStartServiceImpl implements ICourseStartService {
+class CourseStartServiceImpl implements ICourseStartService
+{
 
     /**
      * @var ICourseStartRepo
@@ -19,14 +20,15 @@ class CourseStartServiceImpl implements ICourseStartService {
      */
     private ICoursesRepo $coursesRepo;
 
-    public function __construct(ICourseStartRepo $courseStartRepo, ICoursesRepo $coursesRepo) {
+    public function __construct(ICourseStartRepo $courseStartRepo, ICoursesRepo $coursesRepo)
+    {
         $this->courseStartRepo = $courseStartRepo;
         $this->coursesRepo     = $coursesRepo;
     }
 
     /**
-     * @param string $courseId
-     * @param int $userId
+     * @param  string  $courseId
+     * @param  int  $userId
      * @return CourseStart
      */
     public function enrollUserToCourse(string $courseId, int $userId): CourseStart
@@ -35,7 +37,7 @@ class CourseStartServiceImpl implements ICourseStartService {
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection|null
      */
     public function getCoursesUserHasntEnrolledIn(int $userId): Collection|null
@@ -44,7 +46,7 @@ class CourseStartServiceImpl implements ICourseStartService {
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection|null
      */
     public function getCoursesUserEnrolledIn(int $userId): Collection|null
@@ -53,7 +55,7 @@ class CourseStartServiceImpl implements ICourseStartService {
     }
 
     /**
-     * @param int $courseStartId
+     * @param  int  $courseStartId
      * @return CourseStart|null
      */
     public function getCourseStartById(int $courseStartId): ?CourseStart

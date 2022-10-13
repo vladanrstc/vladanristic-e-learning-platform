@@ -7,7 +7,8 @@ use App\Repositories\ISectionsRepo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class SectionsServiceImpl implements ISectionsService {
+class SectionsServiceImpl implements ISectionsService
+{
 
     /**
      * @var ISectionsRepo
@@ -15,54 +16,46 @@ class SectionsServiceImpl implements ISectionsService {
     private ISectionsRepo $sectionsRepo;
 
     /**
-     * @param ISectionsRepo $sectionsRepo
+     * @param  ISectionsRepo  $sectionsRepo
      */
-    public function __construct(ISectionsRepo $sectionsRepo) {
+    public function __construct(ISectionsRepo $sectionsRepo)
+    {
         $this->sectionsRepo = $sectionsRepo;
     }
 
     /**
-     * @param array $params
+     * @param  string  $sectionName
+     * @param  int  $sectionCourseId
+     * @param  string  $lang
      * @return Section
      */
-    public function createSection(array $params): Section
+    public function createSection(string $sectionName, int $sectionCourseId, string $lang): Section
     {
 
-        return DB::transaction(function() use($params) {
-            $section     = $this->sectionsRepo->createSection($params);
-            $lastSection = $this->sectionsRepo->getLastSectionForCourse($params[Section::sectionCourseId()]);
+        return DB::transaction(function () use ($sectionName, $sectionCourseId, $lang) {
+            $section     = $this->sectionsRepo->createSection($sectionName, $sectionCourseId, $lang);
+            $lastSection = $this->sectionsRepo->getLastSectionForCourse($sectionCourseId);
 
-            if(!is_null($lastSection)) {
-                return $this->sectionsRepo->updateSection([Section::sectionOrder() => $lastSection->{Section::sectionOrder()} + 1], $section);
+            if (!is_null($lastSection)) {
+                return $this->sectionsRepo->updateSection($section, $sectionName,
+                    ($lastSection->{Section::sectionOrder()} + 1), $lang);
             } else {
-                return $this->sectionsRepo->updateSection([Section::sectionOrder() => 1], $section);
+                return $this->sectionsRepo->updateSection($section, $sectionName, 1, $lang);
             }
-
         });
     }
 
     /**
-     * @param array $params
-     * @param Section $section
-     * @return Section
-     */
-    public function updateSection(array $params, Section $section): Section
-    {
-        $section->setTranslation('section_name', $params['lang'], $params[Section::sectionName()][$params['lang']]);
-        return $this->sectionsRepo->updateSection([], $section);
-    }
-
-    /**
-     * @param array $sections
+     * @param  array  $sections
      * @return Collection
      */
     public function reorderSections(array $sections): Collection
     {
-        DB::transaction(function() use ($sections) {
-            $count = 1;
+        return DB::transaction(function () use ($sections) {
+            $count    = 1;
             $sections = Section::hydrate($sections);
             foreach ($sections as $section) {
-                $this->updateSection([Section::sectionOrder() => $count], $section);
+                $this->sectionsRepo->updateSection($section, null, $count);
                 $count++;
             }
             return $sections;
@@ -70,7 +63,19 @@ class SectionsServiceImpl implements ISectionsService {
     }
 
     /**
-     * @param Section $section
+     * @param  Section  $section
+     * @param  string  $sectionName
+     * @param  string  $lang
+     * @return Section
+     */
+    public function updateSection(Section $section, string $sectionName, string $lang): Section
+    {
+        $section->setTranslation(Section::sectionName(), $lang, $sectionName);
+        return $this->sectionsRepo->updateSection($section, $sectionName, null, $lang);
+    }
+
+    /**
+     * @param  Section  $section
      * @return bool
      */
     public function deleteSection(Section $section): bool

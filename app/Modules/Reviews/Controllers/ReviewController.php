@@ -24,13 +24,14 @@ class ReviewController extends Controller
      */
     private ICourseStartService $courseStartService;
 
-    public function __construct(IReviewsService $reviewsService, ICourseStartService $courseStartService) {
+    public function __construct(IReviewsService $reviewsService, ICourseStartService $courseStartService)
+    {
         $this->reviewsService     = $reviewsService;
         $this->courseStartService = $courseStartService;
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return JsonResponse
      */
     public function getCourseReviews(string $courseSlug): JsonResponse
@@ -48,17 +49,19 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param UpdateCourseReviewRequest $request
+     * @param  UpdateCourseReviewRequest  $request
      * @return JsonResponse
      */
     public function updateCourseReview(UpdateCourseReviewRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->reviewsService->updateCourseStartReview(
-            $request->input("course"),
-            $request->input("review"),
-            $request->input("rating"),
-            Auth::id()
-        )]);
+        return response()->json([
+            "data" => $this->reviewsService->updateCourseStartReview(
+                $request->input("course"),
+                $request->input("review"),
+                $request->input("rating"),
+                Auth::id()
+            )
+        ]);
     }
 
     /**
@@ -71,10 +74,11 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param string $course
+     * @param  string  $course
      * @return mixed
      */
-    public function allCourseReviews(string $course) {
+    public function allCourseReviews(string $course)
+    {
         return CourseStart::where("course_id", $course)
             ->whereNotNull("user_course_started_review_text")
             ->whereNotNull("user_course_started_review_mark")

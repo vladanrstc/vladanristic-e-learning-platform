@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class SectionUpdateFailedException extends Exception {
+class SectionUpdateFailedException extends Exception
+{
 
 }

@@ -16,7 +16,7 @@ class UpdateCourseNoteRequest extends FormRequest
     {
         return [
             'course' => 'required|max:255|min:3',
-            'notes'  => 'required|max:1024|min:3'
+            'notes' => 'required|max:1024|min:3'
         ];
     }
 }

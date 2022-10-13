@@ -16,19 +16,22 @@ class CourseStartController extends Controller
      */
     private ICourseStartService $courseStartService;
 
-    public function __construct(ICourseStartService $courseStartService) {
+    public function __construct(ICourseStartService $courseStartService)
+    {
         $this->courseStartService = $courseStartService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param CourseEnrollRequest $request
+     * @param  CourseEnrollRequest  $request
      * @return JsonResponse
      */
     public function enrollInCourse(CourseEnrollRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->courseStartService->enrollUserToCourse($request->input("course_id"), Auth::id())]);
+        return response()->json([
+            "data" => $this->courseStartService->enrollUserToCourse($request->input("course_id"), Auth::id())
+        ]);
     }
 
     /**

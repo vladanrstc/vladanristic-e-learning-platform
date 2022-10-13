@@ -10,7 +10,7 @@ class LogsRepo implements ILogsRepo
 {
 
     /**
-     * @param array $logParams
+     * @param  array  $logParams
      * @return Log
      */
     public function insertLog(array $logParams): Log
@@ -19,7 +19,7 @@ class LogsRepo implements ILogsRepo
     }
 
     /**
-     * @param string $logType
+     * @param  string  $logType
      * @return Collection|null
      */
     public function getYearLogsPerTypeForPastYear(string $logType): ?Collection

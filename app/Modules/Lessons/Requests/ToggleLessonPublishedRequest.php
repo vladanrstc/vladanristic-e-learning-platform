@@ -15,7 +15,7 @@ class ToggleLessonPublishedRequest extends FormRequest
     public function rules()
     {
         return [
-            'lesson_id'        => 'required|max:255|min:3',
+            'lesson_id' => 'required|max:255|min:3',
             'lesson_published' => 'required|max:255|min:3',
         ];
     }

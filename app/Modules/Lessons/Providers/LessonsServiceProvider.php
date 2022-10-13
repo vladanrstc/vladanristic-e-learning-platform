@@ -14,7 +14,7 @@ class LessonsServiceProvider extends ServiceProvider
 {
 
     public $bindings = [
-        ILessonsService::class  => LessonsServiceImpl::class
+        ILessonsService::class => LessonsServiceImpl::class
     ];
 
 }

@@ -10,16 +10,17 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
-class CourseStartRepo implements ICourseStartRepo {
+class CourseStartRepo implements ICourseStartRepo
+{
 
     /**
-     * @param string $courseSlug
-     * @param int $userId
+     * @param  string  $courseSlug
+     * @param  int  $userId
      * @return CourseStart|null
      */
     public function getCourseStartForCourseAndUser(string $courseSlug, int $userId): CourseStart|null
     {
-        return CourseStart::whereHas("course", function($query) use ($courseSlug) {
+        return CourseStart::whereHas("course", function ($query) use ($courseSlug) {
             $query->where(Course::courseSlug(), $courseSlug);
         })
             ->where(CourseStart::userId(), $userId)
@@ -39,14 +40,14 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param array $updateParams
-     * @param CourseStart $courseStart
+     * @param  array  $updateParams
+     * @param  CourseStart  $courseStart
      * @return CourseStart
      * @throws CourseStartUpdateFailedException
      */
     public function updateCourseStart(array $updateParams, CourseStart $courseStart): CourseStart
     {
-        if($courseStart->update($updateParams)) {
+        if ($courseStart->update($updateParams)) {
             return $courseStart;
         }
         throw new CourseStartUpdateFailedException();
@@ -65,12 +66,12 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param string $courseSlug
+     * @param  string  $courseSlug
      * @return Collection|null
      */
     public function getCourseReviews(string $courseSlug): Collection|null
     {
-        return CourseStart::whereHas("course", function($query) use($courseSlug) {
+        return CourseStart::whereHas("course", function ($query) use ($courseSlug) {
             $query->where(Course::courseSlug(), $courseSlug);
         })
             ->whereNotNull(CourseStart::courseStartReview())
@@ -80,13 +81,13 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param string $courseId
-     * @param string $userId
+     * @param  string  $courseId
+     * @param  string  $userId
      * @return CourseStart
      */
     public function enrollUserInCourse(string $courseId, string $userId): CourseStart
     {
-        $courseStarted = new CourseStart();
+        $courseStarted                            = new CourseStart();
         $courseStarted->{CourseStart::courseId()} = $courseId;
         $courseStarted->{CourseStart::userId()}   = $userId;
         $courseStarted->save();
@@ -94,8 +95,8 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param int $courseId
-     * @param int $userId
+     * @param  int  $courseId
+     * @param  int  $userId
      * @return CourseStart|null
      */
     public function getCourseStartedForUserIdAndCourse(int $courseId, int $userId): CourseStart|null
@@ -106,20 +107,20 @@ class CourseStartRepo implements ICourseStartRepo {
     }
 
     /**
-     * @param int $lessonId
-     * @param int $userId
+     * @param  int  $lessonId
+     * @param  int  $userId
      * @return CourseStart|null
      */
     public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): ?CourseStart
     {
         return CourseStart::where(CourseStart::userId(), $userId)
-            ->whereHas("course.sections.lessons", function($query) use ($lessonId) {
+            ->whereHas("course.sections.lessons", function ($query) use ($lessonId) {
                 $query->where(Lesson::lessonId(), $lessonId);
             })->first();
     }
 
     /**
-     * @param int $courseStartedId
+     * @param  int  $courseStartedId
      * @return CourseStart|null
      */
     public function getCourseStartedById(int $courseStartedId): ?CourseStart

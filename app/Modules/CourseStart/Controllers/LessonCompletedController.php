@@ -16,7 +16,8 @@ class LessonCompletedController extends Controller
      */
     private ILessonFinishService $lessonFinishService;
 
-    public function __construct(ILessonFinishService $lessonFinishService) {
+    public function __construct(ILessonFinishService $lessonFinishService)
+    {
         $this->lessonFinishService = $lessonFinishService;
     }
 

@@ -5,33 +5,38 @@ namespace App\Repositories;
 use App\Models\Answer;
 use App\Models\Question;
 
-class QuestionsRepo implements IQuestionsRepo {
+class QuestionsRepo implements IQuestionsRepo
+{
 
     /**
-     * @param int $questionId
+     * @param  int  $questionId
      * @return Question|null
      */
-    public function getQuestionById(int $questionId): ?Question {
+    public function getQuestionById(int $questionId): ?Question
+    {
         return Question::where(Question::questionId(), $questionId)
             ->first();
     }
 
     /**
-     * @param int $questionId
+     * @param  int  $questionId
      * @return Question|null
      */
-    public function getQuestionByIdWithCorrectAnswers(int $questionId): ?Question {
+    public function getQuestionByIdWithCorrectAnswers(int $questionId): ?Question
+    {
         return Question::where(Question::questionId(), $questionId)
-            ->with(["answers" => function ($query) {
-                $query->where(Answer::isAnswerCorrect(), 1);
-            }])
+            ->with([
+                "answers" => function ($query) {
+                    $query->where(Answer::isAnswerCorrect(), 1);
+                }
+            ])
             ->first();
     }
 
     /**
-     * @param string $questionText
-     * @param int $testId
-     * @param string $lang
+     * @param  string  $questionText
+     * @param  int  $testId
+     * @param  string  $lang
      * @return Question
      */
     public function createQuestion(string $questionText, int $testId, string $lang): Question
@@ -44,9 +49,9 @@ class QuestionsRepo implements IQuestionsRepo {
     }
 
     /**
-     * @param string $questionText
-     * @param string $lang
-     * @param Question $question
+     * @param  string  $questionText
+     * @param  string  $lang
+     * @param  Question  $question
      * @return Question
      */
     public function updateQuestion(string $questionText, string $lang, Question $question): Question
@@ -57,12 +62,12 @@ class QuestionsRepo implements IQuestionsRepo {
     }
 
     /**
-     * @param Question $question
+     * @param  Question  $question
      * @return bool
      */
     public function deleteQuestion(Question $question): bool
     {
-        if($question->delete()) {
+        if ($question->delete()) {
             return true;
         }
         return false;

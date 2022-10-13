@@ -2,7 +2,8 @@
 
 namespace App\DTOs;
 
-class FileDTO {
+class FileDTO
+{
 
     /**
      * @var string
@@ -15,8 +16,8 @@ class FileDTO {
     private string $fileContents;
 
     /**
-     * @param string $fullFileName
-     * @param string $fileContents
+     * @param  string  $fullFileName
+     * @param  string  $fileContents
      */
     public function __construct(string $fullFileName, string $fileContents)
     {
@@ -33,7 +34,7 @@ class FileDTO {
     }
 
     /**
-     * @param string $fullFileName
+     * @param  string  $fullFileName
      */
     public function setFullFileName(string $fullFileName): void
     {
@@ -49,7 +50,7 @@ class FileDTO {
     }
 
     /**
-     * @param string $fileContents
+     * @param  string  $fileContents
      */
     public function setFileContents(string $fileContents): void
     {
