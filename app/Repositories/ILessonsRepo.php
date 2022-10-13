@@ -10,7 +10,7 @@ interface ILessonsRepo
     public function createLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         int $lessonSectionId,
         FileDTO $lessonPractice = null,
         string $lang
@@ -29,7 +29,7 @@ interface ILessonsRepo
 
     public function updateLessonOrder(int $lessonOrder, Lesson $lesson);
 
-    public function toggleLessonPublishedStatus(string $isLessonPublished, Lesson $lesson);
+    public function toggleLessonPublishedStatus(bool $isLessonPublished, Lesson $lesson);
 
     public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson;
 

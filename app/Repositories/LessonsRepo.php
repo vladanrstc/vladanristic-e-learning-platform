@@ -15,7 +15,7 @@ class LessonsRepo implements ILessonsRepo
     /**
      * @param  string  $lessonTitle
      * @param  string  $lessonDescription
-     * @param  string  $lessonCode
+     * @param  string|null  $lessonCode
      * @param  int  $lessonSectionId
      * @param  FileDTO|null  $lessonPractice
      * @param  string  $lang
@@ -24,7 +24,7 @@ class LessonsRepo implements ILessonsRepo
     public function createLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         int $lessonSectionId,
         FileDTO $lessonPractice = null,
         string $lang
@@ -44,13 +44,13 @@ class LessonsRepo implements ILessonsRepo
             $lesson->setTranslation(Lesson::lessonTitle(), $lang, $lessonTitle);
             $lesson->setTranslation(Lesson::lessonDescription(), $lang, $lessonDescription);
 
-            $lesson->{Lesson::lessonCode()} = $lessonCode;
+            !is_null($lessonCode) ? $lesson->{Lesson::lessonCode()} = $lessonCode : false;
             $lesson->{Lesson::lessonSectionId()} = $lessonSectionId;
-            $lesson->{Lesson::lessonSlug()} = rand(100, 100000)."-".Str::slug($lessonTitle, "-");
+            $lesson->{Lesson::lessonSlug()}      = rand(100, 100000)."-".Str::slug($lessonTitle, "-");
 
             if (!is_null($lessonPractice)) {
                 $lesson->setTranslation(Lesson::lessonPractice(), $lang,
-                    StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
+                    StorageHelper::storeFile("public", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
             $last_lesson = Lesson::where(Lesson::lessonSectionId(), $lessonSectionId)
@@ -74,7 +74,7 @@ class LessonsRepo implements ILessonsRepo
     /**
      * @param  string  $lessonTitle
      * @param  string  $lessonDescription
-     * @param  string  $lessonCode
+     * @param  string|null  $lessonCode
      * @param  FileDTO|null  $lessonPractice
      * @param  string  $lang
      * @param  Lesson  $lesson
@@ -83,7 +83,7 @@ class LessonsRepo implements ILessonsRepo
     public function updateLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         FileDTO $lessonPractice = null,
         string $lang,
         Lesson $lesson
@@ -106,7 +106,7 @@ class LessonsRepo implements ILessonsRepo
 
             if (!is_null($lessonPractice)) {
                 $lesson->setTranslation(Lesson::lessonPractice(), $lang,
-                    StorageHelper::storeFile("local", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
+                    StorageHelper::storeFile("public", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
             $lesson->save();
@@ -139,12 +139,13 @@ class LessonsRepo implements ILessonsRepo
     }
 
     /**
-     * @param  string  $isLessonPublished
+     * @param  bool  $isLessonPublished
      * @param  Lesson  $lesson
      * @return Lesson
      */
-    public function toggleLessonPublishedStatus(string $isLessonPublished, Lesson $lesson): Lesson
+    public function toggleLessonPublishedStatus(bool $isLessonPublished, Lesson $lesson): Lesson
     {
+
         $lesson->{Lesson::lessonPublished()} = $isLessonPublished;
         $lesson->save();
         return $lesson;

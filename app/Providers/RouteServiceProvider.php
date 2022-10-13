@@ -13,6 +13,14 @@ class RouteServiceProvider extends ServiceProvider
 {
 
     /**
+     * The path to the "home" route for your application.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const HOME = '/home';
+    /**
      * @var array
      */
     private $moduleList = [];
@@ -31,19 +39,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->moduleList[] = Modules::REVIEWS->value;
         $this->moduleList[] = Modules::COURSE_START->value;
         $this->moduleList[] = Modules::SECTIONS->value;
+        $this->moduleList[] = Modules::LESSONS->value;
         $this->moduleList[] = Modules::QUESTIONS->value;
         $this->moduleList[] = Modules::ANSWERS->value;
         $this->moduleList[] = Modules::TESTS->value;
     }
-
-    /**
-     * The path to the "home" route for your application.
-     *
-     * Typically, users are redirected here after authentication.
-     *
-     * @var string
-     */
-    public const HOME = '/home';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

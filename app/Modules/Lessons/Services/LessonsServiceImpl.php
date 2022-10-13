@@ -27,7 +27,7 @@ class LessonsServiceImpl implements ILessonsService
     /**
      * @param  string  $lessonTitle
      * @param  string  $lessonDescription
-     * @param  string  $lessonCode
+     * @param  string|null  $lessonCode
      * @param  int  $lessonSectionId
      * @param  FileDTO|null  $lessonPractice
      * @param  string  $lang
@@ -36,7 +36,7 @@ class LessonsServiceImpl implements ILessonsService
     public function createLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         int $lessonSectionId,
         FileDTO $lessonPractice = null,
         string $lang
@@ -48,7 +48,7 @@ class LessonsServiceImpl implements ILessonsService
     /**
      * @param  string  $lessonTitle
      * @param  string  $lessonDescription
-     * @param  string  $lessonCode
+     * @param  string|null  $lessonCode
      * @param  FileDTO|null  $lessonPractice
      * @param  string  $lang
      * @param  Lesson  $lesson
@@ -57,7 +57,7 @@ class LessonsServiceImpl implements ILessonsService
     public function updateLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         FileDTO $lessonPractice = null,
         string $lang,
         Lesson $lesson
@@ -74,8 +74,10 @@ class LessonsServiceImpl implements ILessonsService
      */
     public function updateLessonVideoLink(string $lessonVideoLink, int $lessonId, string $lang): Lesson
     {
-        return $this->lessonsRepo->updateLessonVideo($lessonVideoLink,
-            $this->lessonsRepo->getLessonByLessonId($lessonId), $lang);
+        return $this->lessonsRepo->updateLessonVideo(
+            $lessonVideoLink,
+            $this->lessonsRepo->getLessonByLessonId($lessonId), $lang
+        );
     }
 
     /**
@@ -85,8 +87,10 @@ class LessonsServiceImpl implements ILessonsService
      */
     public function toggleLessonPublishedStatus(bool $isLessonPublished, int $lessonId): Lesson
     {
-        return $this->lessonsRepo->toggleLessonPublishedStatus($isLessonPublished,
-            $this->lessonsRepo->getLessonByLessonId($lessonId));
+        return $this->lessonsRepo->toggleLessonPublishedStatus(
+            $isLessonPublished,
+            $this->lessonsRepo->getLessonByLessonId($lessonId)
+        );
     }
 
     /**
@@ -95,8 +99,8 @@ class LessonsServiceImpl implements ILessonsService
      */
     public function reorderLessons(array $lessons): Collection
     {
-        DB::transaction(function () use ($lessons) {
-            $count = 1;
+        return DB::transaction(function () use ($lessons) {
+            $count   = 1;
             $lessons = Lesson::hydrate($lessons);
             foreach ($lessons as $lesson) {
                 $this->lessonsRepo->updateLessonOrder($count, $lesson);

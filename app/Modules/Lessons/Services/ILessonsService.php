@@ -11,7 +11,7 @@ interface ILessonsService
     public function createLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         int $lessonSectionId,
         FileDTO $lessonPractice = null,
         string $lang
@@ -20,7 +20,7 @@ interface ILessonsService
     public function updateLesson(
         string $lessonTitle,
         string $lessonDescription,
-        string $lessonCode,
+        string $lessonCode = null,
         FileDTO $lessonPractice = null,
         string $lang,
         Lesson $lesson

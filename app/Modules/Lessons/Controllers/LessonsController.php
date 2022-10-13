@@ -5,6 +5,7 @@ namespace App\Modules\Lessons\Controllers;
 use App\DTOs\FileDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
+use App\Models\Section;
 use App\Modules\Lessons\Requests\ChangeLessonsOrderRequest;
 use App\Modules\Lessons\Requests\LessonAttachVideoRequest;
 use App\Modules\Lessons\Requests\LessonStoreRequest;
@@ -43,9 +44,9 @@ class LessonsController extends Controller
                 $request->input("lesson_description"),
                 $request->input("lesson_code"),
                 $request->input("lesson_section_id"),
-                !is_null($request->get("lesson_practice")) ? new FileDTO(
+                !is_null($request->file("lesson_practice")) && $request->file("lesson_practice") !== "null" ? new FileDTO(
                     $request->file("lesson_practice")->getClientOriginalName(),
-                    $request->file("lesson_image")->getContent()) : null,
+                    $request->file("lesson_practice")->getContent()) : null,
                 $request->input("lang")
             )
         ]);
@@ -58,16 +59,16 @@ class LessonsController extends Controller
      * @param  Lesson  $lesson
      * @return JsonResponse
      */
-    public function update(LessonUpdateRequest $request, Lesson $lesson): JsonResponse
+    public function update(LessonUpdateRequest $request, Lesson $lesson)//: JsonResponse
     {
         return response()->json([
             "data" => $this->lessonsService->updateLesson(
                 $request->input("lesson_title"),
                 $request->input("lesson_description"),
                 $request->input("lesson_code"),
-                !is_null($request->get("lesson_practice")) ? new FileDTO(
+                !is_null($request->file("lesson_practice")) && $request->file("lesson_practice") != "null" ? new FileDTO(
                     $request->file("lesson_practice")->getClientOriginalName(),
-                    $request->file("lesson_image")->getContent()) : null,
+                    $request->file("lesson_practice")->getContent()) : null,
                 $request->input("lang"),
                 $lesson
             )
@@ -97,8 +98,10 @@ class LessonsController extends Controller
     public function toggleLessonPublished(ToggleLessonPublishedRequest $request): JsonResponse
     {
         return response()->json([
-            "data" => $this->lessonsService->toggleLessonPublishedStatus($request->input('lesson_published'),
-                $request->input('lesson_id'))
+            "data" => $this->lessonsService->toggleLessonPublishedStatus(
+                $request->input('lesson_published'),
+                $request->input('lesson_id')
+            )
         ]);
     }
 
@@ -114,6 +117,17 @@ class LessonsController extends Controller
                 $request->input("lesson_id"),
                 $request->input("lang")
             )
+        ]);
+    }
+
+    /**
+     * @param  Section  $section
+     * @return JsonResponse
+     */
+    public function sectionLessons(Section $section)//: JsonResponse
+    {
+        return response()->json([
+            "data" => $section->lessons()->get()
         ]);
     }
 
