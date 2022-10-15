@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:api', 'scope:user,admin,super-admin']], function () {
     Route::get("/course/{course}", [SectionController::class, "courseSections"]);
+});
+
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:user,admin,super-admin']], function () {
     Route::post("/order", [SectionController::class, "sectionsReorder"]);
 
     // store

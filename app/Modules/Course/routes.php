@@ -10,7 +10,7 @@ Route::group(['middleware' => ['auth:api', 'scope:user']], function () {
     Route::get("/user-details/{course}", [CourseController::class, "courseDetails"]);
 });
 
-Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
 
     Route::get("all-courses", [CourseController::class, "index"]);
 

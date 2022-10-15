@@ -8,8 +8,10 @@ Route::group(['middleware' => ['auth:api', 'scope:user,admin,super-admin']], fun
     Route::patch("/courses/started/notes", [NotesController::class, "updateCourseNote"]);
 });
 
-Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
-    Route::resource('resource', NotesController::class);
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
+
+    Route::delete("{courseStart}/delete", [NotesController::class, "destroy"]);
+
     Route::get("/course/{course}", [NotesController::class, "courseNotes"]);
 });
 

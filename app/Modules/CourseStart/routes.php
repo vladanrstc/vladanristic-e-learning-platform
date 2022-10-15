@@ -13,5 +13,3 @@ Route::group(['middleware' => ['auth:api,scope:user,admin,super-admin']], functi
 
     Route::get("/lesson/finish/{lessonId}", [LessonCompletedController::class, "finishLesson"]);
 });
-
-

@@ -64,12 +64,12 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $courseStart
+     * @param  CourseStart  $courseStart
      * @return JsonResponse
      */
-    public function destroy($courseStart): JsonResponse
+    public function destroy(CourseStart $courseStart): JsonResponse
     {
-        return response()->json(["data" => $this->notesService->removeCourseStartedNote($this->courseStartService->getCourseStartById($courseStart))]);
+        return response()->json(["data" => $this->notesService->removeCourseStartedNote($courseStart)]);
     }
 
 }

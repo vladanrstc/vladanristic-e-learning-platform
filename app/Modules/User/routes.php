@@ -1,10 +1,9 @@
 <?php
 
-use App\Modules\Lessons\Controllers\LessonsController;
 use App\Modules\User\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth:api', 'scope:super-admin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:super-admin']], function () {
 
     // store
     Route::post("store", [UserController::class, "store"]);

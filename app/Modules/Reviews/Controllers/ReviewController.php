@@ -89,12 +89,12 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $courseStartId
+     * @param  CourseStart  $courseStart
      * @return JsonResponse
      */
-    public function destroy($courseStartId): JsonResponse
+    public function destroy(CourseStart $courseStart): JsonResponse
     {
-        return response()->json(["data" => $this->reviewsService->removeReview($this->courseStartService->getCourseStartById($courseStartId))]);
+        return response()->json(["data" => $this->reviewsService->removeReview($courseStart)]);
     }
 
 }

@@ -5,7 +5,7 @@ namespace App\Modules\Lessons;
 use App\Modules\Lessons\Controllers\LessonsController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
 
     // store
     Route::post("store", [LessonsController::class, "store"]);
