@@ -11,6 +11,6 @@ Route::group(['middleware' => ['auth:api', 'scope:user,admin,super-admin']], fun
 });
 
 Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
-    Route::resource('', ReviewController::class);
+    Route::resource('resource', ReviewController::class);
     Route::get("/course/{course}/all", [ReviewController::class, "allCourseReviews"]);
 });

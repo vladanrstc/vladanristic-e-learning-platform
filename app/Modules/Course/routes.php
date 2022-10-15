@@ -11,7 +11,17 @@ Route::group(['middleware' => ['auth:api', 'scope:user']], function () {
 });
 
 Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
-    Route::resource('courses', CourseController::class);
-    Route::post("/courses/update/{course}", [CourseController::class, "update"]);
+
+    Route::get("all-courses", [CourseController::class, "index"]);
+
+    // store
+    Route::post("store", [CourseController::class, "store"]);
+
+    // update
+    Route::post("{course}/update", [CourseController::class, "update"]);
+
+    // delete
+    Route::delete("{course}/delete", [CourseController::class, "destroy"]);
+
 });
 
