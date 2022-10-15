@@ -88,7 +88,8 @@ class LessonsController extends Controller
      */
     public function changeLessonsOrder(ChangeLessonsOrderRequest $request): JsonResponse
     {
-        return response()->json(["data" => $this->lessonsService->reorderLessons($request->input("lessons"))]);
+        $this->lessonsService->reorderLessons($request->input("lessons"));
+        return response()->json(["data" => true]);
     }
 
     /**
@@ -127,7 +128,7 @@ class LessonsController extends Controller
     public function sectionLessons(Section $section)//: JsonResponse
     {
         return response()->json([
-            "data" => $section->lessons()->get()
+            "data" => $section->lessons()->orderBy(Lesson::lessonOrder(), "ASC")->get()
         ]);
     }
 
