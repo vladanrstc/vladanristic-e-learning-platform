@@ -9,8 +9,8 @@ Route::group(['middleware' => ['auth:api', 'scope:user,admin,super-admin']], fun
 });
 
 Route::group(['middleware' => ['auth:api', 'scope:admin,super-admin']], function () {
-    Route::resource('notes', NotesController::class);
-    Route::get("/notes/course/{course}", [NotesController::class, "courseNotes"]);
+    Route::resource('', NotesController::class);
+    Route::get("/course/{course}", [NotesController::class, "courseNotes"]);
 });
 
 
