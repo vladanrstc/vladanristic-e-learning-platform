@@ -34,10 +34,10 @@ class TestController extends Controller
      * @param  TestStoreRequest  $request
      * @return JsonResponse
      */
-    public function store(TestStoreRequest $request): JsonResponse
+    public function storeOrUpdate(TestStoreRequest $request): JsonResponse
     {
         return response()->json([
-            "data" => $this->testsService->createTest(
+            "data" => $this->testsService->createOrUpdateTest(
                 $request->input("test_name")[$request->input("lang")],
                 $request->input("lesson_id"),
                 $request->input("lang")
@@ -46,32 +46,14 @@ class TestController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  TestUpdateRequest  $request
-     * @param  Test  $test
-     * @return JsonResponse
-     */
-    public function update(TestUpdateRequest $request, Test $test): JsonResponse
-    {
-        return response()->json([
-            "data" => $this->testsService->updateTest(
-                $request->input("test_name")[$request->input("lang")],
-                $request->input("lang"),
-                $test
-            )
-        ]);
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  Test  $test
+     * @param  Lesson  $lesson
      * @return JsonResponse
      */
-    public function show(Test $test): JsonResponse
+    public function show(Lesson $lesson): JsonResponse
     {
-        return response()->json(["data" => $test]);
+        return response()->json(["data" => $lesson->test()->first()]);
     }
 
     /**

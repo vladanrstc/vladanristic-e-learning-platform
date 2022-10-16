@@ -2,6 +2,7 @@
 
 namespace App\Modules\Tests\Services;
 
+use App\Models\Lesson;
 use App\Models\Test;
 use App\Modules\Lessons\Services\ILessonsService;
 use App\Repositories\ILessonsRepo;
@@ -51,19 +52,37 @@ class TestsServiceImpl implements ITestsService
     }
 
     /**
+     * @param  int  $testId
+     * @return Test|null
+     */
+    public function getTestByTestId(int $testId): ?Test
+    {
+        return $this->testsRepo->getTestByTestId($testId);
+    }
+
+    /**
      * @param  string  $testName
      * @param  int  $lessonId
      * @param  string  $lang
      * @return Test
      */
-    public function createTest(string $testName, int $lessonId, string $lang): Test
+    public function createOrUpdateTest(string $testName, int $lessonId, string $lang): Test
     {
-        return DB::transaction(function () use ($testName, $lessonId, $lang) {
-            $test = $this->testsRepo->createTest($testName, $lessonId, $lang);
-            $this->lessonsService->updateLessonTest(
-                $test->{Test::testId()},
-                $this->lessonsService->getLessonByLessonId($lessonId));
-            return $test;
+
+        $lesson = $this->lessonsService->getLessonByLessonId($lessonId);
+
+        return DB::transaction(function () use ($testName, $lessonId, $lang, $lesson) {
+            // if the test for the lesson isn't set, then create it. else update the existing one
+            if (is_null($lesson->{Lesson::lessonTestId()})) {
+                $test = $this->testsRepo->createTest($testName, $lessonId, $lang);
+                $this->lessonsService->updateLessonTest(
+                    $test->{Test::testId()},
+                    $lesson);
+                return $test;
+            } else {
+                return $this->testsRepo->updateTest(
+                    $testName, $lang, $this->testsRepo->getTestByTestId($lesson->{Lesson::lessonTestId()}));
+            }
         });
     }
 
@@ -129,4 +148,5 @@ class TestsServiceImpl implements ITestsService
             }
         }
     }
+
 }

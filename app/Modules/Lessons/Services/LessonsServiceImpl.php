@@ -137,7 +137,6 @@ class LessonsServiceImpl implements ILessonsService
      */
     public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson
     {
-        $lesson->{Lesson::lessonTestId()} = $lessonTestId;
-        $lesson->update();
+        return $this->lessonsRepo->updateLessonTest($lessonTestId, $lesson);
     }
 }

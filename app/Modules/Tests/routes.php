@@ -12,13 +12,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'scope:admin,sup
     Route::resource('tests', TestController::class);
 
     // show
-    Route::get("{test}/show", [TestController::class, "show"]);
+    Route::get("{lesson}/show", [TestController::class, "show"]);
 
     // store
-    Route::post("store", [TestController::class, "store"]);
-
-    // update
-    Route::put("{test}/update", [TestController::class, "update"]);
+    Route::post("store-or-update", [TestController::class, "storeOrUpdate"]);
 
     // delete
     Route::delete("{test}/delete", [TestController::class, "destroy"]);

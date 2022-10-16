@@ -6,7 +6,10 @@ use App\Models\Test;
 
 interface ITestsService
 {
-    public function createTest(string $testName, int $lessonId, string $lang): Test;
+
+    public function getTestByTestId(int $testId): ?Test;
+
+    public function createOrUpdateTest(string $testName, int $lessonId, string $lang): Test;
 
     public function updateTest(string $testName, string $lang, Test $test): Test;
 

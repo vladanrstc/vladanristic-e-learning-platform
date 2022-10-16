@@ -21,6 +21,15 @@ class TestsRepo implements ITestsRepo
     }
 
     /**
+     * @param  int  $testId
+     * @return Test|null
+     */
+    public function getTestByTestId(int $testId): ?Test
+    {
+        return Test::where(Test::testId(), $testId)->first();
+    }
+
+    /**
      * @param  string  $testName
      * @param  int  $lessonId
      * @param  string  $lang
