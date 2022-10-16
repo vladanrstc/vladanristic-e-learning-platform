@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'json',
             'lang' => CheckLocaleMiddleware::class,
-//            'auth:api',
+            //            'auth:api',
         ],
     ];
 
@@ -57,18 +57,18 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'auth'             => \App\Http\Middleware\Authenticate::class,
+        'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session'     => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'cache.headers'    => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can'              => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest'            => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'json' => \App\Http\Middleware\ForceJsonResponse::class,
-        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'signed'           => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'json'             => \App\Http\Middleware\ForceJsonResponse::class,
+        'scopes'           => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope'            => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     ];
 }

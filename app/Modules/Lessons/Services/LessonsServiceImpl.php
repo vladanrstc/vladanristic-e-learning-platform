@@ -41,7 +41,8 @@ class LessonsServiceImpl implements ILessonsService
         FileDTO $lessonPractice = null,
         string $lang
     ): Lesson {
-        return $this->lessonsRepo->createLesson($lessonTitle, $lessonDescription, $lessonCode, $lessonSectionId,
+        return $this->lessonsRepo->createLesson(
+            $lessonTitle, $lessonDescription, $lessonCode, $lessonSectionId,
             $lessonPractice, $lang);
     }
 
@@ -62,7 +63,8 @@ class LessonsServiceImpl implements ILessonsService
         string $lang,
         Lesson $lesson
     ): Lesson {
-        return $this->lessonsRepo->updateLesson($lessonTitle, $lessonDescription, $lessonCode, $lessonPractice, $lang,
+        return $this->lessonsRepo->updateLesson(
+            $lessonTitle, $lessonDescription, $lessonCode, $lessonPractice, $lang,
             $lesson);
     }
 
@@ -94,6 +96,15 @@ class LessonsServiceImpl implements ILessonsService
     }
 
     /**
+     * @param  int  $lessonId
+     * @return Lesson|null
+     */
+    public function getLessonByLessonId(int $lessonId): ?Lesson
+    {
+        return $this->lessonsRepo->getLessonByLessonId($lessonId);
+    }
+
+    /**
      * @param  array  $lessons
      * @return Collection
      */
@@ -117,5 +128,16 @@ class LessonsServiceImpl implements ILessonsService
     public function deleteLesson(Lesson $lesson): bool
     {
         return $this->lessonsRepo->deleteLesson($lesson);
+    }
+
+    /**
+     * @param  int  $lessonTestId
+     * @param  Lesson  $lesson
+     * @return Lesson
+     */
+    public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson
+    {
+        $lesson->{Lesson::lessonTestId()} = $lessonTestId;
+        $lesson->update();
     }
 }

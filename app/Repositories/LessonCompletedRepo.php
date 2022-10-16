@@ -16,8 +16,8 @@ class LessonCompletedRepo implements ILessonCompletedRepo
     {
         return LessonCompleted::create([
             "lesson_completed_flag" => true,
-            "lesson_id" => $lessonId,
-            "course_started_id" => $userCourseStartedId,
+            "lesson_id"             => $lessonId,
+            "course_started_id"     => $userCourseStartedId,
         ]);
     }
 }

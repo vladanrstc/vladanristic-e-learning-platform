@@ -34,7 +34,8 @@ class LessonFinishServiceImpl implements ILessonFinishService
     public function completeLesson(int $lessonId, int $userId): LessonCompleted
     {
         $courseStarted = $this->courseStartRepo->getCourseStartedForUserAndLessonId($lessonId, $userId);
-        return $this->lessonCompletedRepo->addCompletedLesson($lessonId,
+        return $this->lessonCompletedRepo->addCompletedLesson(
+            $lessonId,
             $courseStarted->{CourseStart::courseStartedId()});
     }
 }

@@ -13,9 +13,9 @@ class Section extends Model
 
     public $translatable = ['section_name'];
 
-    protected $table = 'sections';
+    protected $table      = 'sections';
     protected $primaryKey = 'section_id';
-    protected $guarded = [];
+    protected $guarded    = [];
 
     public function lessons()
     {

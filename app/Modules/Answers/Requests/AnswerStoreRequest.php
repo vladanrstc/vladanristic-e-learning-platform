@@ -15,9 +15,9 @@ class AnswerStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'lang' => 'required',
+            'lang'                                     => 'required',
             'answer_text.'.$this->request->get("lang") => 'required|max:255|min:3',
-            'answer_true' => 'required',
+            'answer_true'                              => 'required',
         ];
     }
 }

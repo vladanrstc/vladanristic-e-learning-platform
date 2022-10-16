@@ -24,7 +24,10 @@ class LangHelper
             $language = App::getLocale();
         }
 
-        $messages = json_decode(file_get_contents(base_path("App".DIRECTORY_SEPARATOR."Modules".DIRECTORY_SEPARATOR.$module->value.DIRECTORY_SEPARATOR."Messages".DIRECTORY_SEPARATOR.$language.".json")),
+        $messages = json_decode(
+            file_get_contents(
+                base_path(
+                    "App".DIRECTORY_SEPARATOR."Modules".DIRECTORY_SEPARATOR.$module->value.DIRECTORY_SEPARATOR."Messages".DIRECTORY_SEPARATOR.$language.".json")),
             true);
 
         if (isset($messages[$key])) {

@@ -14,10 +14,10 @@ class Lesson extends Model
 
     public $translatable = ['lesson_title', 'lesson_description', 'lesson_practice', 'lesson_video_link'];
 
-    protected $table = 'lessons';
+    protected $table      = 'lessons';
     protected $primaryKey = 'lesson_id';
-    protected $guarded = [];
-    protected $appends = ['lesson_completed'];
+    protected $guarded    = [];
+    protected $appends    = ['lesson_completed'];
 
     public function lessonsCompleted()
     {

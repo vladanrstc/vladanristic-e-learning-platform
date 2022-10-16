@@ -28,16 +28,16 @@ class AppServiceProvider extends ServiceProvider
 {
 
     public array $bindings = [
-        IUsersRepo::class => UsersRepo::class,
-        ICourseStartRepo::class => CourseStartRepo::class,
-        ICoursesRepo::class => CoursesRepo::class,
-        ISectionsRepo::class => SectionsRepo::class,
-        ILessonsRepo::class => LessonsRepo::class,
+        IUsersRepo::class           => UsersRepo::class,
+        ICourseStartRepo::class     => CourseStartRepo::class,
+        ICoursesRepo::class         => CoursesRepo::class,
+        ISectionsRepo::class        => SectionsRepo::class,
+        ILessonsRepo::class         => LessonsRepo::class,
         ILessonCompletedRepo::class => LessonCompletedRepo::class,
-        IQuestionsRepo::class => QuestionsRepo::class,
-        IAnswersRepo::class => AnswersRepo::class,
-        ITestsRepo::class => TestsRepo::class,
-        ILogsRepo::class => LogsRepo::class
+        IQuestionsRepo::class       => QuestionsRepo::class,
+        IAnswersRepo::class         => AnswersRepo::class,
+        ITestsRepo::class           => TestsRepo::class,
+        ILogsRepo::class            => LogsRepo::class
     ];
 
 }

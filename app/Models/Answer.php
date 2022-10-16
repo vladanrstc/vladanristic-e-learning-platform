@@ -12,9 +12,9 @@ class Answer extends Model
 
     public $translatable = ['answer_text'];
 
-    protected $table = 'answers';
+    protected $table      = 'answers';
     protected $primaryKey = 'answer_id';
-    protected $guarded = [];
+    protected $guarded    = [];
 
     /*public function question() {
         return $this->hasMany("App\Answer");

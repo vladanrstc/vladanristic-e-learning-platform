@@ -33,7 +33,7 @@ class ReviewsServiceImpl implements IReviewsService
         int $userId
     ): CourseStart {
         return $this->courseStartRepo->updateCourseStart([
-            CourseStart::courseStartMark() => $reviewMark,
+            CourseStart::courseStartMark()   => $reviewMark,
             CourseStart::courseStartReview() => $reviewText
         ], $this->courseStartRepo->getCourseStartForCourseAndUser($courseSlug, $userId));
     }
@@ -56,7 +56,7 @@ class ReviewsServiceImpl implements IReviewsService
     {
         return $this->courseStartRepo->updateCourseStart([
             CourseStart::courseStartReview() => null,
-            CourseStart::courseStartMark() => null
+            CourseStart::courseStartMark()   => null
         ], $courseStart);
     }
 

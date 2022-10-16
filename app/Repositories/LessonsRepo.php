@@ -49,7 +49,8 @@ class LessonsRepo implements ILessonsRepo
             $lesson->{Lesson::lessonSlug()}      = rand(100, 100000)."-".Str::slug($lessonTitle, "-");
 
             if (!is_null($lessonPractice)) {
-                $lesson->setTranslation(Lesson::lessonPractice(), $lang,
+                $lesson->setTranslation(
+                    Lesson::lessonPractice(), $lang,
                     StorageHelper::storeFile("public", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
@@ -105,7 +106,8 @@ class LessonsRepo implements ILessonsRepo
             }
 
             if (!is_null($lessonPractice)) {
-                $lesson->setTranslation(Lesson::lessonPractice(), $lang,
+                $lesson->setTranslation(
+                    Lesson::lessonPractice(), $lang,
                     StorageHelper::storeFile("public", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 

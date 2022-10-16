@@ -27,18 +27,18 @@ class StatsServiceImpl implements IStatsService
     }
 
     #[ArrayShape([
-        "users" => "mixed",
-        "tests" => "mixed",
-        "sections" => "mixed",
-        "lessons" => "mixed",
-        "courses" => "mixed",
-        "latest_user" => "string",
-        "latest_course" => "string",
-        "latest_section" => "string",
-        "latest_lesson" => "string",
-        "latest_test" => "string",
-        "latest_enrollment" => "string",
-        "courses_started" => "mixed",
+        "users"               => "mixed",
+        "tests"               => "mixed",
+        "sections"            => "mixed",
+        "lessons"             => "mixed",
+        "courses"             => "mixed",
+        "latest_user"         => "string",
+        "latest_course"       => "string",
+        "latest_section"      => "string",
+        "latest_lesson"       => "string",
+        "latest_test"         => "string",
+        "latest_enrollment"   => "string",
+        "courses_started"     => "mixed",
         "num_of_monthly_logs" => "array"
     ])]
     public function getAppStats(): array
@@ -65,26 +65,31 @@ class StatsServiceImpl implements IStatsService
         })->toArray();
 
         return [
-            "users" => User::count(),
-            "tests" => Test::count(),
-            "sections" => Section::count(),
-            "lessons" => Lesson::count(),
-            "courses" => Course::count(),
-            "courses_started" => CourseStart::count(),
-            "latest_user" => $this->formatStatOutput(User::orderBy("created_at", "DESC")->first()?->only([
-                User::name(), User::lastName()
-            ])),
-            "latest_course" => $this->formatStatOutput(array(
+            "users"               => User::count(),
+            "tests"               => Test::count(),
+            "sections"            => Section::count(),
+            "lessons"             => Lesson::count(),
+            "courses"             => Course::count(),
+            "courses_started"     => CourseStart::count(),
+            "latest_user"         => $this->formatStatOutput(
+                User::orderBy("created_at", "DESC")->first()?->only([
+                    User::name(), User::lastName()
+                ])),
+            "latest_course"       => $this->formatStatOutput(array(
                 Course::orderBy("created_at", "DESC")->first()?->getTranslation(Course::courseName(), "sr")
             )),
-            "latest_section" => $this->formatStatOutput(Section::orderBy("created_at",
-                "DESC")->first()?->only([Section::sectionName()])),
-            "latest_lesson" => $this->formatStatOutput(Lesson::orderBy("created_at",
-                "DESC")->first()?->only([Lesson::lessonTitle()])),
-            "latest_test" => $this->formatStatOutput(array(
+            "latest_section"      => $this->formatStatOutput(
+                Section::orderBy(
+                    "created_at",
+                    "DESC")->first()?->only([Section::sectionName()])),
+            "latest_lesson"       => $this->formatStatOutput(
+                Lesson::orderBy(
+                    "created_at",
+                    "DESC")->first()?->only([Lesson::lessonTitle()])),
+            "latest_test"         => $this->formatStatOutput(array(
                 Test::orderBy("created_at", "DESC")->first()?->getTranslation(Test::testName(), "sr")
             )),
-            "latest_enrollment" => CourseStart::orderBy("created_at", "DESC")->limit(1)->get()?->map(function (
+            "latest_enrollment"   => CourseStart::orderBy("created_at", "DESC")->limit(1)->get()?->map(function (
                 CourseStart $enrollement
             ) {
                 return $this->formatStatOutput($enrollement->user()->first()->only([User::name(), User::lastName()]))

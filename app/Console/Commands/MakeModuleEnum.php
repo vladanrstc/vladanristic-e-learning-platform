@@ -34,7 +34,8 @@ class MakeModuleEnum extends Command
         $moduleName = ucfirst(strtolower($this->argument('moduleName')));
         $enumName   = ucfirst(strtolower($this->argument('enumName')));
 
-        File::put(app_path().$DS."modules".$DS.$moduleName.$DS."Enums".$DS."{$enumName}.php",
+        File::put(
+            app_path().$DS."modules".$DS.$moduleName.$DS."Enums".$DS."{$enumName}.php",
             FileBlueprint::enumBluePrint($moduleName, $enumName));
 
         return 0;

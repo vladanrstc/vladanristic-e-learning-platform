@@ -12,7 +12,7 @@ class CourseStartServiceProvider extends ServiceProvider
 {
 
     public $bindings = [
-        ICourseStartService::class => CourseStartServiceImpl::class,
+        ICourseStartService::class  => CourseStartServiceImpl::class,
         ILessonFinishService::class => LessonFinishServiceImpl::class
     ];
 

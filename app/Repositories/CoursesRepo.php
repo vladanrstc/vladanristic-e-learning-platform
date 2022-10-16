@@ -39,8 +39,9 @@ class CoursesRepo implements ICoursesRepo
             $course->setTranslation(Course::courseName(), $lang, $courseName);
             $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
-            $course->{Course::courseSlug()} = rand(100, 100000)."-".Str::slug($courseName, "-");
-            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value,
+            $course->{Course::courseSlug()}  = rand(100, 100000)."-".Str::slug($courseName, "-");
+            $course->{Course::courseImage()} = StorageHelper::storeFile(
+                "public", $courseImage, Modules::COURSE->value,
                 "images");
 
             $course->save();
@@ -72,7 +73,8 @@ class CoursesRepo implements ICoursesRepo
         $course->setTranslation(Course::courseDescription(), $lang, $courseDescription);
 
         if (!is_null($courseImage)) {
-            $course->{Course::courseImage()} = StorageHelper::storeFile("public", $courseImage, Modules::COURSE->value,
+            $course->{Course::courseImage()} = StorageHelper::storeFile(
+                "public", $courseImage, Modules::COURSE->value,
                 "images");
         }
 
@@ -89,7 +91,7 @@ class CoursesRepo implements ICoursesRepo
     {
         return Course::where(Course::courseSlug(), $courseSlug)
             ->with([
-                "sections" => function ($query) {
+                "sections"         => function ($query) {
                     $query->orderBy(Section::sectionOrder(), "ASC");
                 },
                 "sections.lessons" => function ($query) {

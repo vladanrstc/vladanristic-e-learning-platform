@@ -15,9 +15,4 @@ trait TestAttributes
         return "test_name";
     }
 
-    public static function testDescription()
-    {
-        return "test_description";
-    }
-
 }

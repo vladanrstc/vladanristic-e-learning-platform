@@ -22,19 +22,18 @@ class TestsRepo implements ITestsRepo
 
     /**
      * @param  string  $testName
-     * @param  string  $testDescription
      * @param  int  $lessonId
      * @param  string  $lang
      * @return Test
      */
-    public function createTest(string $testName, string $testDescription, int $lessonId, string $lang): Test
+    public function createTest(string $testName, int $lessonId, string $lang): Test
     {
         $test = new Test();
         $test->setTranslation(Test::testName(), $lang, $testName);
-        $test->setTranslation(Test::testDescription(), $lang, $testDescription);
         $test->save();
 
-        $this->lessonsRepo->updateLessonTest($test->{Test::testId()},
+        $this->lessonsRepo->updateLessonTest(
+            $test->{Test::testId()},
             $this->lessonsRepo->getLessonByLessonId($lessonId));
 
         return $test;
@@ -42,15 +41,13 @@ class TestsRepo implements ITestsRepo
 
     /**
      * @param  string  $testName
-     * @param  string  $testDescription
      * @param  string  $lang
      * @param  Test  $test
      * @return Test
      */
-    public function updateTest(string $testName, string $testDescription, string $lang, Test $test): Test
+    public function updateTest(string $testName, string $lang, Test $test): Test
     {
         $test->setTranslation(Test::testName(), $lang, $testName);
-        $test->setTranslation(Test::testDescription(), $lang, $testDescription);
         $test->save();
         return $test;
     }

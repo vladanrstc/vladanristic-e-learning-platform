@@ -148,9 +148,10 @@ class UserController extends Controller
     public function updateLoggedUser(UpdateLoggedUserRequest $request): JsonResponse
     {
         return response()->json([
-            'data' => $this->userService->updateUser($request->except([
-                "current_password", "password_repeat"
-            ]), Auth::user())
+            'data' => $this->userService->updateUser(
+                $request->except([
+                    "current_password", "password_repeat"
+                ]), Auth::user())
         ]);
     }
 

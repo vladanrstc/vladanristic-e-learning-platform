@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class LessonCompleted extends Model
 {
 
-    protected $table = 'lessons_completed';
+    protected $table      = 'lessons_completed';
     protected $primaryKey = 'lesson_completed_id';
-    protected $guarded = [];
+    protected $guarded    = [];
 
     public function lesson()
     {

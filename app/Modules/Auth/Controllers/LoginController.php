@@ -39,12 +39,12 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'ac_t' => $loginResult['token'],
-            'rf_t' => $loginResult['token'],
-            'name' => $loginResult['user']->name,
+            'ac_t'      => $loginResult['token'],
+            'rf_t'      => $loginResult['token'],
+            'name'      => $loginResult['user']->name,
             'last_name' => $loginResult['user']->last_name,
-            'language' => $loginResult['user']->language,
-            'scopes' => $loginResult['role']
+            'language'  => $loginResult['user']->language,
+            'scopes'    => $loginResult['role']
         ]);
 
     }

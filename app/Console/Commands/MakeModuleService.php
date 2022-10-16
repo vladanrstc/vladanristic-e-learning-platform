@@ -34,10 +34,12 @@ class MakeModuleService extends Command
         $moduleName  = ucfirst(strtolower($this->argument('moduleName')));
         $serviceName = ucfirst(strtolower($this->argument('serviceName')));
 
-        File::put(app_path().$DS."modules".$DS.$moduleName.$DS."Services".$DS."I{$serviceName}Service.php",
+        File::put(
+            app_path().$DS."modules".$DS.$moduleName.$DS."Services".$DS."I{$serviceName}Service.php",
             FileBlueprint::serviceInterfaceBluePrint($moduleName, $serviceName));
 
-        File::put(app_path().$DS."modules".$DS.$moduleName.$DS."Services".$DS."{$serviceName}ServiceImpl.php",
+        File::put(
+            app_path().$DS."modules".$DS.$moduleName.$DS."Services".$DS."{$serviceName}ServiceImpl.php",
             FileBlueprint::serviceImplBluePrint($moduleName, $serviceName));
 
         return 0;

@@ -13,10 +13,10 @@ class Question extends Model
 
     public $translatable = ['question_text'];
 
-    protected $table = 'questions';
+    protected $table      = 'questions';
     protected $primaryKey = 'question_id';
-    protected $guarded = [];
-    protected $appends = ["question_type"];
+    protected $guarded    = [];
+    protected $appends    = ["question_type"];
 
     public function answers()
     {

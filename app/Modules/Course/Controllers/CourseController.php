@@ -50,7 +50,8 @@ class CourseController extends Controller
             "data" => $this->courseService->createCourse(
                 $request->input("course_name"),
                 $request->input("course_description"),
-                new FileDTO($request->file("course_image")->getClientOriginalName(),
+                new FileDTO(
+                    $request->file("course_image")->getClientOriginalName(),
                     $request->file("course_image")->getContent()),
                 $request->input("lang")
             )
@@ -77,7 +78,8 @@ class CourseController extends Controller
                 $course,
                 $request->input("course_name"),
                 $request->input("course_description"),
-                !is_null($image) ? new FileDTO($request->file("course_image")->getClientOriginalName(),
+                !is_null($image) ? new FileDTO(
+                    $request->file("course_image")->getClientOriginalName(),
                     $request->file("course_image")->getContent()) : null,
                 $request->input("lang")
             )

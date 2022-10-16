@@ -37,7 +37,8 @@ class SectionsServiceImpl implements ISectionsService
             $lastSection = $this->sectionsRepo->getLastSectionForCourse($sectionCourseId);
 
             if (!is_null($lastSection)) {
-                return $this->sectionsRepo->updateSection($section, $sectionName,
+                return $this->sectionsRepo->updateSection(
+                    $section, $sectionName,
                     ($lastSection->{Section::sectionOrder()} + 1), $lang);
             } else {
                 return $this->sectionsRepo->updateSection($section, $sectionName, 1, $lang);

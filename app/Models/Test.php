@@ -11,12 +11,12 @@ class Test extends Model
 {
     use HasTranslations, TestAttributes;
 
-    public $translatable = ['test_name', 'test_description'];
+    public $translatable = ['test_name'];
 
-    protected $table = 'tests';
+    protected $table      = 'tests';
     protected $primaryKey = 'test_id';
-    protected $guarded = [];
-    protected $appends = ['meets_requirements'];
+    protected $guarded    = [];
+    protected $appends    = ['meets_requirements'];
 
     public function questions()
     {

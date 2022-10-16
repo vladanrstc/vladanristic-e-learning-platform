@@ -44,7 +44,8 @@ class LessonsController extends Controller
                 $request->input("lesson_description"),
                 $request->input("lesson_code"),
                 $request->input("lesson_section_id"),
-                !is_null($request->file("lesson_practice")) && $request->file("lesson_practice") !== "null" ? new FileDTO(
+                !is_null($request->file("lesson_practice")) && $request->file(
+                    "lesson_practice") !== "null" ? new FileDTO(
                     $request->file("lesson_practice")->getClientOriginalName(),
                     $request->file("lesson_practice")->getContent()) : null,
                 $request->input("lang")
@@ -66,7 +67,8 @@ class LessonsController extends Controller
                 $request->input("lesson_title"),
                 $request->input("lesson_description"),
                 $request->input("lesson_code"),
-                !is_null($request->file("lesson_practice")) && $request->file("lesson_practice") != "null" ? new FileDTO(
+                !is_null($request->file("lesson_practice")) && $request->file(
+                    "lesson_practice") != "null" ? new FileDTO(
                     $request->file("lesson_practice")->getClientOriginalName(),
                     $request->file("lesson_practice")->getContent()) : null,
                 $request->input("lang"),

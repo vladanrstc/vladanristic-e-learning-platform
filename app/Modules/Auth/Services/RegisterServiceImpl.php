@@ -64,13 +64,16 @@ class RegisterServiceImpl implements IRegisterService
                 Str::random(50)
             );
 
-            if (!MailHandler::sendMail($this->mailDTOBuilder
-                ->addTo($user->email)
-                ->addBody(view("emails.verifyUser", ["user" => $user])->render())
-                ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
-                ->build())) {
-                throw new MailNotSentException(str_replace("#{email}", $user->email,
-                    Messages::VERIFY_EMAIL_NOT_SENT->value));
+            if (!MailHandler::sendMail(
+                $this->mailDTOBuilder
+                    ->addTo($user->email)
+                    ->addBody(view("emails.verifyUser", ["user" => $user])->render())
+                    ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
+                    ->build())) {
+                throw new MailNotSentException(
+                    str_replace(
+                        "#{email}", $user->email,
+                        Messages::VERIFY_EMAIL_NOT_SENT->value));
             }
 
             return $user;
@@ -92,7 +95,7 @@ class RegisterServiceImpl implements IRegisterService
         if (!is_null($user)) {
             $this->usersRepo->updateUser([
                 User::emailVerifiedAt() => new \DateTime(),
-                User::rememberToken() => null
+                User::rememberToken()   => null
             ], $user);
 
             return true;

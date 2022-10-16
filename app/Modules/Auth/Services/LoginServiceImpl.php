@@ -52,9 +52,9 @@ class LoginServiceImpl implements ILoginService
             ]);
 
             return [
-                "user" => $user,
+                "user"  => $user,
                 "token" => $token,
-                "role" => $role
+                "role"  => $role
             ];
         }
 

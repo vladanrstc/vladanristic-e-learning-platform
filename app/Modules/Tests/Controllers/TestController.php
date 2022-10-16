@@ -39,7 +39,6 @@ class TestController extends Controller
         return response()->json([
             "data" => $this->testsService->createTest(
                 $request->input("test_name")[$request->input("lang")],
-                $request->input("test_description")[$request->input("lang")],
                 $request->input("lesson_id"),
                 $request->input("lang")
             )
@@ -58,7 +57,6 @@ class TestController extends Controller
         return response()->json([
             "data" => $this->testsService->updateTest(
                 $request->input("test_name")[$request->input("lang")],
-                $request->input("test_description")[$request->input("lang")],
                 $request->input("lang"),
                 $test
             )
@@ -86,15 +84,6 @@ class TestController extends Controller
     {
         $deleteRes = $this->testsService->deleteTest($test);
         return response()->json(["data" => $deleteRes], $deleteRes ? 200 : 500);
-    }
-
-    /**
-     * @param  Test  $test
-     * @return JsonResponse
-     */
-    public function testRequirements(Test $test): JsonResponse
-    {
-        return response()->json(["data" => $test]);
     }
 
     /**

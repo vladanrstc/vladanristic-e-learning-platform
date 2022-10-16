@@ -26,11 +26,15 @@ interface ILessonsService
         Lesson $lesson
     ): Lesson;
 
+    public function getLessonByLessonId(int $lessonId): ?Lesson;
+
     public function updateLessonVideoLink(string $lessonVideoLink, int $lessonId, string $lang): Lesson;
 
     public function toggleLessonPublishedStatus(bool $isLessonPublished, int $lessonId): Lesson;
 
     public function reorderLessons(array $lessons): Collection;
+
+    public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson;
 
     public function deleteLesson(Lesson $lesson): bool;
 }

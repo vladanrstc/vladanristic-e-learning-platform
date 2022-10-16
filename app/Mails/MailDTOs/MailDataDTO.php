@@ -6,10 +6,10 @@ class MailDataDTO
 {
 
     private string $subject = "";
-    private string $body = "";
-    private array $to = [];
-    private array $cc = [];
-    private array $bcc = [];
+    private string $body    = "";
+    private array  $to      = [];
+    private array  $cc      = [];
+    private array  $bcc     = [];
 
     /**
      * @return string

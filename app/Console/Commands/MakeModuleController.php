@@ -34,7 +34,8 @@ class MakeModuleController extends Command
         $moduleName     = ucfirst(strtolower($this->argument('moduleName')));
         $controllerName = ucfirst(strtolower($this->argument('controllerName')));
 
-        File::put(app_path().$DS."modules".$DS.$moduleName.$DS."Controllers".$DS."{$controllerName}Controller.php",
+        File::put(
+            app_path().$DS."modules".$DS.$moduleName.$DS."Controllers".$DS."{$controllerName}Controller.php",
             FileBlueprint::controllerBluePrint($moduleName, $controllerName));
 
 

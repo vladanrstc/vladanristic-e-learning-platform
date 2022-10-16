@@ -14,10 +14,10 @@ class Course extends Model
 
     public $translatable = ['course_name', 'course_description'];
 
-    protected $table = 'courses';
+    protected $table      = 'courses';
     protected $primaryKey = 'course_id';
-    protected $guarded = [];
-    protected $appends = ['course_average_mark', 'course_percentage_completed'];
+    protected $guarded    = [];
+    protected $appends    = ['course_average_mark', 'course_percentage_completed'];
 
     public function courses_started()
     {
@@ -78,13 +78,14 @@ class Course extends Model
                 return false;
             }
 
-            $lessons_completed = LessonCompleted::where("course_started_id",
+            $lessons_completed = LessonCompleted::where(
+                "course_started_id",
                 $course_start->user_course_started_id)->get();
 
             $lessons_completed_count = count($lessons_completed);
 
             return array(
-                "lessons_count" => $lessons_count,
+                "lessons_count"           => $lessons_count,
                 "lessons_completed_count" => $lessons_completed_count
             );
 

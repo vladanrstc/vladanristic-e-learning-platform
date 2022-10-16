@@ -53,11 +53,12 @@ class ForgotPasswordService implements IForgotPasswordService
                     User::rememberToken() => Str::random(40)
                 ], $user);
 
-                if (!MailHandler::sendMail($this->mailDTOBuilder
-                    ->addTo($user->{User::email()})
-                    ->addBody(view("emails.resetPassword", ["user" => $user])->render())
-                    ->addSubject(LangHelper::getMessage("reset_password_email_subject", Modules::AUTH))
-                    ->build())) {
+                if (!MailHandler::sendMail(
+                    $this->mailDTOBuilder
+                        ->addTo($user->{User::email()})
+                        ->addBody(view("emails.resetPassword", ["user" => $user])->render())
+                        ->addSubject(LangHelper::getMessage("reset_password_email_subject", Modules::AUTH))
+                        ->build())) {
                     throw new MailNotSentException(Messages::RESET_PASSWORD_EXCEPTION->value);
                 }
 
@@ -80,7 +81,7 @@ class ForgotPasswordService implements IForgotPasswordService
     public function updateUserPassword(string $token, string $password): User
     {
         return $this->usersRepo->updateUser([
-            User::password() => bcrypt($password),
+            User::password()      => bcrypt($password),
             User::rememberToken() => null
         ], $this->usersRepo->getUserByToken($token));
     }

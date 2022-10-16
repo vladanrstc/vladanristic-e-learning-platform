@@ -2,10 +2,8 @@
 
 namespace App\Modules\Tests\Services;
 
-use App\Models\Answer;
-use App\Models\Lesson;
-use App\Models\Question;
 use App\Models\Test;
+use App\Modules\Lessons\Services\ILessonsService;
 use App\Repositories\ILessonsRepo;
 use App\Repositories\IQuestionsRepo;
 use App\Repositories\ITestsRepo;
@@ -30,39 +28,54 @@ class TestsServiceImpl implements ITestsService
     private IQuestionsRepo $questionsRepo;
 
     /**
+     * @var ILessonsService
+     */
+    private ILessonsService $lessonsService;
+
+    /**
      * @param  ITestsRepo  $testsRepo
      * @param  ILessonsRepo  $lessonsRepo
      * @param  IQuestionsRepo  $questionsRepo
+     * @param  ILessonsService  $lessonsService
      */
-    public function __construct(ITestsRepo $testsRepo, ILessonsRepo $lessonsRepo, IQuestionsRepo $questionsRepo)
-    {
-        $this->testsRepo     = $testsRepo;
-        $this->lessonsRepo   = $lessonsRepo;
-        $this->questionsRepo = $questionsRepo;
+    public function __construct(
+        ITestsRepo $testsRepo,
+        ILessonsRepo $lessonsRepo,
+        IQuestionsRepo $questionsRepo,
+        ILessonsService $lessonsService
+    ) {
+        $this->testsRepo      = $testsRepo;
+        $this->lessonsRepo    = $lessonsRepo;
+        $this->questionsRepo  = $questionsRepo;
+        $this->lessonsService = $lessonsService;
     }
 
     /**
      * @param  string  $testName
-     * @param  string  $testDescription
      * @param  int  $lessonId
      * @param  string  $lang
      * @return Test
      */
-    public function createTest(string $testName, string $testDescription, int $lessonId, string $lang): Test
+    public function createTest(string $testName, int $lessonId, string $lang): Test
     {
-        return $this->testsRepo->createTest($testName, $testDescription, $lessonId, $lang);
+        return DB::transaction(function () use ($testName, $lessonId, $lang) {
+            $test = $this->testsRepo->createTest($testName, $lessonId, $lang);
+            $this->lessonsService->updateLessonTest(
+                $test->{Test::testId()},
+                $this->lessonsService->getLessonByLessonId($lessonId));
+            return $test;
+        });
     }
 
     /**
      * @param  string  $testName
-     * @param  string  $testDescription
      * @param  string  $lang
      * @param  Test  $test
      * @return Test
      */
-    public function updateTest(string $testName, string $testDescription, string $lang, Test $test): Test
+    public function updateTest(string $testName, string $lang, Test $test): Test
     {
-        return $this->testsRepo->updateTest($testName, $testDescription, $lang, $test);
+        return $this->testsRepo->updateTest($testName, $lang, $test);
     }
 
     /**
