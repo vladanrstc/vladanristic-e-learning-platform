@@ -29,7 +29,7 @@ class CreateLessonsTable extends Migration
             $table->foreign("lesson_section_id")->references("section_id")->on("sections")->onDelete("cascade");
 
             $table->unsignedBigInteger("lesson_test_id")->nullable();
-            $table->foreign("lesson_test_id")->references("test_id")->on("tests")->onDelete("cascade");
+            $table->foreign("lesson_test_id")->references("test_id")->on("tests")->onDelete("set null");
 
             $table->timestamps();
         });

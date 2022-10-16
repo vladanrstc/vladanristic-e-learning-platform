@@ -178,11 +178,11 @@ class LessonsRepo implements ILessonsRepo
     }
 
     /**
-     * @param  int  $lessonTestId
+     * @param  int|null  $lessonTestId
      * @param  Lesson  $lesson
      * @return Lesson
      */
-    public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson
+    public function updateLessonTest(int $lessonTestId = null, Lesson $lesson): Lesson
     {
         $lesson->{Lesson::lessonTestId()} = $lessonTestId;
         $lesson->save();

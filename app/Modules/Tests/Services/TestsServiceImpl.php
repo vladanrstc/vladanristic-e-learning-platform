@@ -107,7 +107,7 @@ class TestsServiceImpl implements ITestsService
             // TODO: Simplify this with one query
             $this->lessonsRepo->updateLessonTest(null, $this->lessonsRepo->getLessonByTestId($test->test_id));
 
-            $this->testsRepo->deleteTest($test);
+            return $this->testsRepo->deleteTest($test);
         });
     }
 

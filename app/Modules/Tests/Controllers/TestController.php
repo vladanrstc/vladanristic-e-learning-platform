@@ -53,7 +53,7 @@ class TestController extends Controller
      */
     public function show(Lesson $lesson): JsonResponse
     {
-        return response()->json(["data" => $lesson->test()->first()]);
+        return response()->json(["data" => $lesson->test()->first() ?? ""]);
     }
 
     /**

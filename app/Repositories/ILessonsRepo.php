@@ -31,7 +31,7 @@ interface ILessonsRepo
 
     public function toggleLessonPublishedStatus(bool $isLessonPublished, Lesson $lesson);
 
-    public function updateLessonTest(int $lessonTestId, Lesson $lesson): Lesson;
+    public function updateLessonTest(int $lessonTestId = null, Lesson $lesson): Lesson;
 
     public function getLessonByLessonId(int $lessonId): Lesson|null;
 
