@@ -15,8 +15,8 @@ class QuestionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'lang'                                       => 'required|max:255|min:3',
-            'question_text.'.$this->request->get("lang") => 'required|max:255|min:3'
+            'lang'                                       => 'required|max:255',
+            'question_text.'.$this->request->get("lang") => 'required|max:255'
         ];
     }
 }
