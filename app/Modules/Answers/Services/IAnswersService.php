@@ -10,5 +10,5 @@ interface IAnswersService
 
     public function updateAnswer(string $answerText, bool $isAnswerCorrect, string $lang, Answer $answer): Answer;
 
-    public function deleteAnswer(Answer $answer): Answer;
+    public function deleteAnswer(Answer $answer): bool;
 }

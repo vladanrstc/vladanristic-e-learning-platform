@@ -47,10 +47,10 @@ class AnswersServiceImpl implements IAnswersService
 
     /**
      * @param  Answer  $answer
-     * @return Answer
+     * @return bool
      */
-    public function deleteAnswer(Answer $answer): Answer
+    public function deleteAnswer(Answer $answer): bool
     {
-        // TODO: Implement deleteAnswer() method.
+        return $this->answersRepo->deleteAnswer($answer);
     }
 }
