@@ -16,9 +16,11 @@ interface IReviewsService
         int $userId
     ): CourseStart;
 
-    public function getUserReviewsForCourse(string $courseSlug, int $userId): CourseStart|null;
+    public function getUserReviewsForCourse(string $courseSlug, int $userId): ?CourseStart;
 
-    public function getCourseReviewMarks(int $courseId): Collection|null;
+    public function getCourseReviewMarks(int $courseId): ?Collection;
 
-    public function getCourseReviews(string $courseSlug): Collection|null;
+    public function getCourseReviews(string $courseSlug): ?Collection;
+
+    public function getAllCourseReviews(int $courseId);
 }

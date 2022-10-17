@@ -59,7 +59,7 @@ class NotesServiceImpl implements INotesService
      * @param  string  $courseId
      * @return Collection|null
      */
-    public function getNotesForCourse(string $courseId): CourseStart|null
+    public function getNotesForCourse(string $courseId)
     {
         return $this->courseStartRepo->getCourseNotes($courseId);
     }

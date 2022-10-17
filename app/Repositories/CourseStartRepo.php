@@ -31,7 +31,7 @@ class CourseStartRepo implements ICourseStartRepo
      * @param $courseId
      * @return CourseStart|null
      */
-    public function getCourseNotes($courseId): CourseStart|null
+    public function getCourseNotes($courseId)
     {
         return CourseStart::where(CourseStart::courseId(), $courseId)
             ->whereNotNull(CourseStart::courseStartNote())
@@ -69,7 +69,7 @@ class CourseStartRepo implements ICourseStartRepo
      * @param  string  $courseSlug
      * @return Collection|null
      */
-    public function getCourseReviews(string $courseSlug): Collection|null
+    public function getCourseReviews(string $courseSlug): ?Collection
     {
         return CourseStart::whereHas("course", function ($query) use ($courseSlug) {
             $query->where(Course::courseSlug(), $courseSlug);
@@ -78,6 +78,19 @@ class CourseStartRepo implements ICourseStartRepo
             ->whereNotNull(CourseStart::courseStartMark())
             ->with('user')
             ->get();
+    }
+
+    /**
+     * @param  int  $courseId
+     * @return Collection|null
+     */
+    public function getAllCourseReviews(int $courseId)
+    {
+        return CourseStart::where(CourseStart::courseId(), $courseId)
+            ->whereNotNull(CourseStart::courseStartMark())
+            ->whereNotNull(CourseStart::courseStartReview())
+            ->with('user')
+            ->paginate(10);
     }
 
     /**

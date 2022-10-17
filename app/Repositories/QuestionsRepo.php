@@ -4,9 +4,22 @@ namespace App\Repositories;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Test;
+use Illuminate\Support\Collection;
 
 class QuestionsRepo implements IQuestionsRepo
 {
+
+    /**
+     * @param  int  $testId
+     * @return Collection|null
+     */
+    public function getTestQuestions(int $testId): ?Collection
+    {
+        return Question::where(Test::testId(), $testId)
+            ->with('answers')
+            ->get();
+    }
 
     /**
      * @param  int  $questionId

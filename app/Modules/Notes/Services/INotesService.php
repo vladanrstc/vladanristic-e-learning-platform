@@ -12,5 +12,5 @@ interface INotesService
 
     public function updateUserCourseStartedNotes(string $courseSlug, string $notes, int $userId): CourseStart;
 
-    public function getNotesForCourse(string $courseId): CourseStart|null;
+    public function getNotesForCourse(string $courseId);
 }

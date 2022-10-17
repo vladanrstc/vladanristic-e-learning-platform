@@ -11,7 +11,7 @@ interface ICourseStartRepo
 
     public function updateCourseStart(array $updateParams, CourseStart $courseStart): CourseStart;
 
-    public function getCourseNotes($courseId): ?CourseStart;
+    public function getCourseNotes($courseId);
 
     public function getCourseReviewMarks($courseId): ?Collection;
 
@@ -22,4 +22,6 @@ interface ICourseStartRepo
     public function getCourseStartedForUserAndLessonId(int $lessonId, int $userId): ?CourseStart;
 
     public function getCourseStartedById(int $courseStartedId): ?CourseStart;
+
+    public function getAllCourseReviews(int $courseId);
 }

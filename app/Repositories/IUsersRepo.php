@@ -35,4 +35,8 @@ interface IUsersRepo
     public function getUserByToken(string $token): User|null;
 
     public function banUser(User $user): bool;
+
+    public function getUsersByEmail(string $searchParam);
+
+    public function getUsers();
 }

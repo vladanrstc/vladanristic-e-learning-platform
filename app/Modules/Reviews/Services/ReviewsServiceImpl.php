@@ -77,4 +77,12 @@ class ReviewsServiceImpl implements IReviewsService
     {
         return $this->courseStartRepo->getCourseReviews($courseSlug);
     }
+
+    /**
+     * @param  int  $courseId
+     */
+    public function getAllCourseReviews(int $courseId)
+    {
+        return $this->courseStartRepo->getAllCourseReviews($courseId);
+    }
 }

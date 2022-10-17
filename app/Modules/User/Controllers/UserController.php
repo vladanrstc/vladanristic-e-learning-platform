@@ -38,9 +38,9 @@ class UserController extends Controller
      */
     private IUsersRepo $usersRepo;
 
-    public function __construct(UserServiceImpl $userServiceImpl, UsersRepo $usersRepo)
+    public function __construct(IUserService $userService, IUsersRepo $usersRepo)
     {
-        $this->userService = $userServiceImpl;
+        $this->userService = $userService;
         $this->usersRepo   = $usersRepo;
     }
 
@@ -48,19 +48,11 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @param  Request  $request
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
-        $param = $request->get('q');
-
-        if ($param != null) {
-            return User::where("email", 'like', '%'.$param.'%')
-                ->where(User::role(), Roles::USER->name)
-                ->paginate(10);
-        } else {
-            return User::where(User::role(), Roles::USER->name)->paginate(10);
-        }
-
+        return response()->json(["data" => $this->userService->searchUsers($request->get('q'))]);
     }
 
     /**

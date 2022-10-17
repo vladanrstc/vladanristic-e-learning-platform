@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\Roles;
 use App\Exceptions\BanUserException;
 use App\Exceptions\UserPermanentDeleteException;
 use App\Exceptions\UserUpdateFailedException;
@@ -142,4 +143,24 @@ class UsersRepo implements IUsersRepo
     {
         return User::where(User::rememberToken(), $token)->first();
     }
+
+    /**
+     * @param  string  $searchParam
+     * @return mixed
+     */
+    public function getUsersByEmail(string $searchParam)
+    {
+        return User::where("email", 'like', '%' . $searchParam . '%')
+            ->where(User::role(), Roles::USER->name)
+            ->paginate(10);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return User::where(User::role(), Roles::USER->name)->paginate(10);
+    }
+
 }

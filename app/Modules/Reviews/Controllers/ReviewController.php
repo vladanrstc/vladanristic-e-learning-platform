@@ -75,15 +75,11 @@ class ReviewController extends Controller
 
     /**
      * @param  string  $course
-     * @return mixed
+     * @return JsonResponse
      */
-    public function allCourseReviews(string $course)
+    public function allCourseReviews(string $course): JsonResponse
     {
-        return CourseStart::where("course_id", $course)
-            ->whereNotNull("user_course_started_review_text")
-            ->whereNotNull("user_course_started_review_mark")
-            ->with('user')
-            ->paginate(10);
+        return response()->json(["data" => $this->reviewsService->getAllCourseReviews($course)]);
     }
 
     /**

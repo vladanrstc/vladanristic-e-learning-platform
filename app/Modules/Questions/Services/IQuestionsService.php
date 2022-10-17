@@ -3,6 +3,7 @@
 namespace App\Modules\Questions\Services;
 
 use App\Models\Question;
+use Illuminate\Support\Collection;
 
 interface IQuestionsService
 {
@@ -11,4 +12,6 @@ interface IQuestionsService
     public function updateQuestion(string $questionText, string $lang, Question $question): Question;
 
     public function deleteQuestion(Question $question): bool;
+
+    public function getTestQuestions(int $testId): ?Collection;
 }

@@ -77,7 +77,7 @@ class QuestionController extends Controller
      */
     public function testQuestions($test): mixed
     {
-        return Question::where("test_id", $test)->with('answers')->get();
+        return response()->json(["data" => $this->questionsService->getTestQuestions($test)]);
     }
 
 }

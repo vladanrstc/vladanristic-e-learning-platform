@@ -13,4 +13,6 @@ interface IUserService
     public function permanentlyDeleteUser(int $userId): bool;
 
     public function unbanUser(int $userId): bool;
+
+    public function searchUsers(string $searchParam = null);
 }

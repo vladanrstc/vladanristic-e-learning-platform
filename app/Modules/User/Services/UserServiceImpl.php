@@ -2,6 +2,7 @@
 
 namespace App\Modules\User\Services;
 
+use App\Enums\Roles;
 use App\Exceptions\UserPermanentDeleteException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Models\User;
@@ -81,5 +82,18 @@ class UserServiceImpl implements IUserService
     public function unbanUser(int $userId): bool
     {
         return $this->usersRepo->unbanUser($this->usersRepo->getTrashedUserById($userId));
+    }
+
+    /**
+     * @param  string|null  $searchParam
+     * @return mixed
+     */
+    public function searchUsers(string $searchParam = null): mixed
+    {
+        if (!is_null($searchParam)) {
+            return $this->usersRepo->getUsersByEmail($searchParam);
+        } else {
+            return $this->usersRepo->getUsers();
+        }
     }
 }

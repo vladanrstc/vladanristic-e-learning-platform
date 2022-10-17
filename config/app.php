@@ -195,6 +195,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Users module
+        App\Modules\User\Providers\UsersServiceProvider::class,
+
         // Stats module
         App\Modules\Stats\Providers\StatsServiceProvider::class,
 

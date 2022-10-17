@@ -4,6 +4,7 @@ namespace App\Modules\Questions\Services;
 
 use App\Models\Question;
 use App\Repositories\IQuestionsRepo;
+use Illuminate\Support\Collection;
 
 class QuestionsServiceImpl implements IQuestionsService
 {
@@ -50,5 +51,14 @@ class QuestionsServiceImpl implements IQuestionsService
     public function deleteQuestion(Question $question): bool
     {
         return $this->questionsRepo->deleteQuestion($question);
+    }
+
+    /**
+     * @param  int  $testId
+     * @return Collection|null
+     */
+    public function getTestQuestions(int $testId): ?Collection
+    {
+        return $this->questionsRepo->getTestQuestions($testId);
     }
 }
