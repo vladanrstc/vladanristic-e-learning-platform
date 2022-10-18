@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\TypeException;
 
-class MailHandler
+class MailHandler implements IMailHandler
 {
 
     /**
@@ -22,7 +22,6 @@ class MailHandler
      */
     public function __construct()
     {
-        Log::info("12345");
         self::$numOfInstances === 0 ? self::$numOfInstances++ : throw new MailHandlerSingletonException();
     }
 
@@ -31,7 +30,7 @@ class MailHandler
      * @return bool
      * @throws TypeException
      */
-    public static function sendMail(MailDataDTO $mailDataDTO): bool
+    public function sendMail(MailDataDTO $mailDataDTO): bool
     {
 
         $email = new Mail();

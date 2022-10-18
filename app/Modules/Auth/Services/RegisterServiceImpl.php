@@ -8,6 +8,7 @@ use App\Exceptions\UserUpdateFailedException;
 use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
+use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
 use App\Models\User;
 use App\Modules\Auth\Enums\Messages;
@@ -32,12 +33,18 @@ class RegisterServiceImpl implements IRegisterService
     private $mailDTOBuilder;
 
     /**
+     * @var IMailHandler
+     */
+    private IMailHandler $mailHandler;
+
+    /**
      * @param  UsersRepo  $usersRepo
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder)
+    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder, IMailHandler $mailHandler)
     {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
+        $this->mailHandler    = $mailHandler;
     }
 
     /**
@@ -64,7 +71,7 @@ class RegisterServiceImpl implements IRegisterService
                 Str::random(50)
             );
 
-            if (!MailHandler::sendMail(
+            if (!$this->mailHandler->sendMail(
                 $this->mailDTOBuilder
                     ->addTo($user->email)
                     ->addBody(view("emails.verifyUser", ["user" => $user])->render())

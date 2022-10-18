@@ -7,6 +7,7 @@ use App\Exceptions\UserUpdateFailedException;
 use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
+use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
 use App\Models\User;
 use App\Modules\Auth\Enums\Messages;
@@ -29,13 +30,20 @@ class ForgotPasswordService implements IForgotPasswordService
     private MailDTOBuilder $mailDTOBuilder;
 
     /**
+     * @var IMailHandler
+     */
+    private IMailHandler $mailHandler;
+
+    /**
      * @param  UsersRepo  $usersRepo
      * @param  MailDTOBuilder  $mailDTOBuilder
+     * @param  IMailHandler  $mailHandler
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder)
+    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder, IMailHandler $mailHandler)
     {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
+        $this->mailHandler    = $mailHandler;
     }
 
     /**
@@ -53,7 +61,7 @@ class ForgotPasswordService implements IForgotPasswordService
                     User::rememberToken() => Str::random(40)
                 ], $user);
 
-                if (!MailHandler::sendMail(
+                if (!$this->mailHandler->sendMail(
                     $this->mailDTOBuilder
                         ->addTo($user->{User::email()})
                         ->addBody(view("emails.resetPassword", ["user" => $user])->render())

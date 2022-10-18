@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
 use App\Repositories\AnswersRepo;
 use App\Repositories\CoursesRepo;
@@ -38,7 +39,8 @@ class AppServiceProvider extends ServiceProvider
         IQuestionsRepo::class       => QuestionsRepo::class,
         IAnswersRepo::class         => AnswersRepo::class,
         ITestsRepo::class           => TestsRepo::class,
-        ILogsRepo::class            => LogsRepo::class
+        ILogsRepo::class            => LogsRepo::class,
+        IMailHandler::class         => MailHandler::class
     ];
 
 }

@@ -1,8 +1,7 @@
 <?php
 
-use App\Mails\Builders\MailDTOBuilder;
-use App\Mails\MailHandler;
-use App\Mails\Requests\MessageRequest;
+
+use App\Mails\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,20 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("/message", function (MessageRequest $request) {
-
-    $mailDtoBuilder = new MailDTOBuilder();
-
-    MailHandler::sendMail(
-        $mailDtoBuilder
-            ->addSubject("New message from {$request->name} {$request->last_name}")
-            ->addBody("From: $request->email . <hr> " . $request->message)
-            ->addTo(env("ADMIN_MAIL"))
-            ->build()
-    );
-
-    return response()->json("success", 200);
-});
+Route::post("/message", [MessageController::class, "sendMessage"]);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
