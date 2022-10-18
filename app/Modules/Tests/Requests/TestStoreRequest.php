@@ -15,9 +15,9 @@ class TestStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'lang'                                   => 'required',
-            'test_name.'.$this->request->get("lang") => 'required|max:255|min:3',
-            'lesson_id'                              => 'required',
+            'lang'                                     => 'required',
+            'test_name.' . $this->request->get("lang") => 'required|max:255|min:3',
+            'lesson_id'                                => 'required',
         ];
     }
 }

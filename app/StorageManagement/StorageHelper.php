@@ -21,7 +21,7 @@ class StorageHelper
     public static function storeFile(string $disk, FileDTO $fileDTO, string $module, string $folder): string
     {
         $fullPathToFile = strtolower(
-                $module).DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR.$fileDTO->getFullFileName();
+                $module) . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileDTO->getFullFileName();
         if (Storage::disk($disk)->put($fullPathToFile, $fileDTO->getFileContents())) {
             return $fullPathToFile;
         }

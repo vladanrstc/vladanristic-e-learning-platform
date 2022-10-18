@@ -46,7 +46,7 @@ class LessonsRepo implements ILessonsRepo
 
             !is_null($lessonCode) ? $lesson->{Lesson::lessonCode()} = $lessonCode : false;
             $lesson->{Lesson::lessonSectionId()} = $lessonSectionId;
-            $lesson->{Lesson::lessonSlug()}      = rand(100, 100000)."-".Str::slug($lessonTitle, "-");
+            $lesson->{Lesson::lessonSlug()}      = rand(100, 100000) . "-" . Str::slug($lessonTitle, "-");
 
             if (!is_null($lessonPractice)) {
                 $lesson->setTranslation(

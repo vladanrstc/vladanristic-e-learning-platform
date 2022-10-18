@@ -2,6 +2,7 @@
 
 namespace App\Mails;
 
+use App\Mails\Exceptions\MailHandlerSingletonException;
 use App\Mails\MailDTOs\MailDataDTO;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -10,6 +11,20 @@ use SendGrid\Mail\TypeException;
 
 class MailHandler
 {
+
+    /**
+     * @var int
+     */
+    private static int $numOfInstances = 0;
+
+    /**
+     * @throws MailHandlerSingletonException
+     */
+    public function __construct()
+    {
+        Log::info("12345");
+        self::$numOfInstances === 0 ? self::$numOfInstances++ : throw new MailHandlerSingletonException();
+    }
 
     /**
      * @param  MailDataDTO  $mailDataDTO

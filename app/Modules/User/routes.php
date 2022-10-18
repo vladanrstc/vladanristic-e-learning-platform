@@ -24,3 +24,5 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("/logged", [UserController::class, "loggedUser"]);
     Route::patch("/logged", [UserController::class, "updateLoggedUser"]);
 });
+
+Route::post("/message", [UserController::class, "sendMessage"]);

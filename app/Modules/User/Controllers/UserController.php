@@ -9,6 +9,7 @@ use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserPermanentDeleteException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Lang\LangHelper;
+use App\Mails\MailHandler;
 use App\Models\User;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\User\Requests\CreateUserRequest;
@@ -145,6 +146,24 @@ class UserController extends Controller
                     "current_password", "password_repeat"
                 ]), Auth::user())
         ]);
+    }
+
+    //    Mail::to("vladanrstc@gmail.com"
+//    )->send(new \App\Mail\SendMessage(
+//        $request->name,
+//        $request->last_name,
+//        $request->email,
+//        $request->message));
+
+    /**
+     * @return JsonResponse
+     */
+    public function sendMessage()
+    {
+        $t = new MailHandler();
+        $n = new MailHandler();
+
+        return response()->json("success", 200);
     }
 
 }

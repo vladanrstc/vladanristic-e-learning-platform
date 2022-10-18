@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mails\MailHandler;
 use App\Repositories\AnswersRepo;
 use App\Repositories\CoursesRepo;
 use App\Repositories\CourseStartRepo;

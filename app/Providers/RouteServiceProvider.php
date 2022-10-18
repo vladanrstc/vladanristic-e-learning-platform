@@ -61,9 +61,9 @@ class RouteServiceProvider extends ServiceProvider
 
             foreach ($this->moduleList as $module) {
                 Route::middleware('api')
-                    ->prefix('api'."/".strtolower($module))
+                    ->prefix('api' . "/" . strtolower($module))
                     ->group(
-                        app_path().DIRECTORY_SEPARATOR."modules".DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR."routes.php");
+                        app_path() . DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . "routes.php");
             }
 
             Route::middleware('web')

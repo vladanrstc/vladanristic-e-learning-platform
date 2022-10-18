@@ -93,11 +93,20 @@ class StatsServiceImpl implements IStatsService
                 CourseStart $enrollement
             ) {
                 return $this->formatStatOutput($enrollement->user()->first()->only([User::name(), User::lastName()]))
-                    .", ".
+                    . ", " .
                     $this->formatStatOutput($enrollement->course()->first()->only([Course::courseName()]));
             })[0],
             "num_of_monthly_logs" => array_values(array_merge($numOfLogsPerMonth, $logs))
         ];
+    }
+
+    /**
+     * @param  array  $values
+     * @return string
+     */
+    private function formatStatOutput(array $values)
+    {
+        return implode(" ", array_values($values));
     }
 
     /**
@@ -109,15 +118,6 @@ class StatsServiceImpl implements IStatsService
             ->whereNotNull("lesson_video_link")
             ->take(3)
             ->get()->toArray();
-    }
-
-    /**
-     * @param  array  $values
-     * @return string
-     */
-    private function formatStatOutput(array $values)
-    {
-        return implode(" ", array_values($values));
     }
 
 }
