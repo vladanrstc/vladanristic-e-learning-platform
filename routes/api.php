@@ -1,9 +1,9 @@
 <?php
 
-//use App\Mail\ResetPassword;
+use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\MailHandler;
+use App\Mails\Requests\MessageRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("/message", function (Request $request) {
-//    $t = new MailHandler::
+Route::post("/message", function (MessageRequest $request) {
 
+    $mailDtoBuilder = new MailDTOBuilder();
 
-//    Mail::to(
-//        "vladanrstc@gmail.com"
-//    )->send(
-//        new \App\Mail\SendMessage(
-//            $request->name,
-//            $request->last_name,
-//            $request->email,
-//            $request->message));
+    MailHandler::sendMail(
+        $mailDtoBuilder
+            ->addSubject("New message from {$request->name} {$request->last_name}")
+            ->addBody("From: $request->email . <hr> " . $request->message)
+            ->addTo(env("ADMIN_MAIL"))
+            ->build()
+    );
+
     return response()->json("success", 200);
 });
 
