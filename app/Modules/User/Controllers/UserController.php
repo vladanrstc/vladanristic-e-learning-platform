@@ -61,7 +61,6 @@ class UserController extends Controller
      *
      * @param  CreateUserRequest  $userRequest
      * @return JsonResponse
-     * @throws UserAlreadyExistsException
      */
     public function store(CreateUserRequest $userRequest): JsonResponse
     {
@@ -74,7 +73,6 @@ class UserController extends Controller
      * @param  UpdateUserRequest  $updateUserRequest
      * @param  User  $user
      * @return JsonResponse
-     * @throws UserUpdateFailedException
      */
     public function update(UpdateUserRequest $updateUserRequest, User $user): JsonResponse
     {
@@ -136,7 +134,6 @@ class UserController extends Controller
     /**
      * @param  UpdateLoggedUserRequest  $request
      * @return JsonResponse
-     * @throws UserUpdateFailedException
      */
     public function updateLoggedUser(UpdateLoggedUserRequest $request): JsonResponse
     {
@@ -146,24 +143,6 @@ class UserController extends Controller
                     "current_password", "password_repeat"
                 ]), Auth::user())
         ]);
-    }
-
-    //    Mail::to("vladanrstc@gmail.com"
-//    )->send(new \App\Mail\SendMessage(
-//        $request->name,
-//        $request->last_name,
-//        $request->email,
-//        $request->message));
-
-    /**
-     * @return JsonResponse
-     */
-    public function sendMessage()
-    {
-        $t = new MailHandler();
-        $n = new MailHandler();
-
-        return response()->json("success", 200);
     }
 
 }

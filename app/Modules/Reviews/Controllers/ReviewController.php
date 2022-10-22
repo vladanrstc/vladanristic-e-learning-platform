@@ -40,15 +40,6 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param $course
-     * @return JsonResponse
-     */
-    public function getAllCourseReviewMarks($course): JsonResponse
-    {
-        return response()->json(["data" => $this->reviewsService->getCourseReviewMarks($course)]);
-    }
-
-    /**
      * @param  UpdateCourseReviewRequest  $request
      * @return JsonResponse
      */
@@ -62,15 +53,6 @@ class ReviewController extends Controller
                 Auth::id()
             )
         ]);
-    }
-
-    /**
-     * @param $course
-     * @return JsonResponse
-     */
-    public function getUserCourseReviews($course): JsonResponse
-    {
-        return response()->json(["data" => $this->reviewsService->getUserReviewsForCourse($course, Auth::id())]);
     }
 
     /**
