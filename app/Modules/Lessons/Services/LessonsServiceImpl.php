@@ -4,6 +4,7 @@ namespace App\Modules\Lessons\Services;
 
 use App\DTOs\FileDTO;
 use App\Models\Lesson;
+use App\Models\Section;
 use App\Repositories\ILessonsRepo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -111,11 +112,8 @@ class LessonsServiceImpl implements ILessonsService
     public function reorderLessons(array $lessons): Collection
     {
         return DB::transaction(function () use ($lessons) {
-            $count   = 1;
-            $lessons = Lesson::hydrate($lessons);
-            foreach ($lessons as $lesson) {
-                $this->lessonsRepo->updateLessonOrder($count, $lesson);
-                $count++;
+            foreach ($lessons = \ReorderEntities::reorderEntities($lessons, Lesson::class) as $lesson) {
+                $this->lessonsRepo->updateLessonOrder($lesson->{Lesson::lessonOrder()}, $lesson);
             }
             return $lessons;
         });

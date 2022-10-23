@@ -24,6 +24,9 @@ use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
 use App\Repositories\TestsRepo;
 use App\Repositories\UsersRepo;
+use App\ResponseFormatter\FormatterFactory;
+use App\ResponseFormatter\IFormatterFactory;
+use App\Utils\EntityOrderUtil;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,7 +43,15 @@ class AppServiceProvider extends ServiceProvider
         IAnswersRepo::class         => AnswersRepo::class,
         ITestsRepo::class           => TestsRepo::class,
         ILogsRepo::class            => LogsRepo::class,
-        IMailHandler::class         => MailHandler::class
+        IMailHandler::class         => MailHandler::class,
+        IFormatterFactory::class    => FormatterFactory::class,
     ];
+
+    public function register()
+    {
+        $this->app->singleton('ReorderEntities', function ($app) {
+            return new EntityOrderUtil();
+        });
+    }
 
 }

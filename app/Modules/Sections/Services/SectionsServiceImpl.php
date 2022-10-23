@@ -53,11 +53,8 @@ class SectionsServiceImpl implements ISectionsService
     public function reorderSections(array $sections): Collection
     {
         return DB::transaction(function () use ($sections) {
-            $count    = 1;
-            $sections = Section::hydrate($sections);
-            foreach ($sections as $section) {
-                $this->sectionsRepo->updateSection($section, null, $count);
-                $count++;
+            foreach ($sections = \ReorderEntities::reorderEntities($sections, Section::class) as $section) {
+                $this->sectionsRepo->updateSection($section, null, $section->{Section::sectionOrder()});
             }
             return $sections;
         });

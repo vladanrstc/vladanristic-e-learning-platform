@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\EntityOrderFacade;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -239,7 +240,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'ReorderEntities' => EntityOrderFacade::class
     ])->toArray(),
 
 ];

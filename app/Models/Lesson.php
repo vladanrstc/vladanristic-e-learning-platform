@@ -6,9 +6,10 @@ use App\Traits\LessonAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\Pure;
 use Spatie\Translatable\HasTranslations;
 
-class Lesson extends Model
+class Lesson extends Model implements Orderable
 {
     use HasTranslations, LessonAttributes;
 
@@ -64,4 +65,11 @@ class Lesson extends Model
 
     }
 
+    /**
+     * @return string
+     */
+    public function getOrderColumnName(): string
+    {
+        return self::lessonOrder();
+    }
 }

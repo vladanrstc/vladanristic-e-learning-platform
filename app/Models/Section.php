@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Traits\SectionAttributes;
 use Illuminate\Database\Eloquent\Model;
+use JetBrains\PhpStorm\Pure;
 use Spatie\Translatable\HasTranslations;
 
-class Section extends Model
+class Section extends Model implements Orderable
 {
 
     use HasTranslations, SectionAttributes;
@@ -27,4 +28,11 @@ class Section extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
+    /**
+     * @return string
+     */
+    public function getOrderColumnName(): string
+    {
+        return self::sectionOrder();
+    }
 }

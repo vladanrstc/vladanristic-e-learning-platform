@@ -62,13 +62,6 @@ class SectionController extends Controller
         ]);
     }
 
-    /**public function loadSectionsForCourse(Course $course) {
-     * $course->load(["sections" => function ($query) {
-     * $query->orderBy('section_order', 'asc');
-     * }]);
-     * return response()->json($course->sections, 200);
-     * }*/
-
     /**
      * @param  SectionsReorderRequest  $request
      * @return JsonResponse
