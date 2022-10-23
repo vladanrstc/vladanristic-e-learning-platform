@@ -8,6 +8,7 @@ use App\Exceptions\BanUserException;
 use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserPermanentDeleteException;
 use App\Exceptions\UserUpdateFailedException;
+use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
 use App\Mails\MailHandler;
 use App\Models\User;
@@ -39,10 +40,16 @@ class UserController extends Controller
      */
     private IUsersRepo $usersRepo;
 
-    public function __construct(IUserService $userService, IUsersRepo $usersRepo)
+    /**
+     * @var ILangHelper
+     */
+    private ILangHelper $langHelper;
+
+    public function __construct(IUserService $userService, IUsersRepo $usersRepo, ILangHelper $langHelper)
     {
         $this->userService = $userService;
         $this->usersRepo   = $usersRepo;
+        $this->langHelper  = $langHelper;
     }
 
     /**
@@ -84,24 +91,22 @@ class UserController extends Controller
      *
      * @param $user
      * @return JsonResponse
-     * @throws UserPermanentDeleteException|MessageTranslationNotFoundException
      */
     public function destroy($user): JsonResponse
     {
         $this->userService->permanentlyDeleteUser((int) $user);
-        return response()->json(["message" => LangHelper::getMessage("permanently_deleted_user", Modules::USER)]);
+        return response()->json(
+            ["message" => $this->langHelper->getMessage("permanently_deleted_user", Modules::USER)]);
     }
 
     /**
      * @param  User  $user
      * @return JsonResponse
-     * @throws MessageTranslationNotFoundException
-     * @throws BanUserException
      */
-    public function banUser(User $user)
+    public function banUser(User $user): JsonResponse
     {
         $this->usersRepo->banUser($user);
-        return response()->json(["message" => LangHelper::getMessage("banned_user", Modules::USER)]);
+        return response()->json(["message" => $this->langHelper->getMessage("banned_user", Modules::USER)]);
     }
 
     /**
@@ -115,12 +120,11 @@ class UserController extends Controller
     /**
      * @param $user
      * @return JsonResponse
-     * @throws MessageTranslationNotFoundException
      */
     public function unbanUser($user): JsonResponse
     {
         $this->userService->unbanUser($user);
-        return response()->json(["message" => LangHelper::getMessage("unbanned_user", Modules::USER)]);
+        return response()->json(["message" => $this->langHelper->getMessage("unbanned_user", Modules::USER)]);
     }
 
     /**

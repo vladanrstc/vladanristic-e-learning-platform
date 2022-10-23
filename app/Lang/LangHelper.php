@@ -7,22 +7,20 @@ use App\Enums\Modules;
 use App\Exceptions\MessageTranslationNotFoundException;
 use Illuminate\Support\Facades\App;
 
-class LangHelper
+class LangHelper implements ILangHelper
 {
 
     /**
      * @param  string  $key
      * @param  Modules  $module
      * @param  string|null  $language
-     * @return mixed
+     * @return string
      * @throws MessageTranslationNotFoundException
      */
-    public static function getMessage(string $key, Modules $module, string $language = null)
+    public function getMessage(string $key, Modules $module, string $language = null): string
     {
 
-        if (is_null($language)) {
-            $language = App::getLocale();
-        }
+        is_null($language) ? $language = App::getLocale() : null;
 
         $messages = json_decode(
             file_get_contents(

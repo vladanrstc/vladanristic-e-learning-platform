@@ -4,6 +4,7 @@ namespace App\Modules\Auth\Services;
 
 use App\Enums\Modules;
 use App\Exceptions\UserUpdateFailedException;
+use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
@@ -34,16 +35,23 @@ class ForgotPasswordService implements IForgotPasswordService
      */
     private IMailHandler $mailHandler;
 
+    private ILangHelper $langHelper;
+
     /**
      * @param  UsersRepo  $usersRepo
      * @param  MailDTOBuilder  $mailDTOBuilder
      * @param  IMailHandler  $mailHandler
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder, IMailHandler $mailHandler)
-    {
+    public function __construct(
+        UsersRepo $usersRepo,
+        MailDTOBuilder $mailDTOBuilder,
+        IMailHandler $mailHandler,
+        ILangHelper $langHelper
+    ) {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
         $this->mailHandler    = $mailHandler;
+        $this->langHelper     = $langHelper;
     }
 
     /**
@@ -65,7 +73,7 @@ class ForgotPasswordService implements IForgotPasswordService
                     $this->mailDTOBuilder
                         ->addTo($user->{User::email()})
                         ->addBody(view("emails.resetPassword", ["user" => $user])->render())
-                        ->addSubject(LangHelper::getMessage("reset_password_email_subject", Modules::AUTH))
+                        ->addSubject($this->langHelper->getMessage("reset_password_email_subject", Modules::AUTH))
                         ->build())) {
                     throw new MailNotSentException(Messages::RESET_PASSWORD_EXCEPTION->value);
                 }

@@ -3,10 +3,9 @@
 namespace App\Modules\Auth\Controllers;
 
 use App\Enums\Modules;
-use App\Exceptions\MessageTranslationNotFoundException;
 use App\Exceptions\UserUpdateFailedException;
 use App\Http\Controllers\Controller;
-use App\Lang\LangHelper;
+use App\Lang\ILangHelper;
 use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\IRegisterService;
@@ -26,11 +25,18 @@ class RegisterController extends Controller
     private IRegisterService $registerService;
 
     /**
-     * @param  RegisterServiceImpl  $registerService
+     * @var ILangHelper
      */
-    public function __construct(RegisterServiceImpl $registerService)
+    private ILangHelper $langHelper;
+
+    /**
+     * @param  RegisterServiceImpl  $registerService
+     * @param  ILangHelper  $langHelper
+     */
+    public function __construct(RegisterServiceImpl $registerService, ILangHelper $langHelper)
     {
         $this->registerService = $registerService;
+        $this->langHelper      = $langHelper;
     }
 
     /**
@@ -51,14 +57,16 @@ class RegisterController extends Controller
     /**
      * @param  string  $token
      * @return Application|JsonResponse|RedirectResponse|Redirector
-     * @throws UserUpdateFailedException|MessageTranslationNotFoundException
+     * @throws UserUpdateFailedException
      */
     public function verify(string $token): JsonResponse|Redirector|Application|RedirectResponse
     {
-        if ($this->registerService->verify($token)) {
-            return redirect(env("APP_FRONTEND_URL") . "/" . $token . "/confirmed");
-        }
-        return response()->json(["message" => LangHelper::getMessage("email_verification_failed", Modules::AUTH)], 500);
+        return ($this->registerService->verify($token)) ?
+            redirect(env("APP_FRONTEND_URL") . "/" . $token . "/confirmed") :
+            response()->json(
+                ["message" => $this->langHelper->getMessage("email_verification_failed", Modules::AUTH)],
+                500
+            );
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Modules\Course\Controllers;
 use App\DTOs\FileDTO;
 use App\Enums\Modules;
 use App\Exceptions\MessageTranslationNotFoundException;
+use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
 use App\Models\Course;
 use App\Modules\Course\Requests\CourseStoreRequest;
@@ -23,9 +24,15 @@ class CourseController extends Controller
      */
     private ICourseService|CourseService $courseService;
 
-    public function __construct(CourseService $courseService)
+    /**
+     * @var ILangHelper
+     */
+    private ILangHelper $langHelper;
+
+    public function __construct(CourseService $courseService, ILangHelper $langHelper)
     {
         $this->courseService = $courseService;
+        $this->langHelper    = $langHelper;
     }
 
     /**
@@ -33,7 +40,7 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(["data" => Course::orderBy('created_at', 'desc')->paginate(8)]);
     }
@@ -65,7 +72,7 @@ class CourseController extends Controller
      * @param  Course  $course
      * @return JsonResponse
      */
-    public function update(CourseUpdateRequest $request, Course $course)//: JsonResponse
+    public function update(CourseUpdateRequest $request, Course $course): JsonResponse
     {
 
         $image = null;
@@ -92,14 +99,12 @@ class CourseController extends Controller
      *
      * @param  Course  $course
      * @return JsonResponse
-     * @throws MessageTranslationNotFoundException
      */
     public function destroy(Course $course): JsonResponse
     {
-        if ($this->courseService->deleteCourse($course)) {
-            return response()->json(["message" => LangHelper::getMessage("course_deleted", Modules::COURSE)]);
-        }
-        return response()->json(["message" => LangHelper::getMessage("course_delete_error", Modules::COURSE)]);
+        return ($this->courseService->deleteCourse($course)) ?
+            response()->json(["message" => $this->langHelper->getMessage("course_deleted", Modules::COURSE)]) :
+            response()->json(["message" => $this->langHelper->getMessage("course_delete_error", Modules::COURSE)]);
     }
 
     /**

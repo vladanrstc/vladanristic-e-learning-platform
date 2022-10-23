@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Lang\ILangHelper;
+use App\Lang\LangHelper;
 use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
 use App\Repositories\AnswersRepo;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         ILogsRepo::class            => LogsRepo::class,
         IMailHandler::class         => MailHandler::class,
         IFormatterFactory::class    => FormatterFactory::class,
+        ILangHelper::class          => LangHelper::class
     ];
 
     public function register()

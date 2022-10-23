@@ -5,6 +5,7 @@ namespace App\Modules\Auth\Services;
 use App\Enums\Modules;
 use App\Enums\Roles;
 use App\Exceptions\UserUpdateFailedException;
+use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
@@ -38,13 +39,26 @@ class RegisterServiceImpl implements IRegisterService
     private IMailHandler $mailHandler;
 
     /**
-     * @param  UsersRepo  $usersRepo
+     * @var ILangHelper
      */
-    public function __construct(UsersRepo $usersRepo, MailDTOBuilder $mailDTOBuilder, IMailHandler $mailHandler)
-    {
+    private ILangHelper $langHelper;
+
+    /**
+     * @param  UsersRepo  $usersRepo
+     * @param  MailDTOBuilder  $mailDTOBuilder
+     * @param  IMailHandler  $mailHandler
+     * @param  ILangHelper  $langHelper
+     */
+    public function __construct(
+        UsersRepo $usersRepo,
+        MailDTOBuilder $mailDTOBuilder,
+        IMailHandler $mailHandler,
+        ILangHelper $langHelper
+    ) {
         $this->usersRepo      = $usersRepo;
         $this->mailDTOBuilder = $mailDTOBuilder;
         $this->mailHandler    = $mailHandler;
+        $this->langHelper     = $langHelper;
     }
 
     /**
@@ -75,7 +89,7 @@ class RegisterServiceImpl implements IRegisterService
                 $this->mailDTOBuilder
                     ->addTo($user->email)
                     ->addBody(view("emails.verifyUser", ["user" => $user])->render())
-                    ->addSubject(LangHelper::getMessage("verify_email", Modules::AUTH))
+                    ->addSubject($this->langHelper->getMessage("verify_email", Modules::AUTH))
                     ->build())) {
                 throw new MailNotSentException(
                     str_replace(

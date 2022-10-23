@@ -26,9 +26,15 @@ class ForgotPasswordController extends Controller
      */
     private IForgotPasswordService $forgotPasswordService;
 
-    public function __construct(ForgotPasswordService $forgotPasswordService)
+    /**
+     * @var LangHelper
+     */
+    private LangHelper $langHelper;
+
+    public function __construct(ForgotPasswordService $forgotPasswordService, LangHelper $langHelper)
     {
         $this->forgotPasswordService = $forgotPasswordService;
+        $this->langHelper            = $langHelper;
     }
 
     /**
@@ -40,9 +46,11 @@ class ForgotPasswordController extends Controller
 
         try {
             if ($this->forgotPasswordService->sendResetPasswordMail($request->get("email"))) {
-                return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
+                return response()->json(
+                    ["data" => $this->langHelper->getMessage("reset_password_email_sent", Modules::AUTH)]);
             }
-            return response()->json(["data" => LangHelper::getMessage("reset_password_email_sent", Modules::AUTH)]);
+            return response()->json(
+                ["data" => $this->langHelper->getMessage("reset_password_email_sent", Modules::AUTH)]);
         } catch (Exception $exception) {
             return response()->json(["data" => $exception->getMessage()]);
         }
@@ -60,7 +68,6 @@ class ForgotPasswordController extends Controller
         } else {
             abort(404);
         }
-
     }
 
     /**
