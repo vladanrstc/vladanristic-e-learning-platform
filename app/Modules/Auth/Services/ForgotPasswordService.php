@@ -41,6 +41,7 @@ class ForgotPasswordService implements IForgotPasswordService
      * @param  UsersRepo  $usersRepo
      * @param  MailDTOBuilder  $mailDTOBuilder
      * @param  IMailHandler  $mailHandler
+     * @param  ILangHelper  $langHelper
      */
     public function __construct(
         UsersRepo $usersRepo,

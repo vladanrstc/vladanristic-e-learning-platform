@@ -4,9 +4,7 @@ namespace App\Modules\Course\Controllers;
 
 use App\DTOs\FileDTO;
 use App\Enums\Modules;
-use App\Exceptions\MessageTranslationNotFoundException;
 use App\Lang\ILangHelper;
-use App\Lang\LangHelper;
 use App\Models\Course;
 use App\Modules\Course\Requests\CourseStoreRequest;
 use App\Modules\Course\Requests\CourseUpdateRequest;

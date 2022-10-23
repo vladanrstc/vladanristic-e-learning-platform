@@ -2,28 +2,17 @@
 
 namespace App\Modules\User\Controllers;
 
+use App\Decorators\InfoLangHelper;
 use App\Enums\Modules;
-use App\Enums\Roles;
-use App\Exceptions\BanUserException;
-use App\Exceptions\MessageTranslationNotFoundException;
-use App\Exceptions\UserPermanentDeleteException;
-use App\Exceptions\UserUpdateFailedException;
 use App\Lang\ILangHelper;
-use App\Lang\LangHelper;
-use App\Mails\MailHandler;
 use App\Models\User;
-use App\Modules\Auth\Exceptions\UserAlreadyExistsException;
 use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Requests\UpdateLoggedUserRequest;
 use App\Modules\User\Requests\UpdateUserRequest;
 use App\Modules\User\Services\IUserService;
-use App\Modules\User\Services\UserServiceImpl;
 use App\Repositories\IUsersRepo;
-use App\Repositories\UsersRepo;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,7 +95,8 @@ class UserController extends Controller
     public function banUser(User $user): JsonResponse
     {
         $this->usersRepo->banUser($user);
-        return response()->json(["message" => $this->langHelper->getMessage("banned_user", Modules::USER)]);
+        $infoLangHelper = new InfoLangHelper($this->langHelper);
+        return response()->json(["message" => $infoLangHelper->getMessage("banned_user", Modules::USER)]);
     }
 
     /**
