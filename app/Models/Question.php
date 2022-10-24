@@ -36,7 +36,7 @@ class Question extends Model
     public function getQuestionType()
     {
 
-        $answers = Answer::where("question_id", $this->question_id)->get();
+        $answers = Answer::where(Answer::questionId(), $this->question_id)->get();
         $trigger = 0;
         foreach ($answers as $answer) {
 
@@ -45,11 +45,8 @@ class Question extends Model
             }
 
         }
-        if ($trigger == 1) {
-            return "single";
-        } else {
-            return "multiple";
-        }
+
+        return $trigger == 1 ? "single" : "multiple";
 
     }
 

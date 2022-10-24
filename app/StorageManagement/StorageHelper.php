@@ -22,6 +22,7 @@ class StorageHelper
     {
         $fullPathToFile = strtolower(
                 $module) . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $fileDTO->getFullFileName();
+        
         if (Storage::disk($disk)->put($fullPathToFile, $fileDTO->getFileContents())) {
             return $fullPathToFile;
         }

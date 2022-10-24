@@ -43,25 +43,21 @@ class Lesson extends Model implements Orderable
     public function getLessonCompleted()
     {
 
-        $section = Section::where("section_id", $this->lesson_section_id)->first();
-        $course  = Course::where("course_id", $section->section_course_id)->first();
+        $section = Section::where(Section::sectionId(), $this->lesson_section_id)->first();
+        $course  = Course::where(Course::courseId(), $section->section_course_id)->first();
 
         $course_started = CourseStart::where("course_id", $course->course_id)
             ->where("user_id", Auth::id())
             ->first();
 
-        if ($course_started == null) {
+        if (is_null($course_started)) {
             return false;
         }
 
-        $lesson_completed = LessonCompleted::where("lesson_id", $this->lesson_id)
-            ->where("course_started_id", $course_started->user_course_started_id)->first();
-
-        if ($lesson_completed != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return !is_null(
+            LessonCompleted::where(Lesson::lessonId(), $this->lesson_id)
+                ->where("course_started_id", $course_started->user_course_started_id)
+                ->first());
 
     }
 

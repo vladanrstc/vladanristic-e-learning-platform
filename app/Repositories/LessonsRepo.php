@@ -54,15 +54,13 @@ class LessonsRepo implements ILessonsRepo
                     StorageHelper::storeFile("public", $lessonPractice, Modules::LESSONS->value, "lesson_practices"));
             }
 
-            $last_lesson = Lesson::where(Lesson::lessonSectionId(), $lessonSectionId)
+            $lastLesson = Lesson::where(Lesson::lessonSectionId(), $lessonSectionId)
                 ->orderBy(Lesson::lessonOrder(), "desc")
                 ->first();
 
-            if (!is_null($last_lesson)) {
-                $lesson->{Lesson::lessonOrder()} = $last_lesson->{Lesson::lessonOrder()} + 1;
-            } else {
+            is_null($lastLesson) ?
+                $lesson->{Lesson::lessonOrder()} = $lastLesson->{Lesson::lessonOrder()} + 1 :
                 $lesson->{Lesson::lessonOrder()} = 1;
-            }
 
             $lesson->save();
 

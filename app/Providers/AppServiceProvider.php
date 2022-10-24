@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Adapters\LoggingAdapter;
 use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
 use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
+use App\Modules\Auth\Controllers\LoginController;
+use App\Modules\Auth\Services\LoginServiceImpl;
 use App\Repositories\AnswersRepo;
 use App\Repositories\CoursesRepo;
 use App\Repositories\CourseStartRepo;
@@ -21,7 +24,6 @@ use App\Repositories\ITestsRepo;
 use App\Repositories\IUsersRepo;
 use App\Repositories\LessonCompletedRepo;
 use App\Repositories\LessonsRepo;
-use App\Repositories\LogsRepo;
 use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
 use App\Repositories\TestsRepo;
@@ -44,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
         IQuestionsRepo::class       => QuestionsRepo::class,
         IAnswersRepo::class         => AnswersRepo::class,
         ITestsRepo::class           => TestsRepo::class,
-        ILogsRepo::class            => LogsRepo::class,
         IMailHandler::class         => MailHandler::class,
         IFormatterFactory::class    => FormatterFactory::class,
         ILangHelper::class          => LangHelper::class
@@ -55,6 +56,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('ReorderEntities', function ($app) {
             return new EntityOrderUtil();
         });
+
+        $this->app
+            ->when(LoginServiceImpl::class)
+            ->needs(ILogsRepo::class)
+            ->give(LoggingAdapter::class);
+
     }
 
 }

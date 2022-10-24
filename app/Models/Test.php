@@ -37,9 +37,9 @@ class Test extends Model
     {
 
         $test_flag = true;
-        $questions = Question::where("test_id", $this->test_id)->get();
+        $questions = Question::where(Question::testId(), $this->test_id)->get();
 
-        if ($questions != null && count($questions) == 0) {
+        if (!is_null($questions) && count($questions) == 0) {
             return false;
         }
 
@@ -48,13 +48,13 @@ class Test extends Model
             $question_flag = false;
             foreach ($question->answers as $answer) {
 
-                if ($answer->answer_true == true) {
+                if ($answer->answer_true) {
                     $question_flag = true;
                     break;
                 }
             }
 
-            if ($question_flag == false) {
+            if (!$question_flag) {
                 $test_flag = false;
                 break;
             }

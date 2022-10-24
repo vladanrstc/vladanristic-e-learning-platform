@@ -34,16 +34,11 @@ class Course extends Model
         return $this->getCourseAverageMark();
     }
 
-    public function getCoursePercentageCompletedAttribute()
-    {
-        return $this->course_percentage_completed();
-    }
-
     public function getCourseAverageMark()
     {
         $average         = 0;
-        $courses_started = CourseStart::where("course_id", $this->course_id)
-            ->whereNotNull("user_course_started_review_mark")
+        $courses_started = CourseStart::where(CourseStart::courseId(), $this->course_id)
+            ->whereNotNull(CourseStart::courseStartMark())
             ->get();
 
         if ($courses_started == null || count($courses_started) == 0) {
@@ -57,7 +52,18 @@ class Course extends Model
         return $average / count($courses_started);
     }
 
-    public function course_percentage_completed()
+    /**
+     * @return array|false
+     */
+    public function getCoursePercentageCompletedAttribute(): bool|array
+    {
+        return $this->coursePercentageCompleted();
+    }
+
+    /**
+     * @return array|false
+     */
+    public function coursePercentageCompleted(): bool|array
     {
 
         if (Auth::check()) {
@@ -65,14 +71,15 @@ class Course extends Model
             $lessons_count = 0;
 
             // find all lessons for this course
-            $sections = Section::where("section_course_id", $this->course_id)->get();
+            $sections = Section::where(Section::sectionCourseId(), $this->course_id)->get();
             foreach ($sections as $section) {
                 $lessons_count = $lessons_count + count($section->lessons);
             }
 
             // find all completed lessons
-            $course_start = CourseStart::where("user_id", Auth::id())
-                ->where("course_id", $this->course_id)->first();
+            $course_start = CourseStart::where(CourseStart::userId(), Auth::id())
+                ->where(Course::courseId(), $this->course_id)
+                ->first();
 
             if ($course_start == null || $sections == null) {
                 return false;
@@ -80,7 +87,8 @@ class Course extends Model
 
             $lessons_completed = LessonCompleted::where(
                 "course_started_id",
-                $course_start->user_course_started_id)->get();
+                $course_start->user_course_started_id)
+                ->get();
 
             $lessons_completed_count = count($lessons_completed);
 
@@ -89,9 +97,9 @@ class Course extends Model
                 "lessons_completed_count" => $lessons_completed_count
             );
 
-        } else {
-            return false;
         }
+
+        return false;
 
     }
 

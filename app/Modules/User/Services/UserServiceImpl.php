@@ -90,10 +90,6 @@ class UserServiceImpl implements IUserService
      */
     public function searchUsers(string $searchParam = null): mixed
     {
-        if (!is_null($searchParam)) {
-            return $this->usersRepo->getUsersByEmail($searchParam);
-        } else {
-            return $this->usersRepo->getUsers();
-        }
+        return !is_null($searchParam) ? $this->usersRepo->getUsersByEmail($searchParam) : $this->usersRepo->getUsers();
     }
 }

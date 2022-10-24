@@ -16,10 +16,6 @@ class Answer extends Model
     protected $primaryKey = 'answer_id';
     protected $guarded    = [];
 
-    /*public function question() {
-        return $this->hasMany("App\Answer");
-    }*/
-
     public function question()
     {
         return $this->belongsTo(Question::class, "question_id");
