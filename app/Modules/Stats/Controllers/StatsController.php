@@ -3,6 +3,7 @@
 namespace App\Modules\Stats\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Stats\Command\ICommandManager;
 use App\Modules\Stats\Services\IStatsService;
 use App\ResponseFormatter\IFormatterFactory;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,33 +17,36 @@ class StatsController extends Controller
 {
 
     /**
-     * @var IStatsService
-     */
-    private IStatsService $statsService;
-
-    /**
      * @var IFormatterFactory
      */
     private IFormatterFactory $formatterFactory;
 
-    public function __construct(IStatsService $statsService, IFormatterFactory $formatterFactory)
-    {
-        $this->statsService     = $statsService;
+    /**
+     * @var ICommandManager
+     */
+    private ICommandManager $commandManager;
+
+    public function __construct(
+        IFormatterFactory $formatterFactory,
+        ICommandManager $commandManager
+    ) {
         $this->formatterFactory = $formatterFactory;
+        $this->commandManager   = $commandManager;
     }
 
     /**
      * @param  Request  $request
+     * @param $commandName
      * @return Response|Application|ResponseFactory
      */
-    public function generalStats(Request $request): Response|Application|ResponseFactory
+    public function executeCommand(Request $request, $commandName): Response|Application|ResponseFactory
     {
+        $command = $this->commandManager->getCommand($commandName, $request->all());
         return response(
             $this->formatterFactory->createFormatter(
                 $formatType = $request->get('format-type') ?? 'json')->formatResponse(
-                $this->statsService->getAppStats()
-            ),
-            200,
+                $command->execute()
+            ), $command->getStatus(),
             $this->formatContentType($formatType)
         );
     }
@@ -58,21 +62,5 @@ class StatsController extends Controller
             "Content-Type" => "application/{$formatType}"
         ];
     }
-
-    /**
-     * @param  Request  $request
-     * @return Response|Application|ResponseFactory
-     */
-    public function lastThreeVideos(Request $request): Response|Application|ResponseFactory
-    {
-        return response(
-            $this->formatterFactory->createFormatter(
-                $formatType = $request->get('format-type') ?? 'json')->formatResponse(
-                $this->statsService->getLastThreeVideos()
-            ), 200,
-            $this->formatContentType($formatType)
-        );
-    }
-
 
 }
