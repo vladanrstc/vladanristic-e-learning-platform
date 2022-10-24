@@ -24,6 +24,7 @@ use App\Repositories\ITestsRepo;
 use App\Repositories\IUsersRepo;
 use App\Repositories\LessonCompletedRepo;
 use App\Repositories\LessonsRepo;
+use App\Repositories\LogsRepo;
 use App\Repositories\QuestionsRepo;
 use App\Repositories\SectionsRepo;
 use App\Repositories\TestsRepo;
@@ -46,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         IQuestionsRepo::class       => QuestionsRepo::class,
         IAnswersRepo::class         => AnswersRepo::class,
         ITestsRepo::class           => TestsRepo::class,
+        ILogsRepo::class            => LogsRepo::class,
         IMailHandler::class         => MailHandler::class,
         IFormatterFactory::class    => FormatterFactory::class,
         ILangHelper::class          => LangHelper::class
@@ -57,8 +59,7 @@ class AppServiceProvider extends ServiceProvider
             return new EntityOrderUtil();
         });
 
-        $this->app
-            ->when(LoginServiceImpl::class)
+        $this->app->when(LoginServiceImpl::class)
             ->needs(ILogsRepo::class)
             ->give(LoggingAdapter::class);
 
