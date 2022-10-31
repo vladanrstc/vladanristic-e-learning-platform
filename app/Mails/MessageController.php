@@ -29,9 +29,10 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  MessageRequest  $request
      * @return JsonResponse
      */
-    public function sendMessage(MessageRequest $request)
+    public function sendMessage(MessageRequest $request): JsonResponse
     {
 
         $this->mailHandler->sendMail(
@@ -42,7 +43,7 @@ class MessageController extends Controller
                 ->build()
         );
 
-        return response()->json("success", 200);
+        return response()->json("success");
     }
 
 }

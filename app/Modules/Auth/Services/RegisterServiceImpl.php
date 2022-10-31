@@ -7,7 +7,6 @@ use App\Enums\Roles;
 use App\Exceptions\UserUpdateFailedException;
 use App\Lang\ILangHelper;
 use App\Mails\Builders\IMailDTOBuilder;
-use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
 use App\Mails\IMailHandler;
 use App\Models\User;
@@ -25,12 +24,12 @@ class RegisterServiceImpl implements IRegisterService
     /**
      * @var IUsersRepo
      */
-    private $usersRepo;
+    private IUsersRepo $usersRepo;
 
     /**
-     * @var MailDTOBuilder
+     * @var IMailDTOBuilder
      */
-    private $mailDTOBuilder;
+    private IMailDTOBuilder $mailDTOBuilder;
 
     /**
      * @var IMailHandler
@@ -44,7 +43,7 @@ class RegisterServiceImpl implements IRegisterService
 
     /**
      * @param  UsersRepo  $usersRepo
-     * @param  MailDTOBuilder  $mailDTOBuilder
+     * @param  IMailDTOBuilder  $mailDTOBuilder
      * @param  IMailHandler  $mailHandler
      * @param  ILangHelper  $langHelper
      */
@@ -110,9 +109,7 @@ class RegisterServiceImpl implements IRegisterService
     public function verify(string $token): bool
     {
 
-        $user = $this->usersRepo->getNonVerifiedUserByToken($token);
-
-        if (!is_null($user)) {
+        if (!is_null($user = $this->usersRepo->getNonVerifiedUserByToken($token))) {
             $this->usersRepo->updateUser([
                 User::emailVerifiedAt() => new \DateTime(),
                 User::rememberToken()   => null

@@ -21,7 +21,7 @@ class MailDTOBuilder implements IMailDTOBuilder
      * @param  string  $subject
      * @return $this
      */
-    public function addSubject(string $subject)
+    public function addSubject(string $subject): static
     {
         $this->mailDataDTO->setSubject($subject);
         return $this;
@@ -31,7 +31,7 @@ class MailDTOBuilder implements IMailDTOBuilder
      * @param  string  $content
      * @return $this
      */
-    public function addBody(string $content)
+    public function addBody(string $content): static
     {
         $this->mailDataDTO->setBody($content);
         return $this;
@@ -41,7 +41,7 @@ class MailDTOBuilder implements IMailDTOBuilder
      * @param  string  $toEmail
      * @return $this
      */
-    public function addTo(string $toEmail)
+    public function addTo(string $toEmail): static
     {
         $this->mailDataDTO->addTo($toEmail);
         return $this;
@@ -51,7 +51,7 @@ class MailDTOBuilder implements IMailDTOBuilder
      * @param  string  $ccEmail
      * @return $this
      */
-    public function addCC(string $ccEmail)
+    public function addCC(string $ccEmail): static
     {
         $this->mailDataDTO->addCC($ccEmail);
         return $this;
@@ -61,7 +61,7 @@ class MailDTOBuilder implements IMailDTOBuilder
      * @param  string  $bccEmail
      * @return $this
      */
-    public function addBCC(string $bccEmail)
+    public function addBCC(string $bccEmail): static
     {
         $this->mailDataDTO->addTo($bccEmail);
         return $this;
