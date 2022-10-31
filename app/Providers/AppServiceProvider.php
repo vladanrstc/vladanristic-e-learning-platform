@@ -5,9 +5,10 @@ namespace App\Providers;
 use App\Adapters\LoggingAdapter;
 use App\Lang\ILangHelper;
 use App\Lang\LangHelper;
+use App\Mails\Builders\IMailDTOBuilder;
+use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\IMailHandler;
 use App\Mails\MailHandler;
-use App\Modules\Auth\Controllers\LoginController;
 use App\Modules\Auth\Services\LoginServiceImpl;
 use App\Repositories\AnswersRepo;
 use App\Repositories\CoursesRepo;
@@ -50,7 +51,8 @@ class AppServiceProvider extends ServiceProvider
         ILogsRepo::class            => LogsRepo::class,
         IMailHandler::class         => MailHandler::class,
         IFormatterFactory::class    => FormatterFactory::class,
-        ILangHelper::class          => LangHelper::class
+        ILangHelper::class          => LangHelper::class,
+        IMailDTOBuilder::class      => MailDTOBuilder::class
     ];
 
     public function register()

@@ -6,6 +6,7 @@ use App\Enums\Modules;
 use App\Enums\Roles;
 use App\Exceptions\UserUpdateFailedException;
 use App\Lang\ILangHelper;
+use App\Mails\Builders\IMailDTOBuilder;
 use App\Mails\Builders\MailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
 use App\Mails\IMailHandler;
@@ -49,7 +50,7 @@ class RegisterServiceImpl implements IRegisterService
      */
     public function __construct(
         UsersRepo $usersRepo,
-        MailDTOBuilder $mailDTOBuilder,
+        IMailDTOBuilder $mailDTOBuilder,
         IMailHandler $mailHandler,
         ILangHelper $langHelper
     ) {

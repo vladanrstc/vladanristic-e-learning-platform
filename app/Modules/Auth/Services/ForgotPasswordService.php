@@ -5,11 +5,9 @@ namespace App\Modules\Auth\Services;
 use App\Enums\Modules;
 use App\Exceptions\UserUpdateFailedException;
 use App\Lang\ILangHelper;
-use App\Lang\LangHelper;
-use App\Mails\Builders\MailDTOBuilder;
+use App\Mails\Builders\IMailDTOBuilder;
 use App\Mails\Exceptions\MailNotSentException;
 use App\Mails\IMailHandler;
-use App\Mails\MailHandler;
 use App\Models\User;
 use App\Modules\Auth\Enums\Messages;
 use App\Repositories\IUsersRepo;
@@ -26,9 +24,9 @@ class ForgotPasswordService implements IForgotPasswordService
     private IUsersRepo $usersRepo;
 
     /**
-     * @var MailDTOBuilder
+     * @var IMailDTOBuilder
      */
-    private MailDTOBuilder $mailDTOBuilder;
+    private IMailDTOBuilder $mailDTOBuilder;
 
     /**
      * @var IMailHandler
@@ -39,13 +37,13 @@ class ForgotPasswordService implements IForgotPasswordService
 
     /**
      * @param  UsersRepo  $usersRepo
-     * @param  MailDTOBuilder  $mailDTOBuilder
+     * @param  IMailDTOBuilder  $mailDTOBuilder
      * @param  IMailHandler  $mailHandler
      * @param  ILangHelper  $langHelper
      */
     public function __construct(
         UsersRepo $usersRepo,
-        MailDTOBuilder $mailDTOBuilder,
+        IMailDTOBuilder $mailDTOBuilder,
         IMailHandler $mailHandler,
         ILangHelper $langHelper
     ) {

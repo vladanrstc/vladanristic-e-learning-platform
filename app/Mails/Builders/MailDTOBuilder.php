@@ -4,7 +4,7 @@ namespace App\Mails\Builders;
 
 use App\Mails\MailDTOs\MailDataDTO;
 
-class MailDTOBuilder
+class MailDTOBuilder implements IMailDTOBuilder
 {
 
     /**
