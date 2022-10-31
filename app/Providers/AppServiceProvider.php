@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton('ReorderEntities', function ($app) {
+        $this->app->singleton('ReorderEntities', function () {
             return new EntityOrderUtil();
         });
 
