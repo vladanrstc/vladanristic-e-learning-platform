@@ -63,7 +63,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::middleware('api')
                     ->prefix('api' . "/" . strtolower($module))
                     ->group(
-                        app_path() . DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . "routes.php");
+                        app_path() . DIRECTORY_SEPARATOR . "Modules" . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . "routes.php");
             }
 
             Route::middleware('web')
